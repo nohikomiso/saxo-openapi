@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-messages endpoints."""
 
 from typing import Any
@@ -58,9 +56,7 @@ class RemoveTradeMessageSubscriptionById(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveTradeMessageSubscriptionById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveTradeMessageSubscriptionById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
 
 
 @endpoint("openapi/trade/v1/messages/subscriptions/{ContextId}", "DELETE", 202)

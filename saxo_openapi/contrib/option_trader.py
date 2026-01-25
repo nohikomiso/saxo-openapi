@@ -1,16 +1,13 @@
-# -*- coding: utf-8 -*-
-
 """Option trader helper for placing option orders."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 import saxo_openapi.definitions.orders as OD
 import saxo_openapi.endpoints.trading as tr
 import saxo_openapi.endpoints.trading.multilegorders as mo
 from saxo_openapi.contrib.option_finder import OptionFinder
-from saxo_openapi.contrib.option_types import OptionsStrategyType  # Add import
 from saxo_openapi.contrib.orders import tie_account_to_order
 from saxo_openapi.contrib.session import account_info
 
@@ -41,7 +38,7 @@ class OptionTrader:
     ```
     """
 
-    def __init__(self, client: API, account_key: Optional[str] = None):
+    def __init__(self, client: API, account_key: str | None = None):
         """
         OptionTrader を初期化
 
@@ -67,12 +64,12 @@ class OptionTrader:
         order_type: str,
         asset_type: str,
         to_open_close: str,
-        order_price: Optional[float] = None,
-        order_duration: Optional[Dict[str, Any]] = None,
+        order_price: float | None = None,
+        order_duration: dict[str, Any] | None = None,
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """オプション注文の辞書を構築"""
-        order_spec: Dict[str, Any] = {
+        order_spec: dict[str, Any] = {
             "Uic": uic,
             "AssetType": asset_type,
             "Amount": abs(amount),
@@ -90,18 +87,14 @@ class OptionTrader:
         if order_duration:
             order_spec["OrderDuration"] = order_duration
         else:
-            order_spec["OrderDuration"] = {
-                "DurationType": OD.OrderDurationType.DayOrder
-            }
+            order_spec["OrderDuration"] = {"DurationType": OD.OrderDurationType.DayOrder}
 
         # 追加オプション
         order_spec.update(kwargs)
 
         return order_spec
 
-    def _execute_order(
-        self, order_spec: Dict[str, Any], validate_only: bool = False
-    ) -> Dict:
+    def _execute_order(self, order_spec: dict[str, Any], validate_only: bool = False) -> dict:
         """注文を実行する内部ヘルパー"""
         order_spec_with_account = tie_account_to_order(self.account_key, order_spec)
 
@@ -119,11 +112,11 @@ class OptionTrader:
         uic: int,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプション買い注文
 
@@ -155,11 +148,11 @@ class OptionTrader:
         uic: int,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプション売り注文
 
@@ -195,10 +188,10 @@ class OptionTrader:
         strike_price: float,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         キーワードからコールオプション買い
 
@@ -211,13 +204,9 @@ class OptionTrader:
         :return: 注文レスポンス
         :raises ValueError: オプションが見つからない場合
         """
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Call", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Call", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Call"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Call")
         return self.buy_option(
             uic=option.uic,
             amount=amount,
@@ -234,18 +223,14 @@ class OptionTrader:
         strike_price: float,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """キーワードからプットオプション買い"""
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Put", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Put"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Put")
         return self.buy_option(
             uic=option.uic,
             amount=amount,
@@ -262,18 +247,14 @@ class OptionTrader:
         strike_price: float,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """キーワードからコールオプション売り"""
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Call", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Call", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Call"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Call")
         return self.sell_option(
             uic=option.uic,
             amount=amount,
@@ -290,18 +271,14 @@ class OptionTrader:
         strike_price: float,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """キーワードからプットオプション売り"""
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Put", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Put"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Put")
         return self.sell_option(
             uic=option.uic,
             amount=amount,
@@ -313,7 +290,7 @@ class OptionTrader:
 
     # ========== ポジション管理 ==========
 
-    def exercise_option(self, position_id: str, amount: Optional[int] = None) -> Dict:
+    def exercise_option(self, position_id: str, amount: int | None = None) -> dict:
         """
         オプション権利行使
 
@@ -321,7 +298,7 @@ class OptionTrader:
         :param amount: 行使数量（Noneの場合は全量）
         :return: 行使レスポンス
         """
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
         if amount is not None:
             data["Amount"] = amount
 
@@ -333,10 +310,10 @@ class OptionTrader:
         uic: int,
         amount: int,
         order_type: str = "Market",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプションポジションをクローズ（反対売買）
 
@@ -377,12 +354,12 @@ class OptionTrader:
         uic: int,
         amount: int,
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
+        order_price: float | None = None,
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         buy_sell: str = "Buy",
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプション注文を事前チェック（発注はしない）
 
@@ -416,7 +393,7 @@ class OptionTrader:
         self,
         option_root_id: int,
         strategy_type: str,  # OptionsStrategyType class constants
-    ) -> Dict:
+    ) -> dict:
         """
         オプション戦略の推奨レグ構成を取得
 
@@ -434,13 +411,13 @@ class OptionTrader:
 
     def place_strategy_order(
         self,
-        legs: list[Dict[str, Any]],
+        legs: list[dict[str, Any]],
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
-        order_duration: Optional[Dict[str, Any]] = None,
+        order_price: float | None = None,
+        order_duration: dict[str, Any] | None = None,
         manual_order: bool = False,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプション戦略注文（マルチレッグ注文）を発注
 
@@ -457,7 +434,7 @@ class OptionTrader:
         if order_type == "Limit" and order_price is None:
             raise ValueError("order_price is required for Limit strategy orders")
 
-        order_spec: Dict[str, Any] = {
+        order_spec: dict[str, Any] = {
             "AccountKey": self.account_key,
             "Legs": legs,
             "OrderType": order_type,
@@ -470,9 +447,7 @@ class OptionTrader:
         if order_duration:
             order_spec["OrderDuration"] = order_duration
         else:
-            order_spec["OrderDuration"] = {
-                "DurationType": OD.OrderDurationType.DayOrder
-            }
+            order_spec["OrderDuration"] = {"DurationType": OD.OrderDurationType.DayOrder}
 
         order_spec.update(kwargs)
 
@@ -481,14 +456,14 @@ class OptionTrader:
 
     def precheck_strategy_order(
         self,
-        legs: list[Dict[str, Any]],
+        legs: list[dict[str, Any]],
         order_type: str = "Limit",
-        order_price: Optional[float] = None,
-        order_duration: Optional[Dict[str, Any]] = None,
-        field_groups: Optional[list[str]] = None,
+        order_price: float | None = None,
+        order_duration: dict[str, Any] | None = None,
+        field_groups: list[str] | None = None,
         manual_order: bool = False,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         オプション戦略注文の事前チェック
 
@@ -500,7 +475,7 @@ class OptionTrader:
         :param manual_order: 手動注文フラグ
         :return: 事前チェック結果
         """
-        order_spec: Dict[str, Any] = {
+        order_spec: dict[str, Any] = {
             "AccountKey": self.account_key,
             "Legs": legs,
             "OrderType": order_type,
@@ -513,9 +488,7 @@ class OptionTrader:
         if order_duration:
             order_spec["OrderDuration"] = order_duration
         else:
-            order_spec["OrderDuration"] = {
-                "DurationType": OD.OrderDurationType.DayOrder
-            }
+            order_spec["OrderDuration"] = {"DurationType": OD.OrderDurationType.DayOrder}
 
         if field_groups:
             order_spec["FieldGroups"] = field_groups
@@ -525,7 +498,7 @@ class OptionTrader:
         r = mo.MultilegOrderPrecheck(data=order_spec)
         return self.client.request(r)
 
-    def cancel_strategy_order(self, multileg_order_id: str) -> Dict:
+    def cancel_strategy_order(self, multileg_order_id: str) -> dict:
         """
         オプション戦略注文（マルチレッグ注文）をキャンセル
 
@@ -546,7 +519,7 @@ class OptionTrader:
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         カスタム戦略用のレグ情報（辞書）を作成
 
@@ -576,7 +549,7 @@ class OptionTrader:
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         キーワード検索からCallオプションのレグを作成
 
@@ -587,13 +560,9 @@ class OptionTrader:
         :param action: "Buy" or "Sell" (Default: Buy)
         :return: レグ辞書
         """
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Call", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Call", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Call"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Call")
 
         return self.create_leg(
             uic=option.uic,
@@ -614,7 +583,7 @@ class OptionTrader:
         asset_type: str = "StockOption",
         to_open_close: str = "ToOpen",
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         キーワード検索からPutオプションのレグを作成
 
@@ -625,13 +594,9 @@ class OptionTrader:
         :param action: "Buy" or "Sell" (Default: Buy)
         :return: レグ辞書
         """
-        option = self.finder.find_option(
-            keyword, expiry_date, strike_price, "Put", asset_type
-        )
+        option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
         if option is None:
-            raise ValueError(
-                f"Option not found: {keyword} {expiry_date} {strike_price} Put"
-            )
+            raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Put")
 
         return self.create_leg(
             uic=option.uic,

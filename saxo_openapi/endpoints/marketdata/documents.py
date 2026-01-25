@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle market data documents endpoints."""
 
 from ..decorators import endpoint

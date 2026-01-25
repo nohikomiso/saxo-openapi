@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading multileg prices endpoints."""
 
 from typing import Any

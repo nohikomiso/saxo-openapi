@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-exposure endpoints."""
 
 from typing import Any
@@ -44,9 +42,7 @@ class CreateExposureSubscription(Portfolio):
         self.data = data
 
 
-@endpoint(
-    "openapi/port/v1/exposure/instruments/" "subscriptions/{ContextId}/", "DELETE", 202
-)
+@endpoint("openapi/port/v1/exposure/instruments/subscriptions/{ContextId}/", "DELETE", 202)
 class RemoveExposureSubscriptionsByTag(Portfolio):
     """Removes multiple all subscriptions for the current session on
     this resource, and frees all resources on the server.
@@ -62,7 +58,7 @@ class RemoveExposureSubscriptionsByTag(Portfolio):
 
 
 @endpoint(
-    "openapi/port/v1/exposure/instruments/" "subscriptions/{ContextId}/{ReferenceId}",
+    "openapi/port/v1/exposure/instruments/subscriptions/{ContextId}/{ReferenceId}",
     "DELETE",
     202,
 )
@@ -76,9 +72,7 @@ class RemoveExposureSubscription(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveExposureSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveExposureSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
 
 
 @endpoint("openapi/port/v1/exposure/currency/me")

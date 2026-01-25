@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-
 """SAXO API wrapper for SAXO Bank OpenAPI."""
 
 import json
 import logging
 import time
+from collections.abc import Iterator
 from threading import Lock
-from typing import Any, Iterator, Union
+from typing import Any
 
 import requests  # type: ignore
 
@@ -93,24 +92,17 @@ class RateLimiter:
                     # This dimension is at or below threshold
                     reset_time = limit_info["reset"]
                     if reset_time > 0:
-                        logger.info(
-                            f"Rate limit threshold reached for {dimension}. "
-                            f"Remaining: {remaining}, Reset in: {reset_time} seconds"
-                        )
+                        logger.info(f"Rate limit threshold reached for {dimension}. Remaining: {remaining}, Reset in: {reset_time} seconds")
                         time.sleep(reset_time)
                         return
-                elif (
-                    remaining <= self.LOW_REQUESTS_THRESHOLD and dimension == "Session"
-                ):
+                elif remaining <= self.LOW_REQUESTS_THRESHOLD and dimension == "Session":
                     # Special handling for Session dimension - add small delay when getting low
-                    logger.info(
-                        f"Session rate limit getting low ({remaining} remaining). Adding 1 second delay"
-                    )
+                    logger.info(f"Session rate limit getting low ({remaining} remaining). Adding 1 second delay")
                     time.sleep(1)
                     return
 
 
-class API(object):
+class API:
     r"""API - class to handle APIRequests objects to access API endpoints."""
 
     def __init__(
@@ -160,7 +152,7 @@ class API(object):
             TRADING_ENVIRONMENTS[environment]
         except KeyError as e:  # noqa F841
             logger.error("unkown environment %s", environment)
-            raise KeyError("Unknown environment: {}".format(environment))
+            raise KeyError(f"Unknown environment: {environment}")
         else:
             self.environment = environment
 
@@ -198,13 +190,9 @@ class API(object):
         # Dynamically discover all rate limit dimensions from headers
         remaining_counts = {}
         for header_name, header_value in headers.items():
-            if header_name.startswith("X-RateLimit-") and header_name.endswith(
-                "-Remaining"
-            ):
+            if header_name.startswith("X-RateLimit-") and header_name.endswith("-Remaining"):
                 # Extract dimension name: X-RateLimit-{dimension}-Remaining
-                dimension = header_name[
-                    12:-10
-                ]  # Remove 'X-RateLimit-' and '-Remaining'
+                dimension = header_name[12:-10]  # Remove 'X-RateLimit-' and '-Remaining'
                 remaining_counts[dimension] = int(header_value)
 
         # Identify which dimension(s) are at 0 or very low
@@ -223,9 +211,7 @@ class API(object):
             if "/orders" in url or "/trade/" in url:
                 # Look for dimensions with trade/order keywords
                 for dim in exhausted_dimensions:
-                    if any(
-                        keyword in dim.lower() for keyword in ["trade", "order", "post"]
-                    ):
+                    if any(keyword in dim.lower() for keyword in ["trade", "order", "post"]):
                         return dim
 
                 # Fallback to Session-like dimensions
@@ -253,10 +239,8 @@ class API(object):
 
         # Dynamically discover all available dimensions from reset headers
         available_dimensions = []
-        for header_name in headers.keys():
-            if header_name.startswith("X-RateLimit-") and header_name.endswith(
-                "-Reset"
-            ):
+        for header_name in headers:
+            if header_name.startswith("X-RateLimit-") and header_name.endswith("-Reset"):
                 # Extract dimension name: X-RateLimit-{dimension}-Reset
                 dimension = header_name[12:-6]  # Remove 'X-RateLimit-' and '-Reset'
                 available_dimensions.append(dimension)
@@ -265,9 +249,7 @@ class API(object):
         if "/orders" in url or "/trade/" in url:
             # Look for trade/order specific dimensions first
             for dim in available_dimensions:
-                if any(
-                    keyword in dim.lower() for keyword in ["trade", "order", "post"]
-                ):
+                if any(keyword in dim.lower() for keyword in ["trade", "order", "post"]):
                     return dim
 
             # Fallback to Session if available
@@ -275,10 +257,7 @@ class API(object):
                 return "Session"
 
         # For other endpoints, prefer Session if available
-        elif any(
-            high_freq_endpoint in url
-            for high_freq_endpoint in ["/positions", "/balances", "/portfolio"]
-        ):
+        elif any(high_freq_endpoint in url for high_freq_endpoint in ["/positions", "/balances", "/portfolio"]):
             if "Session" in available_dimensions:
                 return "Session"
 
@@ -332,9 +311,7 @@ class API(object):
                 if "rate" in header_name.lower() or "limit" in header_name.lower():
                     all_rate_limit_headers[header_name] = header_value
 
-            logger.warning(
-                f"Rate limit exceeded (429). All rate limit headers: {all_rate_limit_headers}"
-            )
+            logger.warning(f"Rate limit exceeded (429). All rate limit headers: {all_rate_limit_headers}")
 
             # Detect which dimension actually caused the rate limit
             limiting_dimension = self._detect_limiting_dimension(response.headers, url)
@@ -345,9 +322,7 @@ class API(object):
 
             # Dynamically process all available reset headers
             for header_name, header_value in response.headers.items():
-                if header_name.startswith("X-RateLimit-") and header_name.endswith(
-                    "-Reset"
-                ):
+                if header_name.startswith("X-RateLimit-") and header_name.endswith("-Reset"):
                     # Extract dimension name: X-RateLimit-{dimension}-Reset
                     dimension = header_name[12:-6]  # Remove 'X-RateLimit-' and '-Reset'
                     reset_time = int(header_value)
@@ -358,35 +333,16 @@ class API(object):
                         # Special handling for Reset=0 or very small values
                         if reset_time == 0:
                             wait_time = 2  # 2 second wait for immediate reset
-                            limiting_dimension = (
-                                f"{dimension} (immediate reset, 2s wait)"
-                            )
-                            logger.info(
-                                f"{dimension} limit with immediate reset (0s), "
-                                f"using short wait of {wait_time}s"
-                            )
+                            limiting_dimension = f"{dimension} (immediate reset, 2s wait)"
+                            logger.info(f"{dimension} limit with immediate reset (0s), using short wait of {wait_time}s")
                         elif reset_time <= 10:
-                            wait_time = (
-                                reset_time + 1
-                            )  # Add 1 second margin for short resets
-                            limiting_dimension = (
-                                f"{dimension} (short reset + 1s margin)"
-                            )
-                            logger.info(
-                                f"{dimension} limit with short reset time ({reset_time}s), "
-                                f"using {wait_time}s with safety margin"
-                            )
-                        elif (
-                            dimension == "AppDay" and reset_time > 300
-                        ):  # More than 5 minutes
-                            wait_time = (
-                                60  # Use 1 minute default for long AppDay resets
-                            )
+                            wait_time = reset_time + 1  # Add 1 second margin for short resets
+                            limiting_dimension = f"{dimension} (short reset + 1s margin)"
+                            logger.info(f"{dimension} limit with short reset time ({reset_time}s), using {wait_time}s with safety margin")
+                        elif dimension == "AppDay" and reset_time > 300:  # More than 5 minutes
+                            wait_time = 60  # Use 1 minute default for long AppDay resets
                             limiting_dimension = "AppDay (using default 60s)"
-                            logger.info(
-                                f"AppDay limit detected with long reset time ({reset_time}s), "
-                                f"using reasonable default of {wait_time}s instead"
-                            )
+                            logger.info(f"AppDay limit detected with long reset time ({reset_time}s), using reasonable default of {wait_time}s instead")
                         else:
                             wait_time = reset_time
 
@@ -411,10 +367,7 @@ class API(object):
                     if len(reset_info) == 1 and reset_info[0].startswith("AppDay:"):
                         wait_time = 60  # Default 1-minute wait instead of hours
                         limiting_dimension = "AppDay (using default 60s)"
-                        logger.info(
-                            f"Only AppDay limit available ({all_reset_times[0]}s), "
-                            f"using reasonable default of {wait_time}s instead"
-                        )
+                        logger.info(f"Only AppDay limit available ({all_reset_times[0]}s), using reasonable default of {wait_time}s instead")
 
                     # If we have non-AppDay times, use the minimum of those
                     elif non_appday_times:
@@ -431,10 +384,7 @@ class API(object):
                     reset_info = ["Default:60s"]
                     limiting_dimension = "Default"
 
-            logger.warning(
-                f"Rate limit exceeded (429) for dimension: {limiting_dimension}. "
-                f"Reset times: {', '.join(reset_info)}. Waiting {wait_time} seconds"
-            )
+            logger.warning(f"Rate limit exceeded (429) for dimension: {limiting_dimension}. Reset times: {', '.join(reset_info)}. Waiting {wait_time} seconds")
             time.sleep(wait_time)
 
             # Update rate limits from response headers before retry
@@ -451,9 +401,7 @@ class API(object):
                 response.status_code,
                 response.content.decode("utf-8"),
             )
-            raise OpenAPIError(
-                response.status_code, response.reason, response.content.decode("utf-8")
-            )
+            raise OpenAPIError(response.status_code, response.reason, response.content.decode("utf-8"))
         return response
 
     def __stream_request(
@@ -470,9 +418,7 @@ class API(object):
         call applies: regular or streaming.
         """
         headers = headers if headers else {}
-        response = self.__request(
-            method, url, request_args, headers=headers, stream=True
-        )
+        response = self.__request(method, url, request_args, headers=headers, stream=True)
         lines = response.iter_lines(ITER_LINES_CHUNKSIZE)
         for line in lines:
             if line:
@@ -497,14 +443,14 @@ class API(object):
         method = method.lower()
         params = None
         try:
-            params = getattr(endpoint, "params")
+            params = endpoint.params
         except AttributeError:
             # request does not have params
             params = {}
 
         headers = {}
         if hasattr(endpoint, "HEADERS"):
-            headers = getattr(endpoint, "HEADERS")
+            headers = endpoint.HEADERS
 
         request_args = {}
 
@@ -518,20 +464,14 @@ class API(object):
         request_args.update(self._request_params)
 
         # which API to access ?
-        if not (hasattr(endpoint, "STREAM") and getattr(endpoint, "STREAM") is True):
+        if not (hasattr(endpoint, "STREAM") and endpoint.STREAM is True):
             url = mk_endpoint(endpoint, self.environment, "api")
 
             response = self.__request(method, url, request_args, headers=headers)
-            if (
-                hasattr(endpoint, "RESPONSE_DATA")
-                and getattr(endpoint, "RESPONSE_DATA") is None
-            ):
+            if hasattr(endpoint, "RESPONSE_DATA") and endpoint.RESPONSE_DATA is None:
                 content = None
 
-            elif not (
-                hasattr(endpoint, "RESPONSE_DATA")
-                and getattr(endpoint, "RESPONSE_DATA") == "text"
-            ):
+            elif not (hasattr(endpoint, "RESPONSE_DATA") and endpoint.RESPONSE_DATA == "text"):
                 # if not explicitely set to 'text' asume JSON
                 content = response.content.decode("utf-8")
                 content = json.loads(content)
@@ -547,9 +487,7 @@ class API(object):
 
         else:
             url = mk_endpoint(endpoint, self.environment, "stream")
-            endpoint.response = self.__stream_request(
-                method, url, request_args, headers=headers
-            )
+            endpoint.response = self.__stream_request(method, url, request_args, headers=headers)
             return endpoint.response
 
     def update_access_token(self, new_token: str) -> bool:
@@ -605,9 +543,7 @@ class API(object):
             return {
                 "valid": current_time < exp_time,
                 "expires_at": exp_time,
-                "expires_at_readable": datetime.fromtimestamp(exp_time).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                ),
+                "expires_at_readable": datetime.fromtimestamp(exp_time).strftime("%Y-%m-%d %H:%M:%S"),
                 "time_to_expiry": max(0, exp_time - current_time),
                 "client_key": claims.get("cid"),
                 "session_id": claims.get("sid"),
@@ -645,14 +581,10 @@ class API(object):
             response = requests.put(url, headers=headers, timeout=10)
 
             if response.status_code == 202:
-                logger.info(
-                    f"Successfully reauthorized streaming context: {context_id}"
-                )
+                logger.info(f"Successfully reauthorized streaming context: {context_id}")
                 return True
             else:
-                logger.error(
-                    f"Failed to reauthorize streaming context. Status: {response.status_code}, Response: {response.text}"
-                )
+                logger.error(f"Failed to reauthorize streaming context. Status: {response.status_code}, Response: {response.text}")
                 return False
 
         except Exception as e:

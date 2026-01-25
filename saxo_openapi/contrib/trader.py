@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import saxo_openapi.definitions.orders as OD
 import saxo_openapi.endpoints.referencedata as rd
@@ -24,7 +22,7 @@ class SaxoTrader:
     for common trading operations, including smart order routing.
     """
 
-    def __init__(self, client: API, account_key: Optional[str] = None):
+    def __init__(self, client: API, account_key: str | None = None):
         """
         Initialize SaxoTrader.
 
@@ -33,7 +31,7 @@ class SaxoTrader:
         """
         self.client = client
         self._account_key = account_key
-        self._instrument_cache: Dict[str, Dict] = {}
+        self._instrument_cache: dict[str, dict] = {}
 
     @property
     def account_key(self) -> str:
@@ -42,9 +40,7 @@ class SaxoTrader:
             self._account_key = account_info(self.client).AccountKey
         return self._account_key
 
-    def _execute_order(
-        self, order_spec: Union[Dict, Any], validate_only: bool = False
-    ) -> Dict:
+    def _execute_order(self, order_spec: dict | Any, validate_only: bool = False) -> dict:
         """
         Internal helper to bind account and execute order.
 
@@ -69,21 +65,19 @@ class SaxoTrader:
 
         return self.client.request(r)
 
-    def _get_instrument_details(self, Uic: int, AssetType: str) -> Dict:
+    def _get_instrument_details(self, Uic: int, AssetType: str) -> dict:
         """Fetch and cache instrument details."""
         cache_key = f"{Uic}_{AssetType}"
         if cache_key in self._instrument_cache:
             return self._instrument_cache[cache_key]
 
         params = {"AccountKey": self.account_key}
-        r = rd.instruments.InstrumentDetails(
-            Uic=Uic, AssetType=AssetType, params=params
-        )
+        r = rd.instruments.InstrumentDetails(Uic=Uic, AssetType=AssetType, params=params)
         rv = self.client.request(r)
         self._instrument_cache[cache_key] = rv
         return rv
 
-    def validate_order(self, order_spec: Union[Dict, Any]) -> Dict:
+    def validate_order(self, order_spec: dict | Any) -> dict:
         """
         Validate an order specification using Saxo's PrecheckOrder endpoint.
         Useful for checking parameters, price distance (WrongSideOfMarket), etc.
@@ -94,10 +88,10 @@ class SaxoTrader:
     def market_order(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         AssetType: str = OD.AssetType.FxSpot,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Place a Market Order."""
         order = MarketOrder(Uic=Uic, Amount=Amount, AssetType=AssetType, **kwargs)
         return self._execute_order(order)
@@ -105,25 +99,23 @@ class SaxoTrader:
     def limit_order(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         OrderPrice: float,
         AssetType: str = OD.AssetType.FxSpot,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Place a Limit Order."""
-        order = LimitOrder(
-            Uic=Uic, Amount=Amount, OrderPrice=OrderPrice, AssetType=AssetType, **kwargs
-        )
+        order = LimitOrder(Uic=Uic, Amount=Amount, OrderPrice=OrderPrice, AssetType=AssetType, **kwargs)
         return self._execute_order(order)
 
     def stop_order(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         OrderPrice: float,
         AssetType: str = OD.AssetType.FxSpot,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """
         Place a Stop Order with Smart Routing.
         Automatically checks SupportedOrderTypes for the instrument.
@@ -162,12 +154,12 @@ class SaxoTrader:
     def stop_limit_order(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         OrderPrice: float,
         StopLimitPrice: float,
         AssetType: str = OD.AssetType.FxSpot,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Place a Stop Limit Order."""
         order = StopLimitOrder(
             Uic=Uic,
@@ -182,13 +174,11 @@ class SaxoTrader:
     def stop_if_traded_order(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         OrderPrice: float,
         AssetType: str = OD.AssetType.FxSpot,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Place a Stop If Traded Order explicitly."""
-        order = StopIfTradedOrder(
-            Uic=Uic, Amount=Amount, OrderPrice=OrderPrice, AssetType=AssetType, **kwargs
-        )
+        order = StopIfTradedOrder(Uic=Uic, Amount=Amount, OrderPrice=OrderPrice, AssetType=AssetType, **kwargs)
         return self._execute_order(order)

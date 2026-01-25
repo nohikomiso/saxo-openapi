@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .baseorder import BaseOrder
 from .closure import MarketCloseOrder
 from .helper import (  # noqa: F401
@@ -9,10 +7,18 @@ from .helper import (  # noqa: F401
     tie_account_to_order,
 )
 from .limitorder import LimitOrder, LimitOrderFxSpot, LimitOrderStock  # noqa: F401
-from .marketorder import MarketOrderCfdOnStock  # noqa: F401
-from .marketorder import MarketOrder, MarketOrderFxSpot, MarketOrderStock
-from .stopiftradedorder import StopIfTradedOrder  # noqa: F401
-from .stopiftradedorder import StopIfTradedOrderCfdOnStock
-from .stoplimitorder import StopLimitOrder  # noqa: F401
-from .stoplimitorder import StopLimitOrderCfdOnStock
+from .marketorder import (
+    MarketOrder,
+    MarketOrderCfdOnStock,  # noqa: F401
+    MarketOrderFxSpot,
+    MarketOrderStock,
+)
+from .stopiftradedorder import (
+    StopIfTradedOrder,  # noqa: F401
+    StopIfTradedOrderCfdOnStock,
+)
+from .stoplimitorder import (
+    StopLimitOrder,  # noqa: F401
+    StopLimitOrderCfdOnStock,
+)
 from .stoporder import StopOrder, StopOrderFxSpot  # noqa: F401

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-account endpoints."""
 
 from typing import Any
@@ -104,7 +102,7 @@ class SubscriptionRemoveByTag(Portfolio):
 
 
 @endpoint(
-    "openapi/port/v1/accounts/subscriptions/" "{ContextId}/{ReferenceId}/",
+    "openapi/port/v1/accounts/subscriptions/{ContextId}/{ReferenceId}/",
     "DELETE",
     202,
 )
@@ -118,6 +116,4 @@ class SubscriptionRemoveById(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(SubscriptionRemoveById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(SubscriptionRemoveById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

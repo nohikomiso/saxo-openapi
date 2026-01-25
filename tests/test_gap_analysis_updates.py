@@ -1,12 +1,8 @@
 """Test cases for gap analysis updates based on official Saxo Bank OpenAPI documentation."""
 
-import pytest
-from saxo_openapi import API
-from saxo_openapi.contrib import orders as contrib_orders
-from saxo_openapi.endpoints.accounthistory import accountvalues, performance
+from saxo_openapi.endpoints.accounthistory import accountvalues
 from saxo_openapi.endpoints.portfolio import netpositions, users
 from saxo_openapi.endpoints.rootservices import sessions
-from saxo_openapi.endpoints.trading import orders, prices
 
 
 class TestAccountHistoryUpdates:
@@ -58,18 +54,14 @@ class TestPortfolioUpdates:
         # According to gap analysis:
         # - GET port/v1/users/me/entitlements
         # - GET port/v1/users/{UserKey}/entitlements
-        assert hasattr(
-            users, "UsersMeEntitlements"
-        ), "Missing UsersMeEntitlements endpoint"
+        assert hasattr(users, "UsersMeEntitlements"), "Missing UsersMeEntitlements endpoint"
         assert hasattr(users, "UsersEntitlements"), "Missing UsersEntitlements endpoint"
 
     def test_netpositions_delete_endpoint(self):
         """Test that netpositions has DELETE subscription endpoint."""
         # According to gap analysis:
         # - DELETE port/v1/netpositions/subscriptions/{ContextId}/{ReferenceId}
-        assert hasattr(
-            netpositions, "NetPositionSubscriptionRemoveById"
-        ), "Missing NetPositionSubscriptionRemoveById endpoint"
+        assert hasattr(netpositions, "NetPositionSubscriptionRemoveById"), "Missing NetPositionSubscriptionRemoveById endpoint"
 
 
 class TestTradeUpdates:
@@ -146,9 +138,7 @@ class TestTradeUpdates:
 
         # Test margin impact subscription
         assert hasattr(prices_extensions, "MarginImpactSubscription")
-        margin_endpoint = prices_extensions.MarginImpactSubscription(
-            "ctx", "ref", data={}
-        )
+        margin_endpoint = prices_extensions.MarginImpactSubscription("ctx", "ref", data={})
         assert margin_endpoint.method == "PUT"
         assert "MarginImpact" in margin_endpoint._endpoint
 
@@ -167,17 +157,13 @@ class TestMarketDataDocumentsUpdates:
         from saxo_openapi.endpoints.marketdata import documents
 
         # Test InstrumentPdfDocument endpoint
-        assert hasattr(
-            documents, "InstrumentPdfDocument"
-        ), "Missing InstrumentPdfDocument endpoint"
+        assert hasattr(documents, "InstrumentPdfDocument"), "Missing InstrumentPdfDocument endpoint"
         pdf = documents.InstrumentPdfDocument(Uic=1234, AssetType="Stock")
         assert "mkt/v2/instruments" in pdf._endpoint
         assert "documents/pdf" in pdf._endpoint
 
         # Test RecommendedInstrumentDocuments endpoint
-        assert hasattr(
-            documents, "RecommendedInstrumentDocuments"
-        ), "Missing RecommendedInstrumentDocuments endpoint"
+        assert hasattr(documents, "RecommendedInstrumentDocuments"), "Missing RecommendedInstrumentDocuments endpoint"
         rec = documents.RecommendedInstrumentDocuments(Uic=1234, AssetType="Stock")
         assert "mkt/v2/instruments" in rec._endpoint
         assert "documents/recommended" in rec._endpoint

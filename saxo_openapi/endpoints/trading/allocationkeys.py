@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-allocationkeys endpoints."""
 
 from typing import Any
@@ -64,6 +62,4 @@ class GetAllocationKeyDistributions(Trading):
     """
 
     def __init__(self, AllocationKeyId: str) -> None:
-        super(GetAllocationKeyDistributions, self).__init__(
-            AllocationKeyId=AllocationKeyId
-        )
+        super(GetAllocationKeyDistributions, self).__init__(AllocationKeyId=AllocationKeyId)

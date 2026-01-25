@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle root-services features endpoints.
 
 See: docs/api/rootservices/features.md
@@ -31,7 +29,7 @@ class CreateAvailabilitySubscription(RootService):
 
 
 @endpoint(
-    "openapi/root/v1/features/availability/subscriptions/" "{ContextId}/{ReferenceId}",
+    "openapi/root/v1/features/availability/subscriptions/{ContextId}/{ReferenceId}",
     "DELETE",
     202,
 )
@@ -44,6 +42,4 @@ class RemoveAvailabilitySubscription(RootService):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveAvailabilitySubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveAvailabilitySubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

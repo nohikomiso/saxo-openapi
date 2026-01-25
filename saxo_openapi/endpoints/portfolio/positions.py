@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-positions endpoints."""
 
 from typing import Any
@@ -63,17 +61,13 @@ class PositionListSubscription(Portfolio):
     See: docs/api/portfolio/positions.md#positionlistsubscription
     """
 
-    def __init__(
-        self, data: dict[str, Any], params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, data: dict[str, Any], params: dict[str, Any] | None = None) -> None:
         super(PositionListSubscription, self).__init__()
         self.params = params
         self.data = data
 
 
-@endpoint(
-    "openapi/port/v1/positions/subscriptions/{ContextId}/{ReferenceId}", "PATCH", 202
-)
+@endpoint("openapi/port/v1/positions/subscriptions/{ContextId}/{ReferenceId}", "PATCH", 202)
 class PositionSubscriptionPageSize(Portfolio):
     """Extends or reduces the page size on a running positions subscription.
 
@@ -83,9 +77,7 @@ class PositionSubscriptionPageSize(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str, data: dict[str, Any]) -> None:
-        super(PositionSubscriptionPageSize, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(PositionSubscriptionPageSize, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
         self.data = data
 
 
@@ -103,9 +95,7 @@ class PositionSubscriptionRemoveMultiple(Portfolio):
         self.params = params
 
 
-@endpoint(
-    "openapi/port/v1/positions/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202
-)
+@endpoint("openapi/port/v1/positions/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202)
 class PositionSubscriptionRemove(Portfolio):
     """Removes subscription for the current session identified by subscription id.
 
@@ -115,6 +105,4 @@ class PositionSubscriptionRemove(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(PositionSubscriptionRemove, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(PositionSubscriptionRemove, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

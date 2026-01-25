@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-closedposition endpoints."""
 
 from typing import Any
@@ -28,9 +26,7 @@ class ClosedPositionById(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/closedpositions.md
     """
 
-    def __init__(
-        self, ClosedPositionId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, ClosedPositionId: str, params: dict[str, Any] | None = None) -> None:
         super(ClosedPositionById, self).__init__(ClosedPositionId=ClosedPositionId)
         self.params = params
 
@@ -43,9 +39,7 @@ class ClosedPositionDetails(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/closedpositions.md
     """
 
-    def __init__(
-        self, ClosedPositionId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, ClosedPositionId: str, params: dict[str, Any] | None = None) -> None:
         super(ClosedPositionDetails, self).__init__(ClosedPositionId=ClosedPositionId)
         self.params = params
 
@@ -71,16 +65,14 @@ class ClosedPositionSubscription(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/closedpositions.md
     """
 
-    def __init__(
-        self, data: dict[str, Any], params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, data: dict[str, Any], params: dict[str, Any] | None = None) -> None:
         super(ClosedPositionSubscription, self).__init__()
         self.data = data
         self.params = params
 
 
 @endpoint(
-    "openapi/port/v1/closedpositions/subscriptions/" "{ContextId}/{ReferenceId}",
+    "openapi/port/v1/closedpositions/subscriptions/{ContextId}/{ReferenceId}",
     "PATCH",
     200,
 )
@@ -94,13 +86,11 @@ class ClosedPositionSubscriptionUpdate(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str, data: dict[str, Any]) -> None:
-        super(ClosedPositionSubscriptionUpdate, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(ClosedPositionSubscriptionUpdate, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
         self.data = data
 
 
-@endpoint("openapi/port/v1/closedpositions/" "subscriptions/{ContextId}", "DELETE", 202)
+@endpoint("openapi/port/v1/closedpositions/subscriptions/{ContextId}", "DELETE", 202)
 class ClosedPositionSubscriptionsRemove(Portfolio):
     """Removes multiple all subscriptions for the current session on this
     resource, and frees all resources on the server.
@@ -116,7 +106,7 @@ class ClosedPositionSubscriptionsRemove(Portfolio):
 
 
 @endpoint(
-    "openapi/port/v1/closedpositions/" "subscriptions/{ContextId}/{ReferenceId}",
+    "openapi/port/v1/closedpositions/subscriptions/{ContextId}/{ReferenceId}",
     "DELETE",
     202,
 )
@@ -130,6 +120,4 @@ class ClosedPositionSubscriptionRemoveById(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(ClosedPositionSubscriptionRemoveById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(ClosedPositionSubscriptionRemoveById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Utility classes and/or functions."""
 
 import saxo_openapi.endpoints.referencedata as rd
@@ -58,8 +56,6 @@ def InstrumentToUic(client, AccountKey, spec, assettype=AssetType.FxSpot):
             spec.update({"Uic": rv["Data"][0]["Identifier"]})
 
         else:
-            raise ValueError(
-                "Got multiple instruments for: {}".format(spec["Instrument"])
-            )
+            raise ValueError("Got multiple instruments for: {}".format(spec["Instrument"]))
 
     return spec

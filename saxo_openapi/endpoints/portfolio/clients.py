@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-clients endpoints."""
 
 from typing import Any

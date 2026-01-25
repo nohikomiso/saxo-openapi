@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle referencedata-instruments endpoints."""
 
 from typing import Any
@@ -39,9 +37,7 @@ class InstrumentDetails(ReferenceData):
     See: docs/api/referencedata/instruments.md#instrumentdetails
     """
 
-    def __init__(
-        self, Uic: int, AssetType: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, Uic: int, AssetType: str, params: dict[str, Any] | None = None) -> None:
         super(InstrumentDetails, self).__init__(Uic=Uic, AssetType=AssetType)
         self.params = params
 

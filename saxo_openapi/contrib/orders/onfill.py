@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 The saxo_openapi.contrib.orders.onfill module offers some classes to simplify
 the creation of TakeProfit, StopLoss and TrailingStopLoss OCO-orders.
@@ -160,7 +158,7 @@ Now the order can be placed:
 
 from abc import abstractmethod
 from datetime import datetime
-from typing import ClassVar, List, Optional, Union
+from typing import ClassVar
 
 import saxo_openapi.definitions.orders as OD
 
@@ -171,7 +169,7 @@ from .helper import order_duration_spec
 class OnFill(BaseOrder):
     """baseclass for onFill requests."""
 
-    ALLOWED_DT: ClassVar[List[str]] = [
+    ALLOWED_DT: ClassVar[list[str]] = [
         OD.OrderDurationType.GoodTillCancel,
         OD.OrderDurationType.GoodTillDate,
         OD.OrderDurationType.DayOrder,
@@ -183,7 +181,7 @@ class OnFill(BaseOrder):
         OrderType: str,
         ManualOrder: bool = False,
         OrderDurationType: str = OD.OrderDurationType.GoodTillCancel,
-        GTDDate: Optional[Union[str, datetime]] = None,
+        GTDDate: str | datetime | None = None,
     ) -> None:
         super(OnFill, self).__init__()
 
@@ -192,17 +190,11 @@ class OnFill(BaseOrder):
             OD.OrderDurationType.GoodTillDate,
             OD.OrderDurationType.DayOrder,
         ]:
-            raise ValueError("OrderDurationType: {} invalid".format(OrderDurationType))
+            raise ValueError(f"OrderDurationType: {OrderDurationType} invalid")
 
         self._data.update({"ManualOrder": ManualOrder})
         self._data.update({"OrderType": OrderType})
-        self._data.update(
-            {
-                "OrderDuration": order_duration_spec(
-                    OrderDurationType, self.ALLOWED_DT, GTDDate
-                )
-            }
-        )
+        self._data.update({"OrderDuration": order_duration_spec(OrderDurationType, self.ALLOWED_DT, GTDDate)})
 
 
 class TakeProfitDetails(OnFill):
@@ -220,10 +212,10 @@ class TakeProfitDetails(OnFill):
 
     def __init__(
         self,
-        price: Union[int, float],
+        price: int | float,
         ManualOrder: bool = False,
         OrderDurationType: str = OD.OrderDurationType.GoodTillCancel,
-        GTDDate: Optional[Union[str, datetime]] = None,
+        GTDDate: str | datetime | None = None,
     ) -> None:
         """Instantiate TakeProfitDetails.
 
@@ -269,10 +261,10 @@ class StopLossDetails(OnFill):
 
     def __init__(
         self,
-        price: Union[int, float],
+        price: int | float,
         ManualOrder: bool = False,
         OrderDurationType: str = OD.OrderDurationType.GoodTillCancel,
-        GTDDate: Optional[Union[str, datetime]] = None,
+        GTDDate: str | datetime | None = None,
     ) -> None:
         """Instantiate StopLossDetails.
 

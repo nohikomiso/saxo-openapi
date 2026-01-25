@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Order Validation (PreCheck) Sample
@@ -12,8 +11,6 @@ Usage:
 """
 
 import json
-import os
-import sys
 
 import saxo_openapi.definitions.orders as OD
 from saxo_openapi import API
@@ -22,7 +19,7 @@ from saxo_openapi.contrib.trader import SaxoTrader
 
 
 def read_token(token_file="token_demo.txt"):
-    with open(token_file, "r") as f:
+    with open(token_file) as f:
         return f.read().strip()
 
 
@@ -51,9 +48,7 @@ def main():
         print("\n2. Validating Invalid Order (Buy Stop @ 0.0)...")
 
         # Use standard StopOrder class for manual validation test.
-        invalid_spec = StopOrder(
-            Uic=21, Amount=1000, OrderPrice=0.0001, AssetType=OD.AssetType.FxSpot
-        )
+        invalid_spec = StopOrder(Uic=21, Amount=1000, OrderPrice=0.0001, AssetType=OD.AssetType.FxSpot)
 
         try:
             rv = trader.validate_order(invalid_spec)
@@ -64,9 +59,7 @@ def main():
             else:
                 # Depending on API, successful precheck returns estimated costs etc.
                 # If it passes, maybe 0.0 is technically valid?
-                print(
-                    "   Passed validation (Unexpected for 0.0 price but ok for test flow)"
-                )
+                print("   Passed validation (Unexpected for 0.0 price but ok for test flow)")
 
         except Exception as e:
             # Or it raises exception (HTTP 400)

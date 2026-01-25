@@ -12,7 +12,6 @@ Note: Task 7.3.5 is OPTIONAL. Skip tests if complex async types are needed.
 
 import inspect
 
-import pytest
 from saxo_openapi.contrib import session
 from saxo_openapi.contrib.util import instrument_to_uic
 from saxo_openapi.contrib.ws import stream

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle referencedata-exchanges endpoints."""
 
 from typing import Any

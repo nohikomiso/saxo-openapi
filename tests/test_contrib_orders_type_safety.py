@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Test type safety improvements for contrib orders module.
 
 Tests verify that:
@@ -10,7 +9,6 @@ Tests verify that:
 
 import inspect
 import json
-from typing import get_type_hints
 
 import pytest
 import saxo_openapi.definitions.orders as OD

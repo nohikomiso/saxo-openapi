@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-netpositions endpoints."""
 
 from typing import Any
@@ -15,9 +13,7 @@ class SingleNetPosition(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/netpositions.md
     """
 
-    def __init__(
-        self, NetPositionId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, NetPositionId: str, params: dict[str, Any] | None = None) -> None:
         super(SingleNetPosition, self).__init__(NetPositionId=NetPositionId)
         self.params = params
 
@@ -29,9 +25,7 @@ class SingleNetPositionDetails(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/netpositions.md
     """
 
-    def __init__(
-        self, NetPositionId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, NetPositionId: str, params: dict[str, Any] | None = None) -> None:
         super(SingleNetPositionDetails, self).__init__(NetPositionId=NetPositionId)
         self.params = params
 
@@ -102,6 +96,4 @@ class NetPositionSubscriptionRemoveById(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(NetPositionSubscriptionRemoveById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(NetPositionSubscriptionRemoveById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

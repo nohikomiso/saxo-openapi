@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import saxo_openapi.definitions.orders as OD
 
 
-def direction_from_amount(Amount: Union[int, float]) -> str:
+def direction_from_amount(Amount: int | float) -> str:
     """direction_from_amount - determine direction from the sign of the amount.
 
     if Amount > 0 : Buy
@@ -18,14 +16,12 @@ def direction_from_amount(Amount: Union[int, float]) -> str:
 def direction_invert(direction: str) -> str:
     """direction_invert - Buy  becomes Sell, Sell becomes Buy."""
     if direction not in [OD.Direction.Buy, OD.Direction.Sell]:
-        raise ValueError("wrong value for direction: {}".format(direction))
+        raise ValueError(f"wrong value for direction: {direction}")
 
     return OD.Direction.Buy if direction == OD.Direction.Sell else OD.Direction.Sell
 
 
-def tie_account_to_order(
-    AccountKey: str, order: Union[Dict[str, Any], Any]
-) -> Dict[str, Any]:
+def tie_account_to_order(AccountKey: str, order: dict[str, Any] | Any) -> dict[str, Any]:
     """tie_account_to_order - inject the AccountKey in the orderbody.
 
     An order specification is 'anonymous'. To apply it to an account it needs
@@ -56,9 +52,9 @@ def tie_account_to_order(
 
 def order_duration_spec(
     OrderDurationType: str,
-    allowedDT: List[str],
-    GTDDate: Optional[Union[str, datetime]] = None,
-) -> Dict[str, Any]:
+    allowedDT: list[str],
+    GTDDate: str | datetime | None = None,
+) -> dict[str, Any]:
     """order_duration_spec - create a SAXO order duration from a date.
 
     This function returns a dict containing the definition of the
@@ -100,13 +96,11 @@ def order_duration_spec(
 
     """
 
-    odspec: Dict[str, Any] = dict({"DurationType": OrderDurationType})
+    odspec: dict[str, Any] = dict({"DurationType": OrderDurationType})
 
     # allowed OrderDurationTypes:
     if OrderDurationType not in allowedDT:
-        raise ValueError(
-            "OrderDurationType: {} is not supported".format(OrderDurationType)
-        )
+        raise ValueError(f"OrderDurationType: {OrderDurationType} is not supported")
 
     if OrderDurationType == OD.OrderDurationType.GoodTillDate:
         if GTDDate is None:

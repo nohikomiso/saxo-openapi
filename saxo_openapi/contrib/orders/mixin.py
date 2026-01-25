@@ -1,22 +1,17 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, Optional
+from typing import Any
 
 from .helper import direction_invert
 
 
-class OnFillHnd(object):
-
+class OnFillHnd:
     def hndOnFill(
         self,
-        TakeProfitOnFill: Optional[Dict[str, Any]] = None,
-        StopLossOnFill: Optional[Dict[str, Any]] = None,
-        TrailingStopLossOnFill: Optional[Dict[str, Any]] = None,
+        TakeProfitOnFill: dict[str, Any] | None = None,
+        StopLossOnFill: dict[str, Any] | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | None = None,
     ) -> None:
-
         ospec = None
         for onFillOrder in [TakeProfitOnFill, StopLossOnFill, TrailingStopLossOnFill]:
-
             if onFillOrder is None:
                 continue
 
@@ -26,7 +21,7 @@ class OnFillHnd(object):
                 ospec = onFillOrder
 
             if ospec:
-                _data: Dict[str, Any] = getattr(self, "_data")  # type: ignore[attr-defined]
+                _data: dict[str, Any] = self._data  # type: ignore[attr-defined]
                 if "Orders" not in _data:
                     _data.update({"Orders": []})
 

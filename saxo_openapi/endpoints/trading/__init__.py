@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from . import messages  # noqa: F401
 from . import (
     allocationkeys,
     infoprices,
+    messages,  # noqa: F401
     multilegorders,
     multilegprices,
     optionschain,

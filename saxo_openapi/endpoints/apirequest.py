@@ -1,18 +1,14 @@
-# -*- coding: utf-8 -*-
-
 """Handling of API requests."""
 
 from abc import ABCMeta, abstractmethod
-from typing import Any, Optional
+from typing import Any
 
 
 class APIRequest(metaclass=ABCMeta):
     """Base Class for API-request classes."""
 
     @abstractmethod
-    def __init__(
-        self, endpoint: str, expected_status: int, method: str = "GET"
-    ) -> None:
+    def __init__(self, endpoint: str, expected_status: int, method: str = "GET") -> None:
         """Instantiate an API request.
 
         Parameters
@@ -27,7 +23,7 @@ class APIRequest(metaclass=ABCMeta):
             the expected HTTP status code for a successful response
         """
         self._expected_status = expected_status
-        self._status_code: Optional[int] = None
+        self._status_code: int | None = None
         self._response: Any = None
 
         self._endpoint = endpoint
@@ -38,13 +34,13 @@ class APIRequest(metaclass=ABCMeta):
         return self._expected_status
 
     @property
-    def status_code(self) -> Optional[int]:
+    def status_code(self) -> int | None:
         return self._status_code
 
     @status_code.setter
     def status_code(self, value: int) -> None:
         if value != self._expected_status:
-            raise ValueError("{} {} {:d}".format(self, self.method, value))
+            raise ValueError(f"{self} {self.method} {value:d}")
         self._status_code = value
 
     @property

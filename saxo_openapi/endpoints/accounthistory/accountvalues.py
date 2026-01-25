@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle accounthistory-accountvalues endpoints."""
 
 from typing import Any

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-accountgroups endpoints."""
 
 from typing import Any
@@ -15,9 +13,7 @@ class AccountGroupDetails(Portfolio):
     See: docs/api/portfolio/accountgroups.md
     """
 
-    def __init__(
-        self, AccountGroupKey: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, AccountGroupKey: str, params: dict[str, Any] | None = None) -> None:
         super(AccountGroupDetails, self).__init__(AccountGroupKey=AccountGroupKey)
         self.params = params
 
@@ -57,9 +53,7 @@ class AccountGroupUpdate(Portfolio):
 
     RESPONSE_DATA = None
 
-    def __init__(
-        self, AccountGroupKey: str, params: dict[str, Any] | None, data: dict[str, Any]
-    ) -> None:
+    def __init__(self, AccountGroupKey: str, params: dict[str, Any] | None, data: dict[str, Any]) -> None:
         super(AccountGroupUpdate, self).__init__(AccountGroupKey=AccountGroupKey)
         self.params = params
         self.data = data

@@ -1,8 +1,5 @@
-# -*- encoding: utf-8 -*-
-
 """Handle valueadd-pricealerts endpoints."""
 
-from ..decorators import endpoint
 from typing import Any
 
 from ..decorators import endpoint

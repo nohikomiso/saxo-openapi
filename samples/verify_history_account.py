@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """
 Account History Retrieval Sample
@@ -17,7 +16,6 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
 
@@ -27,11 +25,12 @@ logger = logging.getLogger(__name__)
 try:
     import saxo_openapi
     from saxo_openapi import API
-    from saxo_openapi.endpoints.accounthistory import performance, historicalpositions, accountvalues
+    from saxo_openapi.endpoints.accounthistory import accountvalues, historicalpositions, performance
     from saxo_openapi.endpoints.portfolio import accounts
 except ImportError:
     logger.error("saxo_openapi not installed.")
     sys.exit(1)
+
 
 def main():
     load_dotenv()
@@ -39,9 +38,9 @@ def main():
     if not token:
         logger.error("Missing token.")
         return 1
-    
+
     client = API(access_token=token)
-    
+
     # Get Keys
     r_acc = accounts.AccountsMe()
     client.request(r_acc)
@@ -79,6 +78,7 @@ def main():
 
     print(json.dumps({"status": "success"}, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

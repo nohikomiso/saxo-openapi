@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading prices extensions endpoints."""
 
 from typing import Any
@@ -20,7 +18,5 @@ class MarginImpactSubscription(Trading):
     """
 
     def __init__(self, ContextId: str, ReferenceId: str, data: dict[str, Any]) -> None:
-        super(MarginImpactSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(MarginImpactSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
         self.data = data

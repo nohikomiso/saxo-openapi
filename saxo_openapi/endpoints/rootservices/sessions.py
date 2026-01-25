@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle root-services sessions endpoints.
 
 See: docs/api/rootservices/sessions.md
@@ -41,7 +39,7 @@ class CreateSessionCapabilitiesSubscription(RootService):
 
 
 @endpoint(
-    "openapi/root/v1/sessions/events/subscriptions/" "{ContextId}/{ReferenceId}",
+    "openapi/root/v1/sessions/events/subscriptions/{ContextId}/{ReferenceId}",
     "DELETE",
     202,
 )
@@ -52,6 +50,4 @@ class RemoveSessionCapabilitiesSubscription(RootService):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveSessionCapabilitiesSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveSessionCapabilitiesSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

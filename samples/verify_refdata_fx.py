@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """ReferenceData FX API Verification Sample
 
@@ -37,7 +36,7 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from dotenv import load_dotenv
@@ -101,7 +100,7 @@ def main() -> int:
     # Container for results
     results: dict[str, Any] = {
         "status": "success",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "currencies": None,
         "currency_pairs": None,
         "instruments": None,
@@ -121,9 +120,7 @@ def main() -> int:
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error fetching currencies - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error fetching currencies - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -140,16 +137,12 @@ def main() -> int:
         results["currency_pairs"] = pairs_request.response
         logger.info("Currency pairs fetched successfully")
     except (ConnectionError, TimeoutError) as e:
-        error_msg = (
-            f"Network error fetching currency pairs - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"Network error fetching currency pairs - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error fetching currency pairs - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error fetching currency pairs - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -161,23 +154,17 @@ def main() -> int:
     # Search for instruments (using FX as search term)
     try:
         logger.info("Searching for FX instruments...")
-        search_request = instruments.Instruments(
-            params={"keywords": "EUR", "assetTypes": "FxSpot"}
-        )
+        search_request = instruments.Instruments(params={"keywords": "EUR", "assetTypes": "FxSpot"})
         client.request(search_request)
         results["instruments"] = search_request.response
         logger.info("Instruments searched successfully")
     except (ConnectionError, TimeoutError) as e:
-        error_msg = (
-            f"Network error searching instruments - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"Network error searching instruments - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error searching instruments - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error searching instruments - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -190,11 +177,7 @@ def main() -> int:
     # If errors occurred, check if at least one API call succeeded
     if results["errors"]:
         # A call is considered successful if it produced a response (is not None)
-        has_successful_response = (
-            results["currencies"] is not None
-            or results["currency_pairs"] is not None
-            or results["instruments"] is not None
-        )
+        has_successful_response = results["currencies"] is not None or results["currency_pairs"] is not None or results["instruments"] is not None
         # Set status: partial_failure if some calls succeeded, failure if all failed
         results["status"] = "partial_failure" if has_successful_response else "failure"
 

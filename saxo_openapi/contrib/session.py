@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from collections import namedtuple
 
 import saxo_openapi.endpoints.portfolio as pf

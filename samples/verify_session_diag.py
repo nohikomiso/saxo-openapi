@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """Session and Diagnostics API Verification Sample
 
@@ -38,7 +37,7 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from dotenv import load_dotenv
@@ -98,7 +97,7 @@ def main() -> int:
     # Container for results
     results: dict[str, Any] = {
         "status": "success",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "session_capabilities": None,
         "diagnostics": None,
         "api_connectivity": "unknown",
@@ -144,9 +143,7 @@ def main() -> int:
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error fetching diagnostics - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error fetching diagnostics - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -159,10 +156,7 @@ def main() -> int:
     # If errors occurred, check if at least one API call succeeded
     if results["errors"]:
         # A call is considered successful if it produced a response (is not None)
-        has_successful_response = (
-            results["session_capabilities"] is not None
-            or results["diagnostics"] is not None
-        )
+        has_successful_response = results["session_capabilities"] is not None or results["diagnostics"] is not None
         # Set status: partial_failure if some calls succeeded, failure if all failed
         results["status"] = "partial_failure" if has_successful_response else "failure"
 

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-orders endpoints."""
 
 from typing import Any
@@ -15,9 +13,7 @@ class GetOpenOrder(Portfolio):
     See: libs/saxo_openapi/docs/api/portfolio/orders.md
     """
 
-    def __init__(
-        self, ClientKey: str, OrderId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, ClientKey: str, OrderId: str, params: dict[str, Any] | None = None) -> None:
         super(GetOpenOrder, self).__init__(ClientKey=ClientKey, OrderId=OrderId)
         self.params = params
 
@@ -88,9 +84,7 @@ class RemoveOpenOrderSubscriptionsByTag(Portfolio):
         self.params = params
 
 
-@endpoint(
-    "openapi/port/v1/orders/subscriptions/" "{ContextId}/{ReferenceId}", "DELETE", 202
-)
+@endpoint("openapi/port/v1/orders/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202)
 class RemoveOpenOrderSubscription(Portfolio):
     """Remove a subscription for the current session identified by
     subscription id
@@ -101,6 +95,4 @@ class RemoveOpenOrderSubscription(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveOpenOrderSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveOpenOrderSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

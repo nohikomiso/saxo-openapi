@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 """baseorder."""
 
 import json
 from abc import ABCMeta, abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class BaseOrder(metaclass=ABCMeta):
@@ -12,7 +10,7 @@ class BaseOrder(metaclass=ABCMeta):
 
     @abstractmethod
     def __init__(self) -> None:
-        self._data: Dict[str, Any] = dict()
+        self._data: dict[str, Any] = dict()
 
     def __repr__(self):
         return json.dumps(self.__dict__)

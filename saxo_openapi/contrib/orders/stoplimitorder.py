@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar
 
 import saxo_openapi.definitions.orders as OD
 
@@ -18,7 +16,7 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
     """
 
     # allowed OrderDurationTypes:
-    ALLOWED_DT: ClassVar[List[str]] = [
+    ALLOWED_DT: ClassVar[list[str]] = [
         OD.OrderDurationType.DayOrder,
         OD.OrderDurationType.GoodTillDate,
         OD.OrderDurationType.GoodTillCancel,
@@ -27,19 +25,19 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         AssetType: str,
-        OrderPrice: Union[int, float],
-        StopLimitPrice: Union[int, float],
+        OrderPrice: int | float,
+        StopLimitPrice: int | float,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
         OrderDurationType: str = OD.OrderDurationType.DayOrder,
-        GTDDate: Optional[Union[str, datetime]] = None,
+        GTDDate: str | datetime | None = None,
     ) -> None:
         """
         Instantiate a StopLimitOrder.
@@ -142,18 +140,12 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
         super(StopLimitOrder, self).__init__()
 
         # by default for a StopLimitOrder
-        da: Dict[str, Any] = {
+        da: dict[str, Any] = {
             "OrderType": OD.OrderType.StopLimit,
             "AmountType": AmountType,
         }
 
-        da.update(
-            {
-                "OrderDuration": order_duration_spec(
-                    OrderDurationType, self.ALLOWED_DT, GTDDate
-                )
-            }
-        )
+        da.update({"OrderDuration": order_duration_spec(OrderDurationType, self.ALLOWED_DT, GTDDate)})
 
         # required
         self._data.update({"Uic": Uic})
@@ -196,18 +188,18 @@ class StopLimitOrderCfdOnStock(StopLimitOrder):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
-        OrderPrice: Union[int, float],
-        StopLimitPrice: Union[int, float],
+        Amount: int | float,
+        OrderPrice: int | float,
+        StopLimitPrice: int | float,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
         OrderDurationType: str = OD.OrderDurationType.DayOrder,
-        GTDDate: Optional[Union[str, datetime]] = None,
+        GTDDate: str | datetime | None = None,
     ) -> None:
         """
         Instantiate a StopLimitOrderCfdOnStock.

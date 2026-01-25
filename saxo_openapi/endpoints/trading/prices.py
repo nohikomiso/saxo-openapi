@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-prices endpoints."""
 
 from typing import Any
@@ -30,9 +28,7 @@ class MarginImpactRequest(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(MarginImpactRequest, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(MarginImpactRequest, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
 
 
 @endpoint("openapi/trade/v1/prices/subscriptions/{ContextId}/", "DELETE", 202)
@@ -49,9 +45,7 @@ class PriceSubscriptionRemoveByTag(Trading):
         self.params = params
 
 
-@endpoint(
-    "openapi/trade/v1/prices/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202
-)
+@endpoint("openapi/trade/v1/prices/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202)
 class PriceSubscriptionRemove(Trading):
     """Removes subscription for the current session identified by subscription id.
 
@@ -61,6 +55,4 @@ class PriceSubscriptionRemove(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(PriceSubscriptionRemove, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(PriceSubscriptionRemove, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

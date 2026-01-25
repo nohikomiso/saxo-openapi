@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """
 Cache & Performance Verification Sample
@@ -28,25 +27,26 @@ try:
 except ImportError:
     sys.exit(1)
 
+
 def main():
     load_dotenv()
     token = os.getenv("SAXO_24H_TOKEN")
     client = API(access_token=token)
 
     logger.info("Measuring Currencies endpoint performance (5 iterations)...")
-    
+
     timings = []
-    
+
     for i in range(5):
         start = time.time()
         try:
             r = currencies.Currencies()
             client.request(r)
-            elapsed = (time.time() - start) * 1000 # ms
+            elapsed = (time.time() - start) * 1000  # ms
             timings.append(elapsed)
-            logger.info(f"Iter {i+1}: {elapsed:.2f} ms")
+            logger.info(f"Iter {i + 1}: {elapsed:.2f} ms")
         except Exception as e:
-            logger.error(f"Iter {i+1} failed: {e}")
+            logger.error(f"Iter {i + 1} failed: {e}")
 
     if timings:
         avg = sum(timings) / len(timings)
@@ -54,6 +54,7 @@ def main():
 
     print(json.dumps({"status": "success", "avg_ms": avg}, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle referencedata-countries endpoints."""
 
 from ..decorators import endpoint

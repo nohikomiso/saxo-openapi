@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle root-services subscriptions endpoints."""
 
 from typing import Any

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """
 Trading Order Lifecycle Verification Sample
@@ -23,7 +22,6 @@ import logging
 import os
 import sys
 import time
-from typing import Any, Dict
 
 from dotenv import load_dotenv
 
@@ -34,8 +32,9 @@ logger = logging.getLogger(__name__)
 try:
     import saxo_openapi
     from saxo_openapi import API
+    from saxo_openapi.endpoints.portfolio import balances
+    from saxo_openapi.endpoints.portfolio import orders as port_orders
     from saxo_openapi.endpoints.trading import orders
-    from saxo_openapi.endpoints.portfolio import balances, orders as port_orders
 except ImportError:
     logger.error("saxo_openapi not installed.")
     sys.exit(1)
@@ -45,6 +44,7 @@ def get_account_key(client: API) -> tuple[str, str]:
     """Get the first available AccountKey and ClientKey."""
     # Try fetching accounts directly
     from saxo_openapi.endpoints.portfolio import accounts
+
     r_acc = accounts.AccountsMe()
     client.request(r_acc)
     acc_list = r_acc.response.get("Data", [])
@@ -61,7 +61,7 @@ def main():
         return 1
 
     client = API(access_token=token)
-    
+
     try:
         account_key, client_key = get_account_key(client)
         logger.info(f"Using AccountKey: {account_key}, ClientKey: {client_key}")
@@ -71,21 +71,11 @@ def main():
 
     # 1. Setup: Place Limit Order
     # EURUSD (Uic 21), Buy, Amount 1000, Price 0.5 (Far below market)
-    uic = 21 # EURUSD
+    uic = 21  # EURUSD
     asset_type = "FxSpot"
-    
-    order_spec = {
-        "Uic": uic,
-        "AssetType": asset_type,
-        "Amount": 1000,
-        "BuySell": "Buy",
-        "OrderType": "Limit",
-        "OrderPrice": 0.5,
-        "OrderDuration": {"DurationType": "DayOrder"},
-        "ManualOrder": True,
-        "AccountKey": account_key
-    }
-    
+
+    order_spec = {"Uic": uic, "AssetType": asset_type, "Amount": 1000, "BuySell": "Buy", "OrderType": "Limit", "OrderPrice": 0.5, "OrderDuration": {"DurationType": "DayOrder"}, "ManualOrder": True, "AccountKey": account_key}
+
     logger.info("1. Placing Limit Order...")
     try:
         r_place = orders.Order(data=order_spec)
@@ -100,7 +90,7 @@ def main():
         logger.error(f"Failed to place order: {e}")
         return 1
 
-    time.sleep(2) # Wait for order to propagate
+    time.sleep(2)  # Wait for order to propagate
 
     # 2. Verify: Get Order Details
     logger.info("2. Verifying Order...")
@@ -111,15 +101,15 @@ def main():
         order_data = r_get.response
         if "Data" in order_data and isinstance(order_data["Data"], list):
             order_data = order_data["Data"][0]
-        
+
         status = order_data.get("Status")
         logger.info(f"Order verified. Status: {status}")
-        
-        if status not in ["Working", "Placed", "Unknown"]: 
-             logger.warning(f"Unexpected status: {status}")
+
+        if status not in ["Working", "Placed", "Unknown"]:
+            logger.warning(f"Unexpected status: {status}")
     except Exception as e:
-         logger.error(f"Failed to get order details: {e}")
-         # Continue to teardown anyway
+        logger.error(f"Failed to get order details: {e}")
+        # Continue to teardown anyway
 
     # 3. Teardown: Cancel Order
     logger.info("3. Cancelling Order...")
@@ -134,6 +124,7 @@ def main():
 
     print(json.dumps({"status": "success", "order_id": order_id}, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

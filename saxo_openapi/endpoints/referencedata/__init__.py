@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-
-
-from . import currencies  # noqa: F401
 from . import (
     algostrategies,
     countries,
     cultures,
+    currencies,  # noqa: F401
     currencypairs,
     exchanges,
     instruments,

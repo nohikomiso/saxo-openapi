@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle root-services user endpoints."""
 
 from ..decorators import endpoint

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle ens - client activities endpoints."""
 
 from typing import Any
@@ -21,9 +19,7 @@ class CreateSubscriptionForClientEvents(ENS):
         self.data = data
 
 
-@endpoint(
-    "openapi/ens/v1/activities/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202
-)
+@endpoint("openapi/ens/v1/activities/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202)
 class RemoveSubscription(ENS):
     """Remove subscription for the current session identified by subscription
     id.
@@ -35,9 +31,7 @@ class RemoveSubscription(ENS):
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
         """Instantiate a RemoveSubscription request."""
-        super(RemoveSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
 
 
 @endpoint("openapi/ens/v1/activities/subscriptions/{ContextId}", "DELETE", 202)

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading multileg orders endpoints."""
 
 from typing import Any
@@ -63,8 +61,6 @@ class CancelMultilegOrder(Trading):
     See: docs/api/trading/orders.md#cancelmultilegorder
     """
 
-    def __init__(
-        self, MultiLegOrderId: str, params: dict[str, Any] | None = None
-    ) -> None:
+    def __init__(self, MultiLegOrderId: str, params: dict[str, Any] | None = None) -> None:
         super(CancelMultilegOrder, self).__init__(MultiLegOrderId=MultiLegOrderId)
         self.params = params

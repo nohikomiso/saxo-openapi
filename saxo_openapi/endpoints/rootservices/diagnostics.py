@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle root-services diagnostics endpoints.
 
 See: docs/api/rootservices/diagnostics.md

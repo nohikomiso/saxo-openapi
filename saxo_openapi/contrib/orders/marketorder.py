@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, cast
 
 import saxo_openapi.definitions.orders as OD
 
@@ -19,14 +17,14 @@ class MarketOrder(BaseOrder, OnFillHnd):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         AssetType: str,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
     ) -> None:
         """
@@ -112,8 +110,8 @@ class MarketOrder(BaseOrder, OnFillHnd):
         super(MarketOrder, self).__init__()
 
         # by default for a Market order
-        da: Dict[str, Any] = cast(
-            Dict[str, Any],
+        da: dict[str, Any] = cast(
+            dict[str, Any],
             {
                 "OrderType": OD.OrderType.Market,
                 "AmountType": AmountType,
@@ -164,13 +162,13 @@ class MarketOrderStock(MarketOrder):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
     ) -> None:
         """
@@ -254,13 +252,13 @@ class MarketOrderCfdOnStock(MarketOrder):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
     ) -> None:
         """
@@ -344,13 +342,13 @@ class MarketOrderFxSpot(MarketOrder):
     def __init__(
         self,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        ExternalReference: Optional[str] = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
+        ExternalReference: str | None = None,
         IsForceOpen: bool = True,
     ) -> None:
         """

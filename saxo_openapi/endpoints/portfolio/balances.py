@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio-balances endpoints."""
 
 from typing import Any
@@ -69,9 +67,7 @@ class BalanceSubscriptionRemoveByTag(Portfolio):
         self.params = params
 
 
-@endpoint(
-    "openapi/port/v1/balances/subscriptions/" "{ContextId}/{ReferenceId}", "DELETE", 201
-)
+@endpoint("openapi/port/v1/balances/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 201)
 class BalanceSubscriptionRemoveById(Portfolio):
     """Removes subscription for the current session identified by subscription id.
 
@@ -81,6 +77,4 @@ class BalanceSubscriptionRemoveById(Portfolio):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(BalanceSubscriptionRemoveById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(BalanceSubscriptionRemoveById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

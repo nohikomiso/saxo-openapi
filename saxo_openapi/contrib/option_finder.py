@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 """Option finder helper for searching and discovering option contracts."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any
 
 import saxo_openapi.endpoints.referencedata as rd
 from saxo_openapi.contrib.option_types import (
@@ -32,7 +30,7 @@ class OptionFinder:
     4. そのUicを使って OptionTrader で注文を発注
     """
 
-    def __init__(self, client: API, account_key: Optional[str] = None):
+    def __init__(self, client: API, account_key: str | None = None):
         """
         OptionFinder を初期化
 
@@ -53,8 +51,8 @@ class OptionFinder:
         self,
         keyword: str,
         asset_type: str = "StockOption",
-        exchange_id: Optional[str] = None,
-    ) -> List[OptionRoot]:
+        exchange_id: str | None = None,
+    ) -> list[OptionRoot]:
         """
         オプションルートを検索
 
@@ -65,7 +63,7 @@ class OptionFinder:
 
         使用API: GET /ref/v1/instruments
         """
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "AccountKey": self.account_key,
             "Keywords": keyword,
             "AssetTypes": asset_type,
@@ -88,9 +86,7 @@ class OptionFinder:
                         asset_type=item.get("AssetType", ""),
                         currency_code=item.get("CurrencyCode", ""),
                         exchange_id=item.get("ExchangeId", ""),
-                        can_participate_in_multileg=item.get(
-                            "CanParticipateInMultiLegOrder", False
-                        ),
+                        can_participate_in_multileg=item.get("CanParticipateInMultiLegOrder", False),
                     )
                 )
         return results
@@ -98,7 +94,7 @@ class OptionFinder:
     def get_option_chain(
         self,
         option_root_id: int,
-        expiry_dates: Optional[List[str]] = None,
+        expiry_dates: list[str] | None = None,
     ) -> OptionChain:
         """
         オプションチェーン（満期日別のオプション契約一覧）を取得
@@ -109,14 +105,12 @@ class OptionFinder:
 
         使用API: GET /ref/v1/instruments/contractoptionspaces/{OptionRootId}
         """
-        params: Dict[str, Any] = {}
+        params: dict[str, Any] = {}
         if expiry_dates:
             params["OptionSpaceSegment"] = "SpecificDates"
             params["ExpiryDates"] = ",".join(expiry_dates)
 
-        r = rd.instruments.ContractoptionSpaces(
-            OptionRootId=str(option_root_id), params=params if params else None
-        )
+        r = rd.instruments.ContractoptionSpaces(OptionRootId=str(option_root_id), params=params if params else None)
         response = self.client.request(r)
 
         # 基本情報を抽出
@@ -165,7 +159,7 @@ class OptionFinder:
 
         return chain
 
-    def get_expiry_dates(self, option_root_id: int) -> List[ExpiryInfo]:
+    def get_expiry_dates(self, option_root_id: int) -> list[ExpiryInfo]:
         """
         利用可能な満期日一覧を取得
 
@@ -182,7 +176,7 @@ class OptionFinder:
         strike_price: float,
         put_call: str,
         asset_type: str = "StockOption",
-    ) -> Optional[OptionContract]:
+    ) -> OptionContract | None:
         """
         キーワードから特定のオプション契約を一括検索
 
@@ -207,10 +201,7 @@ class OptionFinder:
         # Step 3: 条件に一致するオプションを探す
         options = chain.calls if put_call == "Call" else chain.puts
         for option in options:
-            if (
-                abs(option.strike_price - strike_price) < 0.01
-                and option.expiry == expiry_date
-            ):
+            if abs(option.strike_price - strike_price) < 0.01 and option.expiry == expiry_date:
                 return option
 
         return None
@@ -220,7 +211,7 @@ class OptionFinder:
         option_root_id: int,
         expiry_date: str,
         count: int = 5,
-    ) -> Dict[str, List[OptionContract]]:
+    ) -> dict[str, list[OptionContract]]:
         """
         ATM（アット・ザ・マネー）周辺のオプションを取得
 

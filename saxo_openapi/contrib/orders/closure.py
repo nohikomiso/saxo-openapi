@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import saxo_openapi.definitions.orders as OD
 
 from .baseorder import BaseOrder
-from .helper import direction_from_amount, tie_account_to_order
+from .helper import direction_from_amount
 
 
 class MarketCloseOrder(BaseOrder):
@@ -33,16 +31,16 @@ class MarketCloseOrder(BaseOrder):
         self,
         PositionId: str,
         Uic: int,
-        Amount: Union[int, float],
+        Amount: int | float,
         AssetType: str,
-        BuySell: Optional[str] = None,
+        BuySell: str | None = None,
         OrderType: str = OD.OrderType.Market,
         AmountType: str = OD.AmountType.Quantity,
         ManualOrder: bool = False,
-        ExternalReference: Optional[str] = None,
-        TakeProfitOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        StopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
-        TrailingStopLossOnFill: Optional[Union[Dict[str, Any], Any]] = None,
+        ExternalReference: str | None = None,
+        TakeProfitOnFill: dict[str, Any] | Any | None = None,
+        StopLossOnFill: dict[str, Any] | Any | None = None,
+        TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
     ) -> None:
         """
         Instantiate a MarketCloseOrder.
@@ -111,23 +109,11 @@ class MarketCloseOrder(BaseOrder):
         # We can reuse the OnFillHnd mixin's logic if we inherited from it, but
         # since we are nesting, it's cleaner to just add them if present.
         if TakeProfitOnFill:
-            order_details["TakeProfitOnFill"] = (
-                TakeProfitOnFill
-                if isinstance(TakeProfitOnFill, dict)
-                else TakeProfitOnFill.data
-            )
+            order_details["TakeProfitOnFill"] = TakeProfitOnFill if isinstance(TakeProfitOnFill, dict) else TakeProfitOnFill.data
         if StopLossOnFill:
-            order_details["StopLossOnFill"] = (
-                StopLossOnFill
-                if isinstance(StopLossOnFill, dict)
-                else StopLossOnFill.data
-            )
+            order_details["StopLossOnFill"] = StopLossOnFill if isinstance(StopLossOnFill, dict) else StopLossOnFill.data
         if TrailingStopLossOnFill:
-            order_details["TrailingStopLossOnFill"] = (
-                TrailingStopLossOnFill
-                if isinstance(TrailingStopLossOnFill, dict)
-                else TrailingStopLossOnFill.data
-            )
+            order_details["TrailingStopLossOnFill"] = TrailingStopLossOnFill if isinstance(TrailingStopLossOnFill, dict) else TrailingStopLossOnFill.data
 
         # 2. Construct the outer structure
         self._data = {

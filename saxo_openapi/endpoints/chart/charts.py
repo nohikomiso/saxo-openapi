@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle chart-charts endpoints."""
 
 from typing import Any
@@ -42,9 +40,7 @@ class CreateChartDataSubscription(Charts):
         self.data = data
 
 
-@endpoint(
-    "openapi/chart/v3/charts/subscriptions/{ContextId}", "DELETE", 202
-)  # v1からv3に変更
+@endpoint("openapi/chart/v3/charts/subscriptions/{ContextId}", "DELETE", 202)  # v1からv3に変更
 class ChartDataRemoveSubscriptions(Charts):
     """Removes all subscriptions for the current session on this resource, and
     frees all resources on the server.
@@ -60,9 +56,7 @@ class ChartDataRemoveSubscriptions(Charts):
         self.params = params
 
 
-@endpoint(
-    "openapi/chart/v3/charts/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202
-)  # v1からv3に変更
+@endpoint("openapi/chart/v3/charts/subscriptions/{ContextId}/{ReferenceId}", "DELETE", 202)  # v1からv3に変更
 class ChartDataRemoveSubscription(Charts):
     """Removes subscriptions for the given reference id on this resource, and
     frees resources on the server.
@@ -74,6 +68,4 @@ class ChartDataRemoveSubscription(Charts):
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
         """Instantiate a ChartDataRemoveSubscription request."""
-        super(ChartDataRemoveSubscription, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(ChartDataRemoveSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)

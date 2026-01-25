@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle portfolio endpoints."""
 
 from abc import abstractmethod
@@ -27,6 +25,4 @@ class Portfolio(APIRequest):
 
         """
         endpoint = self.ENDPOINT.format(**kwargs)
-        super(Portfolio, self).__init__(
-            endpoint, method=self.METHOD, expected_status=self.EXPECTED_STATUS
-        )
+        super(Portfolio, self).__init__(endpoint, method=self.METHOD, expected_status=self.EXPECTED_STATUS)

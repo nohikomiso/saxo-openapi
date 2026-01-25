@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """AccountHistory Definitions."""
 
 
@@ -118,20 +117,14 @@ class AccountPerformanceFieldGroup:
     Allocation = "Allocation"
     AvailableBenchmarks = "AvailableBenchmarks"
     BalancePerformance = "BalancePerformance"
-    BalancePerformance_AccountValueTimeSeries = (
-        "BalancePerformance_AccountValueTimeSeries"
-    )
+    BalancePerformance_AccountValueTimeSeries = "BalancePerformance_AccountValueTimeSeries"
     BenchMark = "BenchMark"
     BenchmarkPerformance = "BenchmarkPerformance"
     TimeWeightedPerformance = "TimeWeightedPerformance"
-    TimeWeightedPerformance_AccumulatedTimeWeightedTimeSeries = (
-        "TimeWeightedPerformance_AccumulatedTimeWeightedTimeSeries"
-    )
+    TimeWeightedPerformance_AccumulatedTimeWeightedTimeSeries = "TimeWeightedPerformance_AccumulatedTimeWeightedTimeSeries"
     TotalCashBalancePerCurrency = "TotalCashBalancePerCurrency"
     TotalPositionsValuePerCurrency = "TotalPositionsValuePerCurrency"
-    TotalPositionsValuePerProductPerSecurity = (
-        "TotalPositionsValuePerProductPerSecurity"
-    )
+    TotalPositionsValuePerProductPerSecurity = "TotalPositionsValuePerProductPerSecurity"
     TradeActivity = "TradeActivity"
 
     def __init__(self):

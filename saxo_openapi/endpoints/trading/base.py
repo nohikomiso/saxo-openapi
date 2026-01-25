@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading endpoints."""
 
 from abc import abstractmethod
@@ -27,6 +25,4 @@ class Trading(APIRequest):
 
         """
         endpoint = self.ENDPOINT.format(**kwargs)
-        super(Trading, self).__init__(
-            endpoint, expected_status=self.EXPECTED_STATUS, method=self.METHOD
-        )
+        super(Trading, self).__init__(endpoint, expected_status=self.EXPECTED_STATUS, method=self.METHOD)

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """Portfolio FX API Verification Sample
 
@@ -37,7 +36,7 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from dotenv import load_dotenv
@@ -91,7 +90,7 @@ def main() -> int:
     # Container for results
     results: dict[str, Any] = {
         "status": "success",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "balances": None,
         "positions": None,
         "orders": None,
@@ -111,9 +110,7 @@ def main() -> int:
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error fetching balances - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error fetching balances - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -135,9 +132,7 @@ def main() -> int:
         logger.error("Please verify network connectivity to Saxo Bank API")
         results["errors"].append(error_msg)
     except ValueError as e:
-        error_msg = (
-            f"API request error fetching positions - {type(e).__name__}: {str(e)}"
-        )
+        error_msg = f"API request error fetching positions - {type(e).__name__}: {str(e)}"
         logger.error(error_msg)
         logger.error("Please verify API parameters and request format")
         results["errors"].append(error_msg)
@@ -171,11 +166,7 @@ def main() -> int:
     # Determine overall status
     if results["errors"]:
         # A call is considered successful if it produced a response (is not None)
-        has_successful_response = (
-            results["balances"] is not None
-            or results["positions"] is not None
-            or results["orders"] is not None
-        )
+        has_successful_response = results["balances"] is not None or results["positions"] is not None or results["orders"] is not None
         results["status"] = "partial_failure" if has_successful_response else "failure"
 
     # Output results to stdout

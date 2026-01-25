@@ -47,13 +47,9 @@ def test_documentation_code_syntax(md_file: Path):
             # 構文チェックのみ（実行はしない）
             ast.parse(code)
         except SyntaxError as e:
-            errors.append(
-                f"Code block {block_num} has syntax error at line {e.lineno}: {e.msg}"
-            )
+            errors.append(f"Code block {block_num} has syntax error at line {e.lineno}: {e.msg}")
 
-    assert not errors, f"\n{md_file.name}:\n" + "\n".join(
-        f"  - {err}" for err in errors
-    )
+    assert not errors, f"\n{md_file.name}:\n" + "\n".join(f"  - {err}" for err in errors)
 
 
 def test_all_documentation_files_exist():
@@ -99,10 +95,7 @@ def test_code_blocks_have_imports():
             # saxo_openapi の使用を検出
             if any(keyword in code for keyword in ["Client", "endpoints", "saxo"]):
                 if "saxo_openapi" not in code:
-                    pytest.fail(
-                        f"{md_file.name}: Code block {block_num} "
-                        f"uses saxo_openapi but does not import it"
-                    )
+                    pytest.fail(f"{md_file.name}: Code block {block_num} uses saxo_openapi but does not import it")
 
 
 if __name__ == "__main__":

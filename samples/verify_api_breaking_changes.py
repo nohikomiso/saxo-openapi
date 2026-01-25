@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
 
 """
 API Breaking Changes Verification Sample
@@ -27,15 +26,17 @@ logger = logging.getLogger(__name__)
 try:
     import saxo_openapi
     from saxo_openapi import API
+    from saxo_openapi.endpoints.accounthistory import performance
+
     # We might need raw requests or specific endpoint classes to test old paths if classes were removed.
-    # For removed classes, we can manually construct requests using library internals if possible 
+    # For removed classes, we can manually construct requests using library internals if possible
     # or just skip if code doesn't allow.
     # Check new classes.
     from saxo_openapi.endpoints.portfolio import positions
-    from saxo_openapi.endpoints.accounthistory import performance
     from saxo_openapi.endpoints.rootservices import sessions
 except ImportError:
     sys.exit(1)
+
 
 def main():
     load_dotenv()
@@ -59,13 +60,14 @@ def main():
         # Assuming defaults to latest
         # We need client key
         from saxo_openapi.endpoints.portfolio import accounts
+
         r_acc = accounts.AccountsMe()
         client.request(r_acc)
         client_key = r_acc.response["Data"][0]["ClientKey"]
-        
+
         r_perf = performance.AccountPerformance(ClientKey=client_key)
         # Check URL of the request object if possible
-        # print(r_perf.response) 
+        # print(r_perf.response)
         # Execute
         client.request(r_perf)
         logger.info("Performance fetched.")
@@ -79,19 +81,20 @@ def main():
         # We need to send some data.
         data = {"TradeLevel": "OrdersOnly"}
         r_sess = sessions.ChangeSessionCapabilities(data=data)
-        # client.request(r_sess) 
+        # client.request(r_sess)
         # Skip actual execution to avoid side effects, but we can inspect the class method
         # if r_sess.method == "PATCH": ...
         # But `r_sess` is an object.
         pass
-    except Exception as e:
+    except Exception:
         pass
-    
+
     # Ideally, we verify the library code itself employs PATCH, or dry-run.
     logger.info("Method verification skipped (Static check needed).")
 
     print(json.dumps({"status": "success"}, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

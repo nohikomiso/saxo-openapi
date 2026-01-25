@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Exceptions."""
 
 
@@ -32,9 +30,9 @@ class OpenAPIError(Exception):
         self.reason = reason
         self.content = content
 
-        message = "HTTP error: {}, reason: {}".format(code, reason)
+        message = f"HTTP error: {code}, reason: {reason}"
         # if error content is returned, include in exception
         if self.content:
-            message += ", errorcontent: {}".format(content)
+            message += f", errorcontent: {content}"
 
         super(OpenAPIError, self).__init__(message)

@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-optionschain endpoints."""
 
 from typing import Any
@@ -21,7 +19,7 @@ class OptionsChainSubscriptionCreate(Trading):
 
 
 @endpoint(
-    "openapi/trade/v1/optionschain/subscriptions/" "{ContextId}/{ReferenceId}",
+    "openapi/trade/v1/optionschain/subscriptions/{ContextId}/{ReferenceId}",
     "PATCH",
     204,
 )
@@ -34,14 +32,12 @@ class OptionsChainSubscriptionModify(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str, data: dict[str, Any]) -> None:
-        super(OptionsChainSubscriptionModify, self).__init__(
-            ReferenceId=ReferenceId, ContextId=ContextId
-        )
+        super(OptionsChainSubscriptionModify, self).__init__(ReferenceId=ReferenceId, ContextId=ContextId)
         self.data = data
 
 
 @endpoint(
-    "openapi/trade/v1/optionschain/subscriptions/" "{ContextId}/{ReferenceId}",
+    "openapi/trade/v1/optionschain/subscriptions/{ContextId}/{ReferenceId}",
     "DELETE",
     202,
 )
@@ -54,13 +50,11 @@ class OptionsChainSubscriptionRemove(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(OptionsChainSubscriptionRemove, self).__init__(
-            ReferenceId=ReferenceId, ContextId=ContextId
-        )
+        super(OptionsChainSubscriptionRemove, self).__init__(ReferenceId=ReferenceId, ContextId=ContextId)
 
 
 @endpoint(
-    "openapi/trade/v1/optionschain/subscriptions/" "{ContextId}/{ReferenceId}/ResetATM",
+    "openapi/trade/v1/optionschain/subscriptions/{ContextId}/{ReferenceId}/ResetATM",
     "PUT",
     204,
 )
@@ -73,6 +67,4 @@ class OptionsChainSubscriptionResetATM(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(OptionsChainSubscriptionResetATM, self).__init__(
-            ReferenceId=ReferenceId, ContextId=ContextId
-        )
+        super(OptionsChainSubscriptionResetATM, self).__init__(ReferenceId=ReferenceId, ContextId=ContextId)

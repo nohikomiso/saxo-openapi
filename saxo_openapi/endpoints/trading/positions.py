@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-positions endpoints."""
 
 from typing import Any

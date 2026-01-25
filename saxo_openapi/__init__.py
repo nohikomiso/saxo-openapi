@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # サブモジュールをインポート
 from . import contrib, endpoints
 from .exceptions import OpenAPIError

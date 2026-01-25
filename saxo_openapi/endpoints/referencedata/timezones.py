@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle referencedata-timezones endpoints."""
 
 from ..decorators import endpoint

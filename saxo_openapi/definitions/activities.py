@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Activity related definitions."""
 
 

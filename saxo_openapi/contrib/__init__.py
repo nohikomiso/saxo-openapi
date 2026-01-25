@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Contrib module - high-level helper classes for trading.
 

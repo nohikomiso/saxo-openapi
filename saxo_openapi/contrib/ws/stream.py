@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import json
 import struct
 
@@ -25,12 +23,12 @@ def decode_ws_msg(raw):
         # (Reserved,), raw = struct.unpack_from("h", raw[:2]), raw[2:]
 
         (Srefid,), raw = struct.unpack_from("B", raw[:1]), raw[1:]
-        FS = "{}s".format(Srefid)
+        FS = f"{Srefid}s"
         (refid,), raw = struct.unpack_from(FS, raw[:Srefid]), raw[Srefid:]
         (payloadFmt,), raw = struct.unpack_from("B", raw[:1]), raw[1:]
         (payloadSize,), raw = struct.unpack_from("i", raw[:4]), raw[4:]
 
-        FS = "{}s".format(payloadSize)
+        FS = f"{payloadSize}s"
         (payload,) = struct.unpack_from(FS, raw[:payloadSize])
 
         msg = {"refid": str(refid, "utf-8"), "msgId": msgIdentifier}

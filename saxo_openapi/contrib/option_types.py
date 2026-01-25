@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Option trading data types."""
 
 from dataclasses import dataclass, field

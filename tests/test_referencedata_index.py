@@ -14,7 +14,7 @@ import pytest
 def load_ai_index() -> dict:
     """Load .ai/index.json"""
     index_path = Path(__file__).parent.parent / ".ai" / "index.json"
-    with open(index_path, "r", encoding="utf-8") as f:
+    with open(index_path, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -30,9 +30,7 @@ class TestReferenceDataPart1Index:
         endpoints = ai_index.get("endpoints", {})
 
         # AlgoStrategies endpoint
-        assert (
-            "referencedata.algostrategies.AlgoStrategies" in endpoints
-        ), "AlgoStrategies endpoint not found in index"
+        assert "referencedata.algostrategies.AlgoStrategies" in endpoints, "AlgoStrategies endpoint not found in index"
 
         algo_strategies = endpoints["referencedata.algostrategies.AlgoStrategies"]
         assert algo_strategies["category"] == "referencedata"
@@ -40,15 +38,10 @@ class TestReferenceDataPart1Index:
         assert algo_strategies["method"] == "GET"
         assert algo_strategies["path"] == "openapi/ref/v1/algostrategies/"
         assert "docs" in algo_strategies
-        assert (
-            algo_strategies["docs"]
-            == "docs/api/referencedata/algostrategies.md#algostrategies"
-        )
+        assert algo_strategies["docs"] == "docs/api/referencedata/algostrategies.md#algostrategies"
 
         # AlgoStrategyDetails endpoint
-        assert (
-            "referencedata.algostrategies.AlgoStrategyDetails" in endpoints
-        ), "AlgoStrategyDetails endpoint not found in index"
+        assert "referencedata.algostrategies.AlgoStrategyDetails" in endpoints, "AlgoStrategyDetails endpoint not found in index"
 
         algo_details = endpoints["referencedata.algostrategies.AlgoStrategyDetails"]
         assert algo_details["category"] == "referencedata"
@@ -60,9 +53,7 @@ class TestReferenceDataPart1Index:
         """countries エンドポイントが登録されていること"""
         endpoints = ai_index.get("endpoints", {})
 
-        assert (
-            "referencedata.countries.Countries" in endpoints
-        ), "Countries endpoint not found in index"
+        assert "referencedata.countries.Countries" in endpoints, "Countries endpoint not found in index"
 
         countries = endpoints["referencedata.countries.Countries"]
         assert countries["category"] == "referencedata"
@@ -75,9 +66,7 @@ class TestReferenceDataPart1Index:
         """cultures エンドポイントが登録されていること"""
         endpoints = ai_index.get("endpoints", {})
 
-        assert (
-            "referencedata.cultures.Cultures" in endpoints
-        ), "Cultures endpoint not found in index"
+        assert "referencedata.cultures.Cultures" in endpoints, "Cultures endpoint not found in index"
 
         cultures = endpoints["referencedata.cultures.Cultures"]
         assert cultures["category"] == "referencedata"
@@ -90,9 +79,7 @@ class TestReferenceDataPart1Index:
         """currencies エンドポイントが登録されていること"""
         endpoints = ai_index.get("endpoints", {})
 
-        assert (
-            "referencedata.currencies.Currencies" in endpoints
-        ), "Currencies endpoint not found in index"
+        assert "referencedata.currencies.Currencies" in endpoints, "Currencies endpoint not found in index"
 
         currencies = endpoints["referencedata.currencies.Currencies"]
         assert currencies["category"] == "referencedata"
@@ -108,9 +95,7 @@ class TestReferenceDataPart1Index:
         # 少なくとも5つのエンドポイントが登録されているはず
         # (AlgoStrategies, AlgoStrategyDetails, Countries, Cultures, Currencies)
         actual_count = len(ai_index.get("endpoints", {}))
-        assert (
-            metadata.get("total_endpoints") == actual_count
-        ), f"Metadata count ({metadata.get('total_endpoints')}) doesn't match actual ({actual_count})"
+        assert metadata.get("total_endpoints") == actual_count, f"Metadata count ({metadata.get('total_endpoints')}) doesn't match actual ({actual_count})"
 
     def test_endpoint_structure_validity(self, ai_index):
         """エンドポイント構造が正しいこと"""
@@ -135,9 +120,7 @@ class TestReferenceDataPart1Index:
             if endpoint_key in endpoints:
                 endpoint_data = endpoints[endpoint_key]
                 for field in required_fields:
-                    assert (
-                        field in endpoint_data
-                    ), f"{endpoint_key} missing required field: {field}"
+                    assert field in endpoint_data, f"{endpoint_key} missing required field: {field}"
 
 
 if __name__ == "__main__":

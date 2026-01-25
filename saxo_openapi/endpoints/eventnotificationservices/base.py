@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle event notification services endpoints."""
 
 from abc import abstractmethod
@@ -27,6 +25,4 @@ class ENS(APIRequest):
 
         """
         endpoint = self.ENDPOINT.format(**kwargs)
-        super(ENS, self).__init__(
-            endpoint, expected_status=self.EXPECTED_STATUS, method=self.METHOD
-        )
+        super(ENS, self).__init__(endpoint, expected_status=self.EXPECTED_STATUS, method=self.METHOD)

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Live Order Verification Sample
@@ -13,9 +12,6 @@ Usage:
     uv run libs/saxo_openapi/samples/verify_orders_live.py
 """
 
-import json
-import os
-import sys
 import time
 
 import saxo_openapi.definitions.orders as OD
@@ -25,7 +21,7 @@ from saxo_openapi.contrib.trader import SaxoTrader
 
 
 def read_token(token_file="token_demo.txt"):
-    with open(token_file, "r") as f:
+    with open(token_file) as f:
         return f.read().strip()
 
 
@@ -40,9 +36,7 @@ def get_current_price(client, uic, asset_type):
         bid = quote.get("Bid")
         ask = quote.get("Ask")
         mid = (bid + ask) / 2 if bid and ask else None
-        print(
-            f"   [Market Data] {asset_type} (UIC {uic}): Bid={bid}, Ask={ask}, Mid={mid}"
-        )
+        print(f"   [Market Data] {asset_type} (UIC {uic}): Bid={bid}, Ask={ask}, Mid={mid}")
         return mid if mid else 0.0
     except Exception as e:
         print(f"   [Market Data] Failed to fetch price: {e}")
@@ -107,9 +101,7 @@ def place_orders(client, trader, name, uic, asset_type, default_price):
         sl_limit = stop_price + 0.0010
     sl_limit = round(sl_limit, 4 if asset_type == "FxSpot" else 2)
 
-    print(
-        f"3. Placing Stop Limit Order (Trigger @ {sl_trigger}, Limit @ {sl_limit})..."
-    )
+    print(f"3. Placing Stop Limit Order (Trigger @ {sl_trigger}, Limit @ {sl_limit})...")
     try:
         r = trader.stop_limit_order(
             Uic=uic,
@@ -141,9 +133,7 @@ def main():
         place_orders(client, trader, "Stock (AAPL)", 211, OD.AssetType.Stock, 200.0)
 
         # --- CFD (AAPL) ---
-        place_orders(
-            client, trader, "CFD on Stock (AAPL)", 211, OD.AssetType.CfdOnStock, 200.0
-        )
+        place_orders(client, trader, "CFD on Stock (AAPL)", 211, OD.AssetType.CfdOnStock, 200.0)
 
     except Exception as e:
         print(f"Main execution error: {e}")

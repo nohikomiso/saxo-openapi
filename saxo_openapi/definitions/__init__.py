@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Definitions package.
 
 This package contains definition representations for various endpoint groups.

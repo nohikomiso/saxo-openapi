@@ -2,15 +2,13 @@
 
 """decorators."""
 
-
-from typing import Any, Callable, TypeVar
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 
 
-def endpoint(
-    url: str, method: str = "GET", expected_status: int = 200
-) -> Callable[[T], T]:
+def endpoint(url: str, method: str = "GET", expected_status: int = 200) -> Callable[[T], T]:
     """endpoint - decorator to manipulate the REST-service endpoint.
 
     The endpoint decorator sets the endpoint and the method for the class
@@ -18,9 +16,9 @@ def endpoint(
     """
 
     def dec(obj: T) -> T:
-        setattr(obj, "ENDPOINT", url)
-        setattr(obj, "METHOD", method)
-        setattr(obj, "EXPECTED_STATUS", expected_status)
+        obj.ENDPOINT = url
+        obj.METHOD = method
+        obj.EXPECTED_STATUS = expected_status
         return obj
 
     return dec
@@ -43,7 +41,7 @@ def abstractclass(cls: Any) -> Any:
     a = A()   # results in an AssertionError
     b = B()   # works fine
     """
-    setattr(cls, "_ISNEVER", cls.__bases__[0].__name__)
+    cls._ISNEVER = cls.__bases__[0].__name__
     origInit = cls.__dict__["__init__"]
 
     def wrapInit(self: Any, *args: Any, **kwargs: Any) -> None:
@@ -55,14 +53,14 @@ def abstractclass(cls: Any) -> Any:
             raise TypeError("Use of abstract base class")
 
     # replace the original __init__
-    setattr(wrapInit, "__doc__", getattr(origInit, "__doc__"))
-    setattr(origInit, "__doc__", "")
-    setattr(cls, "__init__", wrapInit)
+    wrapInit.__doc__ = origInit.__doc__
+    origInit.__doc__ = ""
+    cls.__init__ = wrapInit
 
     return cls
 
 
-class extendargs(object):
+class extendargs:
     """'extendargs' decorator.
 
     Add extra arguments to the argumentlist of the constructor of the class.
@@ -82,6 +80,6 @@ class extendargs(object):
                     del kwargs[extraArg]
             origInit(wself, *args, **kwargs)
 
-        setattr(cls, "__init__", wrapInit)
+        cls.__init__ = wrapInit
 
         return cls

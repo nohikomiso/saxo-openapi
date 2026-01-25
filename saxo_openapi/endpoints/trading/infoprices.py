@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 """Handle trading-infoprices endpoints."""
 
 from typing import Any
@@ -72,9 +70,7 @@ class RemoveInfoPriceSubscriptionById(Trading):
     RESPONSE_DATA = None
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
-        super(RemoveInfoPriceSubscriptionById, self).__init__(
-            ContextId=ContextId, ReferenceId=ReferenceId
-        )
+        super(RemoveInfoPriceSubscriptionById, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
 
 
 @endpoint("openapi/trade/v1/infoprices/list/anonymous")
