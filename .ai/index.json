@@ -1,0 +1,1243 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "generated_at": "2025-11-24T11:33:00Z",
+    "total_endpoints": 61,
+    "total_examples": 10,
+    "last_updated": "2025-11-24",
+    "verification_summary": {
+      "verified_count": 16,
+      "failed_count": 0,
+      "not_verified_count": 45,
+      "status": "success",
+      "last_verified": "2026-01-23",
+      "details": "Full suite Phase 7.5 Executed"
+    }
+  },
+  "categories": {
+    "portfolio": {
+      "description": "Account balances, positions, orders, and other portfolio related information.",
+      "priority": "high",
+      "modules": [
+        "balances",
+        "positions",
+        "orders",
+        "accounts",
+        "clients",
+        "users",
+        "netpositions",
+        "closedpositions",
+        "exposure",
+        "accountgroups"
+      ]
+    },
+    "trading": {
+      "description": "Order placement, price monitoring, and other trading activities.",
+      "priority": "high",
+      "modules": [
+        "orders",
+        "prices",
+        "infoprices",
+        "positions",
+        "allocationkeys",
+        "messages",
+        "optionschain"
+      ]
+    },
+    "referencedata": {
+      "description": "Static data such as instruments, currencies, exchanges, etc.",
+      "priority": "medium",
+      "modules": [
+        "instruments",
+        "currencies",
+        "exchanges",
+        "countries",
+        "cultures",
+        "currencypairs",
+        "languages",
+        "standarddates",
+        "timezones",
+        "algostrategies"
+      ]
+    },
+    "accounthistory": {
+      "description": "Historical data for accounts, performance, and positions.",
+      "priority": "medium",
+      "modules": [
+        "accountvalues",
+        "historicalpositions",
+        "performance"
+      ]
+    },
+    "rootservices": {
+      "description": "Core services like session management, user details, and diagnostics.",
+      "priority": "medium",
+      "modules": [
+        "sessions",
+        "user",
+        "subscriptions",
+        "diagnostics",
+        "features"
+      ]
+    },
+    "chart": {
+      "description": "Charting data.",
+      "priority": "low",
+      "modules": [
+        "charts"
+      ]
+    },
+    "eventnotificationservices": {
+      "description": "Event notification services.",
+      "priority": "low",
+      "modules": [
+        "clientactivities"
+      ]
+    },
+    "valueadd": {
+      "description": "Value added services.",
+      "priority": "low",
+      "modules": [
+        "pricealerts"
+      ]
+    }
+  },
+  "use_cases": {
+    "balance_check": [
+      "portfolio.balances.AccountBalancesMe",
+      "portfolio.balances.AccountBalances",
+      "portfolio.balances.MarginOverview"
+    ],
+    "order_placement": [
+      "trading.orders.Order",
+      "trading.orders.ChangeOrder",
+      "trading.orders.CancelOrders",
+      "trading.orders.PrecheckOrder"
+    ],
+    "position_monitoring": [
+      "portfolio.positions.PositionsMe",
+      "portfolio.positions.PositionsQuery",
+      "portfolio.positions.SinglePosition",
+      "portfolio.positions.SinglePositionDetails"
+    ],
+    "instrument_search": [
+      "referencedata.instruments.Instruments",
+      "referencedata.instruments.InstrumentsDetails",
+      "referencedata.instruments.InstrumentDetails"
+    ],
+    "margin_monitoring": [
+      "portfolio.balances.MarginOverview"
+    ],
+    "market_data": [
+      "chart.charts.GetChartData",
+      "chart.charts.CreateChartDataSubscription"
+    ],
+    "reference_data": [
+      "referencedata.algostrategies.AlgoStrategies",
+      "referencedata.algostrategies.AlgoStrategyDetails",
+      "referencedata.countries.Countries",
+      "referencedata.cultures.Cultures",
+      "referencedata.currencies.Currencies",
+      "referencedata.currencypairs.CurrencyPairs",
+      "referencedata.exchanges.ExchangeList",
+      "referencedata.exchanges.ExchangeDetails",
+      "referencedata.languages.Languages",
+      "referencedata.standarddates.ForwardTenorDates",
+      "referencedata.standarddates.FXOptionExpiryDates",
+      "referencedata.timezones.TimeZones"
+    ],
+    "diagnostics": [
+      "rootservices.diagnostics.Get",
+      "rootservices.diagnostics.Post",
+      "rootservices.diagnostics.Put",
+      "rootservices.diagnostics.Delete",
+      "rootservices.diagnostics.Patch",
+      "rootservices.diagnostics.Head",
+      "rootservices.diagnostics.Options",
+      "rootservices.diagnostics.Echo"
+    ],
+    "feature_availability": [
+      "rootservices.features.Availability",
+      "rootservices.features.CreateAvailabilitySubscription",
+      "rootservices.features.RemoveAvailabilitySubscription"
+    ],
+    "session_management": [
+      "rootservices.sessions.GetSessionCapabilities",
+      "rootservices.sessions.ChangeSessionCapabilities",
+      "rootservices.sessions.CreateSessionCapabilitiesSubscription",
+      "rootservices.sessions.RemoveSessionCapabilitiesSubscription"
+    ],
+    "user_management": [
+      "rootservices.user.User"
+    ],
+    "subscription_management": [
+      "rootservices.subscriptions.RemoveMultipleActiveSubscriptions",
+      "chart.charts.ChartDataRemoveSubscriptions",
+      "chart.charts.ChartDataRemoveSubscription",
+      "eventnotificationservices.clientactivities.CreateSubscriptionForClientEvents",
+      "eventnotificationservices.clientactivities.RemoveSubscription",
+      "eventnotificationservices.clientactivities.RemoveSubscriptions"
+    ],
+    "account_history": [
+      "accounthistory.accountvalues.AccountSummary",
+      "accounthistory.historicalpositions.HistoricalPositions",
+      "accounthistory.performance.AccountPerformance"
+    ],
+    "event_notifications": [
+      "eventnotificationservices.clientactivities.GetActivities"
+    ],
+    "price_alerts": [
+      "valueadd.pricealerts.GetAllAlerts",
+      "valueadd.pricealerts.GetAlertDefinition",
+      "valueadd.pricealerts.CreatePriceAlert",
+      "valueadd.pricealerts.UpdatePriceAlert",
+      "valueadd.pricealerts.DeletePriceAlert",
+      "valueadd.pricealerts.GetUserNotificationSettings",
+      "valueadd.pricealerts.ModifyUserNotificationSettings"
+    ]
+  },
+  "endpoints": {
+    "referencedata.algostrategies.AlgoStrategies": {
+      "category": "referencedata",
+      "subcategory": "algostrategies",
+      "method": "GET",
+      "path": "openapi/ref/v1/algostrategies/",
+      "summary": "Retrieve a list of strategies with detailed information",
+      "docs": "docs/api/referencedata/algostrategies.md#algostrategies",
+      "schema": "docs/schemas/referencedata/algostrategies/algo_strategies_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.algostrategies.AlgoStrategyDetails",
+        "referencedata.instruments.Instruments"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.algostrategies.AlgoStrategyDetails": {
+      "category": "referencedata",
+      "subcategory": "algostrategies",
+      "method": "GET",
+      "path": "openapi/ref/v1/algostrategies/{Name}",
+      "summary": "Retrieve detailed information about a specific Strategy",
+      "docs": "docs/api/referencedata/algostrategies.md#algostrategydetails",
+      "schema": "docs/schemas/referencedata/algostrategies/algo_strategy_details_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.algostrategies.AlgoStrategies"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.countries.Countries": {
+      "category": "referencedata",
+      "subcategory": "countries",
+      "method": "GET",
+      "path": "openapi/ref/v1/countries/",
+      "summary": "Retrieve a list of all the countries supported by Saxo Bank",
+      "docs": "docs/api/referencedata/countries.md#countries",
+      "schema": "docs/schemas/referencedata/countries/countries_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.cultures.Cultures",
+        "referencedata.languages.Languages"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.cultures.Cultures": {
+      "category": "referencedata",
+      "subcategory": "cultures",
+      "method": "GET",
+      "path": "openapi/ref/v1/cultures/",
+      "summary": "Get a list of all the cultures for user preference localization supported by Saxo Bank",
+      "docs": "docs/api/referencedata/cultures.md#cultures",
+      "schema": "docs/schemas/referencedata/cultures/cultures_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.languages.Languages",
+        "referencedata.countries.Countries"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.currencies.Currencies": {
+      "category": "referencedata",
+      "subcategory": "currencies",
+      "method": "GET",
+      "path": "openapi/ref/v1/currencies/",
+      "summary": "Get a list of all supported currencies",
+      "docs": "docs/api/referencedata/currencies.md#currencies",
+      "schema": "docs/schemas/referencedata/currencies/currencies_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.currencypairs.CurrencyPairs",
+        "referencedata.countries.Countries"
+      ],
+      "verification": "verified"
+    },
+    "rootservices.diagnostics.Get": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "GET",
+      "path": "openapi/root/v1/diagnostics/get/",
+      "summary": "Send a GET request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#get",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Post",
+        "rootservices.diagnostics.Echo"
+      ],
+      "verification": "verified"
+    },
+    "rootservices.diagnostics.Post": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "POST",
+      "path": "openapi/root/v1/diagnostics/post/",
+      "summary": "Send a POST request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#post",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Put": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "PUT",
+      "path": "openapi/root/v1/diagnostics/put/",
+      "summary": "Send a PUT request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#put",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Delete": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "DELETE",
+      "path": "openapi/root/v1/diagnostics/delete/",
+      "summary": "Send a DELETE request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#delete",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Patch": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "PATCH",
+      "path": "openapi/root/v1/diagnostics/patch/",
+      "summary": "Send a PATCH request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#patch",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Head": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "HEAD",
+      "path": "openapi/root/v1/diagnostics/head/",
+      "summary": "Send a HEAD request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#head",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Options": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "OPTIONS",
+      "path": "openapi/root/v1/diagnostics/options/",
+      "summary": "Send a OPTIONS request and get a 200 OK response back",
+      "docs": "docs/api/rootservices/diagnostics.md#options",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.diagnostics.Echo": {
+      "category": "rootservices",
+      "subcategory": "diagnostics",
+      "method": "GET",
+      "path": "openapi/root/v1/diagnostics/echo/",
+      "summary": "Send a request and get a 200 OK response with verb, url, headers and body in the response body",
+      "docs": "docs/api/rootservices/diagnostics.md#echo",
+      "priority": "low",
+      "use_cases": [
+        "diagnostics"
+      ],
+      "related": [
+        "rootservices.diagnostics.Get"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.features.Availability": {
+      "category": "rootservices",
+      "subcategory": "features",
+      "method": "GET",
+      "path": "openapi/root/v1/features/availability/",
+      "summary": "Get the availability of all features",
+      "docs": "docs/api/rootservices/features.md#availability",
+      "schema": "docs/schemas/rootservices/features/availability_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "feature_availability"
+      ],
+      "related": [
+        "rootservices.features.CreateAvailabilitySubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.features.CreateAvailabilitySubscription": {
+      "category": "rootservices",
+      "subcategory": "features",
+      "method": "POST",
+      "path": "openapi/root/v1/features/availability/subscriptions",
+      "summary": "Create a feature availability subscription",
+      "docs": "docs/api/rootservices/features.md#createavailabilitysubscription",
+      "schema": "docs/schemas/rootservices/features/create_availability_subscription_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "feature_availability"
+      ],
+      "related": [
+        "rootservices.features.Availability",
+        "rootservices.features.RemoveAvailabilitySubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.features.RemoveAvailabilitySubscription": {
+      "category": "rootservices",
+      "subcategory": "features",
+      "method": "DELETE",
+      "path": "openapi/root/v1/features/availability/subscriptions/{ContextId}/{ReferenceId}",
+      "summary": "Removes the subscription identified by the specified reference id and streaming context id",
+      "docs": "docs/api/rootservices/features.md#removeavailabilitysubscription",
+      "priority": "medium",
+      "use_cases": [
+        "feature_availability"
+      ],
+      "related": [
+        "rootservices.features.CreateAvailabilitySubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.sessions.GetSessionCapabilities": {
+      "category": "rootservices",
+      "subcategory": "sessions",
+      "method": "GET",
+      "path": "openapi/root/v1/sessions/capabilities/",
+      "summary": "Get the sessions capabilities",
+      "docs": "docs/api/rootservices/sessions.md#getsessioncapabilities",
+      "schema": "docs/schemas/rootservices/sessions/get_session_capabilities_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "session_management"
+      ],
+      "related": [
+        "rootservices.sessions.ChangeSessionCapabilities",
+        "rootservices.sessions.CreateSessionCapabilitiesSubscription"
+      ],
+      "verification": "verified"
+    },
+    "rootservices.sessions.ChangeSessionCapabilities": {
+      "category": "rootservices",
+      "subcategory": "sessions",
+      "method": "PUT",
+      "path": "openapi/root/v1/sessions/capabilities/",
+      "summary": "Change sessions capabilities",
+      "docs": "docs/api/rootservices/sessions.md#changesessioncapabilities",
+      "priority": "medium",
+      "use_cases": [
+        "session_management"
+      ],
+      "related": [
+        "rootservices.sessions.GetSessionCapabilities"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.sessions.CreateSessionCapabilitiesSubscription": {
+      "category": "rootservices",
+      "subcategory": "sessions",
+      "method": "POST",
+      "path": "openapi/root/v1/sessions/events/subscriptions/",
+      "summary": "Set up a new session capabilities subscription",
+      "docs": "docs/api/rootservices/sessions.md#createsessioncapabilitiessubscription",
+      "schema": "docs/schemas/rootservices/sessions/create_session_capabilities_subscription_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "session_management"
+      ],
+      "related": [
+        "rootservices.sessions.GetSessionCapabilities",
+        "rootservices.sessions.RemoveSessionCapabilitiesSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.sessions.RemoveSessionCapabilitiesSubscription": {
+      "category": "rootservices",
+      "subcategory": "sessions",
+      "method": "DELETE",
+      "path": "openapi/root/v1/sessions/events/subscriptions/{ContextId}/{ReferenceId}",
+      "summary": "Removes the subscription identified by the specified reference id and streaming context id",
+      "docs": "docs/api/rootservices/sessions.md#removesessioncapabilitiessubscription",
+      "priority": "medium",
+      "use_cases": [
+        "session_management"
+      ],
+      "related": [
+        "rootservices.sessions.CreateSessionCapabilitiesSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.currencypairs.CurrencyPairs": {
+      "category": "referencedata",
+      "subcategory": "currencypairs",
+      "method": "GET",
+      "path": "openapi/ref/v1/currencypairs/",
+      "summary": "Get available currency pairs data",
+      "docs": "docs/api/referencedata/currencypairs.md#currencypairs",
+      "schema": "docs/schemas/referencedata/currencypairs/currency_pairs_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.currencies.Currencies"
+      ],
+      "verification": "verified"
+    },
+    "referencedata.exchanges.ExchangeList": {
+      "category": "referencedata",
+      "subcategory": "exchanges",
+      "method": "GET",
+      "path": "openapi/ref/v1/exchanges/",
+      "summary": "Get a list of exchanges with detailed information",
+      "docs": "docs/api/referencedata/exchanges.md#exchangelist",
+      "schema": "docs/schemas/referencedata/exchanges/exchange_list_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.exchanges.ExchangeDetails"
+      ],
+      "verification": "verified"
+    },
+    "referencedata.exchanges.ExchangeDetails": {
+      "category": "referencedata",
+      "subcategory": "exchanges",
+      "method": "GET",
+      "path": "openapi/ref/v1/exchanges/{ExchangeId}",
+      "summary": "Get detailed information about a specific exchange",
+      "docs": "docs/api/referencedata/exchanges.md#exchangedetails",
+      "schema": "docs/schemas/referencedata/exchanges/exchange_details_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.exchanges.ExchangeList",
+        "referencedata.timezones.TimeZones"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.languages.Languages": {
+      "category": "referencedata",
+      "subcategory": "languages",
+      "method": "GET",
+      "path": "openapi/ref/v1/languages/",
+      "summary": "Get a list of all languages supported by Saxo Bank",
+      "docs": "docs/api/referencedata/languages.md#languages",
+      "schema": "docs/schemas/referencedata/languages/languages_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.cultures.Cultures",
+        "referencedata.countries.Countries"
+      ],
+      "verification": "verified"
+    },
+    "referencedata.standarddates.ForwardTenorDates": {
+      "category": "referencedata",
+      "subcategory": "standarddates",
+      "method": "GET",
+      "path": "openapi/ref/v1/standarddates/forwardtenor/{Uic}",
+      "summary": "Get a list of forward tenor dates for a specific UIC",
+      "docs": "docs/api/referencedata/standarddates.md#forwardtenordates",
+      "schema": "docs/schemas/referencedata/standarddates/forward_tenor_dates_response.json",
+      "priority": "low",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.standarddates.FXOptionExpiryDates"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.standarddates.FXOptionExpiryDates": {
+      "category": "referencedata",
+      "subcategory": "standarddates",
+      "method": "GET",
+      "path": "openapi/ref/v1/standarddates/fxoptionexpiry/{Uic}",
+      "summary": "Get a list of FX option expiry dates for a specific UIC",
+      "docs": "docs/api/referencedata/standarddates.md#fxoptionexpirydates",
+      "schema": "docs/schemas/referencedata/standarddates/fx_option_expiry_dates_response.json",
+      "priority": "low",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.standarddates.ForwardTenorDates"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.timezones.TimeZones": {
+      "category": "referencedata",
+      "subcategory": "timezones",
+      "method": "GET",
+      "path": "openapi/ref/v1/timezones/",
+      "summary": "Get a list of all timezones supported by Saxo Bank",
+      "docs": "docs/api/referencedata/timezones.md#timezones",
+      "schema": "docs/schemas/referencedata/timezones/time_zones_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "reference_data"
+      ],
+      "related": [
+        "referencedata.exchanges.ExchangeDetails",
+        "referencedata.cultures.Cultures"
+      ],
+      "verification": "verified"
+    },
+    "accounthistory.accountvalues.AccountSummary": {
+      "category": "accounthistory",
+      "subcategory": "accountvalues",
+      "method": "GET",
+      "path": "openapi/hist/v3/accountValues/{ClientKey}/",
+      "summary": "Get the rolled-up performance of accounts for the specified client",
+      "docs": "docs/api/accounthistory/accountvalues.md#accountsummary",
+      "schema": "docs/schemas/accounthistory/accountvalues/account_summary_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "account_history"
+      ],
+      "related": [
+        "accounthistory.performance.AccountPerformance"
+      ],
+      "verification": "verified"
+    },
+    "accounthistory.historicalpositions.HistoricalPositions": {
+      "category": "accounthistory",
+      "subcategory": "historicalpositions",
+      "method": "GET",
+      "path": "openapi/hist/v3/positions/{ClientKey}",
+      "summary": "Get a list of historical positions for a specific account owned by a client",
+      "docs": "docs/api/accounthistory/historicalpositions.md#historicalpositions",
+      "schema": "docs/schemas/accounthistory/historicalpositions/historical_positions_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "account_history"
+      ],
+      "related": [
+        "accounthistory.performance.AccountPerformance"
+      ],
+      "verification": "verified"
+    },
+    "accounthistory.performance.AccountPerformance": {
+      "category": "accounthistory",
+      "subcategory": "performance",
+      "method": "GET",
+      "path": "openapi/hist/v3/perf/{ClientKey}",
+      "summary": "Get a collection of performance metrics for a specific account",
+      "docs": "docs/api/accounthistory/performance.md#accountperformance",
+      "schema": "docs/schemas/accounthistory/performance/account_performance_response.json",
+      "priority": "medium",
+      "use_cases": [
+        "account_history"
+      ],
+      "related": [
+        "accounthistory.accountvalues.AccountSummary",
+        "accounthistory.historicalpositions.HistoricalPositions"
+      ],
+      "verification": "verified"
+    },
+    "rootservices.subscriptions.RemoveMultipleActiveSubscriptions": {
+      "category": "rootservices",
+      "subcategory": "subscriptions",
+      "method": "DELETE",
+      "path": "openapi/root/subscriptions/{ContextId}",
+      "summary": "Remove multiple active subscriptions for the current session and release all resources on the server",
+      "docs": "docs/api/rootservices/subscriptions.md#removemultipleactivesubscriptions",
+      "priority": "medium",
+      "use_cases": [
+        "subscription_management"
+      ],
+      "related": [
+        "rootservices.sessions.RemoveSessionCapabilitiesSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "rootservices.user.User": {
+      "category": "rootservices",
+      "subcategory": "user",
+      "method": "GET",
+      "path": "openapi/root/v1/user/",
+      "summary": "Get information about the currently logged in user",
+      "docs": "docs/api/rootservices/user.md#user",
+      "priority": "high",
+      "use_cases": [
+        "user_management"
+      ],
+      "related": [
+        "rootservices.sessions.GetSessionCapabilities"
+      ],
+      "verification": "not_verified"
+    },
+    "chart.charts.GetChartData": {
+      "category": "chart",
+      "subcategory": "charts",
+      "method": "GET",
+      "path": "openapi/chart/v3/charts",
+      "summary": "Get chart data as specified in the request parameters",
+      "docs": "docs/api/chart/charts.md#getchartdata",
+      "priority": "medium",
+      "use_cases": [
+        "market_data"
+      ],
+      "related": [
+        "chart.charts.CreateChartDataSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "chart.charts.CreateChartDataSubscription": {
+      "category": "chart",
+      "subcategory": "charts",
+      "method": "POST",
+      "path": "openapi/chart/v3/charts/subscriptions",
+      "summary": "Set up a subscription and return an initial snapshot of the most recently completed samples",
+      "docs": "docs/api/chart/charts.md#createchartdatasubscription",
+      "priority": "medium",
+      "use_cases": [
+        "market_data",
+        "subscription_management"
+      ],
+      "related": [
+        "chart.charts.GetChartData",
+        "chart.charts.ChartDataRemoveSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "chart.charts.ChartDataRemoveSubscriptions": {
+      "category": "chart",
+      "subcategory": "charts",
+      "method": "DELETE",
+      "path": "openapi/chart/v3/charts/subscriptions/{ContextId}",
+      "summary": "Remove all subscriptions for this resource for the current session",
+      "docs": "docs/api/chart/charts.md#chartdataremovesubscriptions",
+      "priority": "low",
+      "use_cases": [
+        "subscription_management"
+      ],
+      "related": [
+        "chart.charts.CreateChartDataSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "chart.charts.ChartDataRemoveSubscription": {
+      "category": "chart",
+      "subcategory": "charts",
+      "method": "DELETE",
+      "path": "openapi/chart/v3/charts/subscriptions/{ContextId}/{ReferenceId}",
+      "summary": "Remove a subscription with specified reference id on this resource",
+      "docs": "docs/api/chart/charts.md#chartdataremovesubscription",
+      "priority": "low",
+      "use_cases": [
+        "subscription_management"
+      ],
+      "related": [
+        "chart.charts.CreateChartDataSubscription"
+      ],
+      "verification": "not_verified"
+    },
+    "eventnotificationservices.clientactivities.CreateSubscriptionForClientEvents": {
+      "category": "eventnotificationservices",
+      "subcategory": "clientactivities",
+      "method": "POST",
+      "path": "openapi/ens/v1/activities/subscriptions",
+      "summary": "Set up an active subscription to listen for client events",
+      "docs": "docs/api/eventnotificationservices/clientactivities.md#createsubscriptionforclientevents",
+      "priority": "medium",
+      "use_cases": [
+        "subscription_management",
+        "event_notifications"
+      ],
+      "related": [
+        "eventnotificationservices.clientactivities.RemoveSubscription",
+        "eventnotificationservices.clientactivities.GetActivities"
+      ],
+      "verification": "not_verified"
+    },
+    "eventnotificationservices.clientactivities.RemoveSubscription": {
+      "category": "eventnotificationservices",
+      "subcategory": "clientactivities",
+      "method": "DELETE",
+      "path": "openapi/ens/v1/activities/subscriptions/{ContextId}/{ReferenceId}",
+      "summary": "Remove a subscription identified by subscription id for the current session",
+      "docs": "docs/api/eventnotificationservices/clientactivities.md#removesubscription",
+      "priority": "low",
+      "use_cases": [
+        "subscription_management"
+      ],
+      "related": [
+        "eventnotificationservices.clientactivities.CreateSubscriptionForClientEvents"
+      ],
+      "verification": "not_verified"
+    },
+    "eventnotificationservices.clientactivities.RemoveSubscriptions": {
+      "category": "eventnotificationservices",
+      "subcategory": "clientactivities",
+      "method": "DELETE",
+      "path": "openapi/ens/v1/activities/subscriptions/{ContextId}",
+      "summary": "Remove multiple/all subscriptions on this resource for the current session",
+      "docs": "docs/api/eventnotificationservices/clientactivities.md#removesubscriptions",
+      "priority": "low",
+      "use_cases": [
+        "subscription_management"
+      ],
+      "related": [
+        "eventnotificationservices.clientactivities.CreateSubscriptionForClientEvents"
+      ],
+      "verification": "not_verified"
+    },
+    "eventnotificationservices.clientactivities.GetActivities": {
+      "category": "eventnotificationservices",
+      "subcategory": "clientactivities",
+      "method": "GET",
+      "path": "openapi/ens/v1/activities",
+      "summary": "Get a list of activities as specified in the request parameters",
+      "docs": "docs/api/eventnotificationservices/clientactivities.md#getactivities",
+      "priority": "medium",
+      "use_cases": [
+        "event_notifications"
+      ],
+      "related": [
+        "eventnotificationservices.clientactivities.CreateSubscriptionForClientEvents"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.GetAllAlerts": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "GET",
+      "path": "openapi/vas/v1/pricealerts/definitions/",
+      "summary": "Get an unsorted list of all price alert definitions belonging to the current user",
+      "docs": "docs/api/valueadd/pricealerts.md#getallalerts",
+      "priority": "medium",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.GetAlertDefinition",
+        "valueadd.pricealerts.CreatePriceAlert"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.GetAlertDefinition": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "GET",
+      "path": "openapi/vas/v1/pricealerts/definitions/{AlertDefinitionId}",
+      "summary": "Get a specified price alert for the current user",
+      "docs": "docs/api/valueadd/pricealerts.md#getalertdefinition",
+      "priority": "medium",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.GetAllAlerts"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.CreatePriceAlert": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "POST",
+      "path": "openapi/vas/v1/pricealerts/definitions/",
+      "summary": "Create a new price alert definition",
+      "docs": "docs/api/valueadd/pricealerts.md#createpricealert",
+      "priority": "medium",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.UpdatePriceAlert",
+        "valueadd.pricealerts.DeletePriceAlert"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.UpdatePriceAlert": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "PUT",
+      "path": "openapi/vas/v1/pricealerts/definitions/{AlertDefinitionId}",
+      "summary": "Update a price alert definition for the current user",
+      "docs": "docs/api/valueadd/pricealerts.md#updatepricealert",
+      "priority": "medium",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.CreatePriceAlert",
+        "valueadd.pricealerts.GetAlertDefinition"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.DeletePriceAlert": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "DELETE",
+      "path": "openapi/vas/v1/pricealerts/definitions/{AlertDefinitionIds}",
+      "summary": "Delete specified price alert definitions",
+      "docs": "docs/api/valueadd/pricealerts.md#deletepricealert",
+      "priority": "low",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.CreatePriceAlert"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.GetUserNotificationSettings": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "GET",
+      "path": "openapi/vas/v1/pricealerts/usersettings/",
+      "summary": "Get price alert notification settings for the current user",
+      "docs": "docs/api/valueadd/pricealerts.md#getusernotificationsettings",
+      "priority": "low",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.ModifyUserNotificationSettings"
+      ],
+      "verification": "not_verified"
+    },
+    "valueadd.pricealerts.ModifyUserNotificationSettings": {
+      "category": "valueadd",
+      "subcategory": "pricealerts",
+      "method": "PUT",
+      "path": "openapi/vas/v1/pricealerts/usersettings/",
+      "summary": "Modify price alert notification settings for the current user",
+      "docs": "docs/api/valueadd/pricealerts.md#modifyusernotificationsettings",
+      "priority": "low",
+      "use_cases": [
+        "price_alerts"
+      ],
+      "related": [
+        "valueadd.pricealerts.GetUserNotificationSettings"
+      ],
+      "verification": "not_verified"
+    },
+    "portfolio.balances.AccountBalancesMe": {
+      "category": "portfolio",
+      "subcategory": "balances",
+      "method": "GET",
+      "path": "openapi/port/v1/balances/me",
+      "summary": "Get balance data for the logged in client or account",
+      "docs": "docs/api/portfolio/balances.md#accountbalancesme",
+      "schema": "docs/schemas/portfolio/balances/account_balances_me_response.json",
+      "priority": "high",
+      "use_cases": [
+        "balance_check"
+      ],
+      "related": [
+        "portfolio.balances.AccountBalances",
+        "portfolio.balances.MarginOverview"
+      ],
+      "verification": "verified"
+    },
+    "portfolio.balances.AccountBalances": {
+      "category": "portfolio",
+      "subcategory": "balances",
+      "method": "GET",
+      "path": "openapi/port/v1/balances",
+      "summary": "Get balance data for client, account group, or account",
+      "docs": "docs/api/portfolio/balances.md#accountbalances",
+      "schema": "docs/schemas/portfolio/balances/account_balances_response.json",
+      "priority": "high",
+      "use_cases": [
+        "balance_check"
+      ],
+      "related": [
+        "portfolio.balances.AccountBalancesMe",
+        "portfolio.balances.MarginOverview"
+      ],
+      "verification": "not_verified"
+    },
+    "portfolio.balances.MarginOverview": {
+      "category": "portfolio",
+      "subcategory": "balances",
+      "method": "GET",
+      "path": "openapi/port/v1/balances/marginoverview/",
+      "summary": "Get margin overview for client, account group, or account",
+      "docs": "docs/api/portfolio/balances.md#marginoverview",
+      "schema": "docs/schemas/portfolio/balances/margin_overview_response.json",
+      "priority": "high",
+      "use_cases": [
+        "balance_check",
+        "margin_monitoring"
+      ],
+      "related": [
+        "portfolio.balances.AccountBalancesMe",
+        "portfolio.balances.AccountBalances"
+      ],
+      "verification": "not_verified"
+    },
+    "portfolio.positions.PositionsMe": {
+      "category": "portfolio",
+      "subcategory": "positions",
+      "method": "GET",
+      "path": "openapi/port/v1/positions/me",
+      "summary": "Get positions for the logged in client",
+      "docs": "docs/api/portfolio/positions.md#positionsme",
+      "schema": "docs/schemas/portfolio/positions/positions_me_response.json",
+      "priority": "high",
+      "use_cases": [
+        "position_monitoring"
+      ],
+      "related": [
+        "portfolio.positions.PositionsQuery",
+        "portfolio.positions.SinglePosition"
+      ],
+      "verification": "verified"
+    },
+    "portfolio.positions.PositionsQuery": {
+      "category": "portfolio",
+      "subcategory": "positions",
+      "method": "GET",
+      "path": "openapi/port/v1/positions",
+      "summary": "Get positions for client, account group, account, or position",
+      "docs": "docs/api/portfolio/positions.md#positionsquery",
+      "schema": "docs/schemas/portfolio/positions/positions_query_response.json",
+      "priority": "high",
+      "use_cases": [
+        "position_monitoring"
+      ],
+      "related": [
+        "portfolio.positions.PositionsMe",
+        "portfolio.positions.SinglePosition"
+      ],
+      "verification": "not_verified"
+    },
+    "portfolio.positions.SinglePosition": {
+      "category": "portfolio",
+      "subcategory": "positions",
+      "method": "GET",
+      "path": "openapi/port/v1/positions/{PositionId}",
+      "summary": "Get a single position",
+      "docs": "docs/api/portfolio/positions.md#singleposition",
+      "schema": "docs/schemas/portfolio/positions/single_position_response.json",
+      "priority": "high",
+      "use_cases": [
+        "position_monitoring"
+      ],
+      "related": [
+        "portfolio.positions.SinglePositionDetails",
+        "portfolio.positions.PositionsQuery"
+      ],
+      "verification": "not_verified"
+    },
+    "portfolio.positions.SinglePositionDetails": {
+      "category": "portfolio",
+      "subcategory": "positions",
+      "method": "GET",
+      "path": "openapi/port/v1/positions/{PositionId}/details",
+      "summary": "Get details for a single position",
+      "docs": "docs/api/portfolio/positions.md#singlepositiondetails",
+      "schema": "docs/schemas/portfolio/positions/single_position_details_response.json",
+      "priority": "high",
+      "use_cases": [
+        "position_monitoring"
+      ],
+      "related": [
+        "portfolio.positions.SinglePosition"
+      ],
+      "verification": "not_verified"
+    },
+    "trading.orders.Order": {
+      "category": "trading",
+      "subcategory": "orders",
+      "method": "POST",
+      "path": "openapi/trade/v2/orders",
+      "summary": "Place a new order",
+      "docs": "docs/api/trading/orders.md#order",
+      "schema": "docs/schemas/trading/orders/order_response.json",
+      "priority": "high",
+      "use_cases": [
+        "order_placement"
+      ],
+      "related": [
+        "trading.orders.ChangeOrder",
+        "trading.orders.CancelOrders",
+        "trading.orders.PrecheckOrder"
+      ],
+      "verification": "verified"
+    },
+    "trading.orders.ChangeOrder": {
+      "category": "trading",
+      "subcategory": "orders",
+      "method": "PATCH",
+      "path": "openapi/trade/v2/orders",
+      "summary": "Change one or more existing orders",
+      "docs": "docs/api/trading/orders.md#changeorder",
+      "schema": "docs/schemas/trading/orders/change_order_response.json",
+      "priority": "high",
+      "use_cases": [
+        "order_placement"
+      ],
+      "related": [
+        "trading.orders.Order",
+        "trading.orders.CancelOrders"
+      ],
+      "verification": "not_verified"
+    },
+    "trading.orders.CancelOrders": {
+      "category": "trading",
+      "subcategory": "orders",
+      "method": "DELETE",
+      "path": "openapi/trade/v2/orders/{OrderIds}",
+      "summary": "Cancel one or more orders",
+      "docs": "docs/api/trading/orders.md#cancelorders",
+      "schema": "docs/schemas/trading/orders/cancel_orders_response.json",
+      "priority": "high",
+      "use_cases": [
+        "order_placement"
+      ],
+      "related": [
+        "trading.orders.Order",
+        "trading.orders.ChangeOrder"
+      ],
+      "verification": "verified"
+    },
+    "trading.orders.PrecheckOrder": {
+      "category": "trading",
+      "subcategory": "orders",
+      "method": "POST",
+      "path": "openapi/trade/v2/orders/precheck",
+      "summary": "Precheck an order before placing it",
+      "docs": "docs/api/trading/orders.md#precheckorder",
+      "schema": "docs/schemas/trading/orders/precheck_order_response.json",
+      "priority": "high",
+      "use_cases": [
+        "order_placement"
+      ],
+      "related": [
+        "trading.orders.Order"
+      ],
+      "verification": "not_verified"
+    },
+    "referencedata.instruments.Instruments": {
+      "category": "referencedata",
+      "subcategory": "instruments",
+      "method": "GET",
+      "path": "openapi/ref/v1/instruments/",
+      "summary": "Get summary information for all tradable instruments and options",
+      "docs": "docs/api/referencedata/instruments.md#instruments",
+      "schema": "docs/schemas/referencedata/instruments/instruments_response.json",
+      "priority": "high",
+      "use_cases": [
+        "instrument_search"
+      ],
+      "related": [
+        "referencedata.instruments.InstrumentsDetails",
+        "referencedata.instruments.InstrumentDetails"
+      ],
+      "verification": "verified"
+    },
+    "referencedata.instruments.InstrumentsDetails": {
+      "category": "referencedata",
+      "subcategory": "instruments",
+      "method": "GET",
+      "path": "openapi/ref/v1/instruments/details",
+      "summary": "Get detailed information for multiple instruments",
+      "docs": "docs/api/referencedata/instruments.md#instrumentsdetails",
+      "schema": "docs/schemas/referencedata/instruments/instruments_details_response.json",
+      "priority": "high",
+      "use_cases": [
+        "instrument_search"
+      ],
+      "related": [
+        "referencedata.instruments.Instruments",
+        "referencedata.instruments.InstrumentDetails"
+      ],
+      "verification": "verified"
+    },
+    "referencedata.instruments.InstrumentDetails": {
+      "category": "referencedata",
+      "subcategory": "instruments",
+      "method": "GET",
+      "path": "openapi/ref/v1/instruments/details/{Uic}/{AssetType}",
+      "summary": "Get detailed information for a specific instrument",
+      "docs": "docs/api/referencedata/instruments.md#instrumentdetails",
+      "schema": "docs/schemas/referencedata/instruments/instrument_details_response.json",
+      "priority": "high",
+      "use_cases": [
+        "instrument_search"
+      ],
+      "related": [
+        "referencedata.instruments.Instruments",
+        "referencedata.instruments.InstrumentsDetails"
+      ],
+      "verification": "not_verified"
+    }
+  }
+}

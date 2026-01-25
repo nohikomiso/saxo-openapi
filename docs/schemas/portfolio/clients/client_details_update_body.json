@@ -1,0 +1,4 @@
+{
+  "AccountValueProtectionLimit": 10000,
+  "NewPositionNettingMode": "EndOfDay"
+}

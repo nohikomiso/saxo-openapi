@@ -1,0 +1,25 @@
+{
+  "ContextId": "20190209072629616",
+  "InactivityTimeout": 30,
+  "ReferenceId": "Features",
+  "RefreshRate": 0,
+  "Snapshot": [
+    {
+      "Available": true,
+      "Feature": "News"
+    },
+    {
+      "Available": true,
+      "Feature": "GainersLosers"
+    },
+    {
+      "Available": true,
+      "Feature": "Calendar"
+    },
+    {
+      "Available": true,
+      "Feature": "Chart"
+    }
+  ],
+  "State": "Active"
+}

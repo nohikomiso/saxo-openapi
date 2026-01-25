@@ -1,0 +1,39 @@
+{
+  "CalculationReliability": "Ok",
+  "CashBalance": 999956.74,
+  "ChangesScheduled": false,
+  "ClosedPositionsCount": 0,
+  "CollateralCreditValue": {
+    "Line": 978723.62,
+    "UtilzationPct": 0
+  },
+  "CostToClosePositions": -37.39,
+  "Currency": "EUR",
+  "CurrencyDecimals": 2,
+  "InitialMargin": {
+    "MarginAvailable": 978723.61,
+    "MarginUsedByCurrentPositions": -17662.4,
+    "MarginUtilizationPct": 1.77,
+    "NetEquityForMargin": 996386.01
+  },
+  "IsPortfolioMarginModelSimple": true,
+  "MarginAvailableForTrading": 978723.61,
+  "MarginCollateralNotAvailable": 0,
+  "MarginExposureCoveragePct": 141.03,
+  "MarginNetExposure": 706507.11,
+  "MarginUsedByCurrentPositions": -17662.4,
+  "MarginUtilizationPct": 1.77,
+  "NetEquityForMargin": 996386.01,
+  "NetPositionsCount": 3,
+  "NonMarginPositionsValue": 0,
+  "OpenPositionsCount": 3,
+  "OptionPremiumsMarketValue": 0,
+  "OrdersCount": 1,
+  "OtherCollateral": 0,
+  "TotalValue": 996386.01,
+  "TransactionsNotBooked": 0,
+  "UnrealizedMarginClosedProfitLoss": 0,
+  "UnrealizedMarginOpenProfitLoss": -3533.34,
+  "UnrealizedMarginProfitLoss": -3533.34,
+  "UnrealizedPositionsValue": -3570.73
+}

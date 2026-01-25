@@ -1,0 +1,21 @@
+{
+  "AllocationKeyName": "MyAllocation_Key",
+  "AllocationUnitType": "Percentage",
+  "MarginHandling": "Reduce",
+  "OneTime": true,
+  "OwnerAccountKey": "LZTc7DdejXODf-WSl2aCyQ==",
+  "ParticipatingAccountsInfo": [
+    {
+      "AcceptRemainderAmount": true,
+      "AccountKey": "LZTc7DdejXODf-WSl2aCyQ==",
+      "Priority": 1,
+      "UnitValue": 10.0
+    },
+    {
+      "AcceptRemainderAmount": false,
+      "AccountKey": "LZTc7DdejXODf-WSl2aCyQ==",
+      "Priority": 1,
+      "UnitValue": 90.0
+    }
+  ]
+}

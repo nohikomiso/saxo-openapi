@@ -1,0 +1,33 @@
+{
+  "CreationDate": "2019-02-02T10:47:42.313000Z",
+  "CanUseCashPositionsAsMarginCollateral": true,
+  "AccountType": "Normal",
+  "CurrencyDecimals": 2,
+  "IsCurrencyConversionAtSettlementTime": true,
+  "ClientKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "IsShareable": false,
+  "IndividualMargining": false,
+  "DirectMarketAccess": false,
+  "LegalAssetTypes": [
+    "FxSpot",
+    "FxForwards",
+    "FxVanillaOption",
+    "FxKnockInOption",
+    "FxKnockOutOption",
+    "FxOneTouchOption",
+    "FxNoTouchOption"
+  ],
+  "AccountGroupKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "Active": true,
+  "Sharing": [
+    "NoSharing"
+  ],
+  "IsMarginTradingAllowed": true,
+  "AccountKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "SupportsAccountValueProtectionLimit": false,
+  "UseCashPositionsAsMarginCollateral": true,
+  "ClientId": "9226397",
+  "IsTrialAccount": true,
+  "AccountId": "9226397",
+  "Currency": "EUR"
+}

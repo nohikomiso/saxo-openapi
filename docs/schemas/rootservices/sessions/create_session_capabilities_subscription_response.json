@@ -1,0 +1,12 @@
+{
+  "ContextId": "20190314053019906",
+  "Format": "application/json",
+  "InactivityTimeout": 120,
+  "ReferenceId": "S56886",
+  "RefreshRate": 1000,
+  "Snapshot": {
+    "DataLevel": "Standard",
+    "TradeLevel": "OrdersOnly"
+  },
+  "State": "Active"
+}

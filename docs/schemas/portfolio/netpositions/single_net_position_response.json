@@ -1,0 +1,51 @@
+{
+  "NetPositionBase": {
+    "AccountId": "9226397",
+    "Amount": 100000,
+    "AssetType": "FxSpot",
+    "CanBeClosed": true,
+    "ClientId": "9226397",
+    "IsMarketOpen": true,
+    "NumberOfRelatedOrders": 0,
+    "PositionsAccount": "9226397",
+    "SinglePositionId": "212550210",
+    "SinglePositionStatus": "Open",
+    "Uic": 23,
+    "ValueDate": "2019-03-06T00:00:00.000000Z"
+  },
+  "NetPositionDetails": {
+    "CloseCost": {
+      "Commission": 8.77
+    },
+    "CloseCostInBaseCurrency": {
+      "Commission": 5.81
+    },
+    "MarketValue": -508,
+    "MarketValueInBaseCurrency": -336.7,
+    "OpenCost": {
+      "Commission": 8.79
+    },
+    "OpenCostInBaseCurrency": {
+      "Commission": 5.83
+    }
+  },
+  "NetPositionId": "GBPCAD__FxSpot",
+  "NetPositionView": {
+    "AverageOpenPrice": 1.75824,
+    "CalculationReliability": "Ok",
+    "CurrentPrice": 1.75316,
+    "CurrentPriceDelayMinutes": 0,
+    "CurrentPriceType": "Bid",
+    "Exposure": 100000,
+    "ExposureCurrency": "GBP",
+    "ExposureInBaseCurrency": 116226,
+    "InstrumentPriceDayPercentChange": -0.17,
+    "PositionCount": 1,
+    "PositionsNotClosedCount": 1,
+    "ProfitLossOnTrade": -508,
+    "ProfitLossOnTradeInBaseCurrency": -336.7,
+    "Status": "Open",
+    "TradeCostsTotal": -17.56,
+    "TradeCostsTotalInBaseCurrency": -11.64
+  }
+}

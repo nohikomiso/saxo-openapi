@@ -1,0 +1,298 @@
+{
+  "code_metrics": {
+    "endpoints": {
+      "endpoints/rootservices/user.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/user.py"
+      },
+      "endpoints/rootservices/sessions.py": {
+        "lines": 55,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/sessions.py"
+      },
+      "endpoints/rootservices/diagnostics.py": {
+        "lines": 91,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/diagnostics.py"
+      },
+      "endpoints/rootservices/base.py": {
+        "lines": 23,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/base.py"
+      },
+      "endpoints/rootservices/subscriptions.py": {
+        "lines": 22,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/subscriptions.py"
+      },
+      "endpoints/rootservices/features.py": {
+        "lines": 47,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/rootservices/features.py"
+      },
+      "endpoints/referencedata/timezones.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/timezones.py"
+      },
+      "endpoints/referencedata/algostrategies.py": {
+        "lines": 43,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/algostrategies.py"
+      },
+      "endpoints/referencedata/instruments.py": {
+        "lines": 76,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/instruments.py"
+      },
+      "endpoints/referencedata/cultures.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/cultures.py"
+      },
+      "endpoints/referencedata/base.py": {
+        "lines": 26,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/base.py"
+      },
+      "endpoints/referencedata/currencypairs.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/currencypairs.py"
+      },
+      "endpoints/referencedata/exchanges.py": {
+        "lines": 43,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/exchanges.py"
+      },
+      "endpoints/referencedata/languages.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/languages.py"
+      },
+      "endpoints/referencedata/currencies.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/currencies.py"
+      },
+      "endpoints/referencedata/countries.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/countries.py"
+      },
+      "endpoints/referencedata/standarddates.py": {
+        "lines": 45,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/referencedata/standarddates.py"
+      },
+      "endpoints/portfolio/netpositions.py": {
+        "lines": 99,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/netpositions.py"
+      },
+      "endpoints/portfolio/balances.py": {
+        "lines": 84,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/balances.py"
+      },
+      "endpoints/portfolio/orders.py": {
+        "lines": 102,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/orders.py"
+      },
+      "endpoints/portfolio/users.py": {
+        "lines": 54,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/users.py"
+      },
+      "endpoints/portfolio/positions.py": {
+        "lines": 116,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/positions.py"
+      },
+      "endpoints/portfolio/base.py": {
+        "lines": 31,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/base.py"
+      },
+      "endpoints/portfolio/closedpositions.py": {
+        "lines": 127,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/closedpositions.py"
+      },
+      "endpoints/portfolio/accountgroups.py": {
+        "lines": 59,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/accountgroups.py"
+      },
+      "endpoints/portfolio/exposure.py": {
+        "lines": 125,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/exposure.py"
+      },
+      "endpoints/portfolio/clients.py": {
+        "lines": 71,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/clients.py"
+      },
+      "endpoints/portfolio/accounts.py": {
+        "lines": 121,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/portfolio/accounts.py"
+      },
+      "endpoints/chart/base.py": {
+        "lines": 31,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/chart/base.py"
+      },
+      "endpoints/chart/charts.py": {
+        "lines": 77,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/chart/charts.py"
+      },
+      "endpoints/accounthistory/historicalpositions.py": {
+        "lines": 20,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/accounthistory/historicalpositions.py"
+      },
+      "endpoints/accounthistory/base.py": {
+        "lines": 29,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/accounthistory/base.py"
+      },
+      "endpoints/accounthistory/performance.py": {
+        "lines": 21,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/accounthistory/performance.py"
+      },
+      "endpoints/accounthistory/accountvalues.py": {
+        "lines": 18,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/accounthistory/accountvalues.py"
+      },
+      "endpoints/eventnotificationservices/clientactivities.py": {
+        "lines": 68,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/eventnotificationservices/clientactivities.py"
+      },
+      "endpoints/eventnotificationservices/base.py": {
+        "lines": 31,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/eventnotificationservices/base.py"
+      },
+      "endpoints/valueadd/base.py": {
+        "lines": 31,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/valueadd/base.py"
+      },
+      "endpoints/valueadd/pricealerts.py": {
+        "lines": 101,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/valueadd/pricealerts.py"
+      },
+      "endpoints/trading/orders.py": {
+        "lines": 54,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/orders.py"
+      },
+      "endpoints/trading/prices.py": {
+        "lines": 64,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/prices.py"
+      },
+      "endpoints/trading/infoprices.py": {
+        "lines": 75,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/infoprices.py"
+      },
+      "endpoints/trading/positions.py": {
+        "lines": 54,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/positions.py"
+      },
+      "endpoints/trading/base.py": {
+        "lines": 31,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/base.py"
+      },
+      "endpoints/trading/allocationkeys.py": {
+        "lines": 54,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/allocationkeys.py"
+      },
+      "endpoints/trading/messages.py": {
+        "lines": 75,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/messages.py"
+      },
+      "endpoints/trading/optionschain.py": {
+        "lines": 76,
+        "path": "libs/saxo_openapi/saxo_openapi/endpoints/trading/optionschain.py"
+      }
+    },
+    "total_lines": 2496,
+    "total_files": 46
+  },
+  "documentation_count": {
+    "total": 67,
+    "by_category": {
+      "api": 47,
+      "contrib": 3,
+      "examples": 10,
+      "top_level": 7
+    },
+    "files": [
+      "quickstart.md",
+      "authentication.md",
+      "MIGRATION.md",
+      "README.md",
+      "api/README.md",
+      "contrib/utilities.md",
+      "contrib/orders.md",
+      "contrib/websocket.md",
+      "examples/monitor_positions.md",
+      "examples/websocket_streaming.md",
+      "examples/place_market_order.md",
+      "examples/place_limit_order.md",
+      "examples/cancel_orders.md",
+      "examples/delta_hedging_workflow.md",
+      "examples/close_position.md",
+      "examples/check_balance.md",
+      "examples/margin_monitoring.md",
+      "examples/search_instruments.md",
+      "schemas/README.md",
+      "templates/example_template.md",
+      "templates/api_template.md",
+      "api/rootservices/subscriptions.md",
+      "api/rootservices/diagnostics.md",
+      "api/rootservices/user.md",
+      "api/rootservices/features.md",
+      "api/rootservices/README.md",
+      "api/rootservices/sessions.md",
+      "api/referencedata/countries.md",
+      "api/referencedata/cultures.md",
+      "api/referencedata/algostrategies.md",
+      "api/referencedata/currencypairs.md",
+      "api/referencedata/standarddates.md",
+      "api/referencedata/exchanges.md",
+      "api/referencedata/README.md",
+      "api/referencedata/currencies.md",
+      "api/referencedata/instruments.md",
+      "api/referencedata/timezones.md",
+      "api/referencedata/languages.md",
+      "api/portfolio/accountgroups.md",
+      "api/portfolio/netpositions.md",
+      "api/portfolio/users.md",
+      "api/portfolio/balances.md",
+      "api/portfolio/positions.md",
+      "api/portfolio/accounts.md",
+      "api/portfolio/clients.md",
+      "api/portfolio/orders.md",
+      "api/portfolio/README.md",
+      "api/portfolio/closedpositions.md",
+      "api/portfolio/exposure.md",
+      "api/chart/charts.md",
+      "api/chart/README.md",
+      "api/accounthistory/historicalpositions.md",
+      "api/accounthistory/accountvalues.md",
+      "api/accounthistory/README.md",
+      "api/accounthistory/performance.md",
+      "api/eventnotificationservices/clientactivities.md",
+      "api/eventnotificationservices/README.md",
+      "api/valueadd/README.md",
+      "api/valueadd/pricealerts.md",
+      "api/trading/optionschain.md",
+      "api/trading/messages.md",
+      "api/trading/positions.md",
+      "api/trading/orders.md",
+      "api/trading/README.md",
+      "api/trading/prices.md",
+      "api/trading/infoprices.md",
+      "api/trading/allocationkeys.md"
+    ]
+  },
+  "schema_count": {
+    "total": 240,
+    "by_type": {
+      "response": 140,
+      "params": 64,
+      "body": 36
+    }
+  },
+  "ai_index_verification": {
+    "metadata": {
+      "total_endpoints": 61,
+      "total_examples": 10,
+      "last_updated": "2025-11-24"
+    },
+    "endpoints_count": 61,
+    "categories_count": 8,
+    "use_cases_count": 15,
+    "categories": [
+      "portfolio",
+      "trading",
+      "referencedata",
+      "accounthistory",
+      "rootservices",
+      "chart",
+      "eventnotificationservices",
+      "valueadd"
+    ]
+  }
+}

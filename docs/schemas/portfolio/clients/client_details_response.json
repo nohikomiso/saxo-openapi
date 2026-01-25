@@ -1,0 +1,24 @@
+{
+  "AccountValueProtectionLimit": 0,
+  "ClientId": "9226397",
+  "ClientKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "CurrencyDecimals": 2,
+  "DefaultAccountId": "9226397",
+  "DefaultAccountKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "DefaultCurrency": "EUR",
+  "IsMarginTradingAllowed": true,
+  "IsVariationMarginEligible": false,
+  "LegalAssetTypes": [
+    "FxSpot",
+    "FxForwards",
+    "FxVanillaOption",
+    "FxKnockInOption",
+    "FxKnockOutOption",
+    "FxOneTouchOption",
+    "FxNoTouchOption"
+  ],
+  "LegalAssetTypesAreIndicative": false,
+  "Name": "F. Brekeveld",
+  "PositionNettingMode": "EndOfDay",
+  "SupportsAccountValueProtectionLimit": true
+}

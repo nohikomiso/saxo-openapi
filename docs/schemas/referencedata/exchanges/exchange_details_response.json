@@ -1,0 +1,33 @@
+{
+  "AllDay": false,
+  "CountryCode": "US",
+  "Currency": "USD",
+  "ExchangeId": "NYSE_ARCA",
+  "ExchangeSessions": [
+    {
+      "EndTime": "2019-03-04T12:00:00.000000Z",
+      "StartTime": "2019-03-01T21:00:00.000000Z",
+      "State": "Closed"
+    },
+    {
+      "EndTime": "2019-03-04T14:30:00.000000Z",
+      "StartTime": "2019-03-04T12:00:00.000000Z",
+      "State": "PreTrading"
+    },
+    {
+      "EndTime": "2019-03-04T21:00:00.000000Z",
+      "StartTime": "2019-03-04T14:30:00.000000Z",
+      "State": "AutomatedTrading"
+    },
+    {
+      "EndTime": "2019-03-05T12:00:00.000000Z",
+      "StartTime": "2019-03-04T21:00:00.000000Z",
+      "State": "Closed"
+    }
+  ],
+  "Mic": "ARCX",
+  "Name": "New York Stock Exchange (ARCA)",
+  "TimeZone": 3,
+  "TimeZoneAbbreviation": "EST",
+  "TimeZoneOffset": "-05:00:00"
+}

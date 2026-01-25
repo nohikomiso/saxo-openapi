@@ -1,0 +1,46 @@
+{
+  "ContextId": "explorer_1551455553043",
+  "Format": "application/json",
+  "InactivityTimeout": 30,
+  "ReferenceId": "I_213",
+  "RefreshRate": 5000,
+  "Snapshot": {
+    "Data": [
+      {
+        "AccountGroupKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+        "AccountId": "9226397",
+        "AccountKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+        "AccountType": "Normal",
+        "Active": true,
+        "CanUseCashPositionsAsMarginCollateral": true,
+        "ClientId": "9226397",
+        "ClientKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+        "CreationDate": "2019-02-02T10:47:42.313000Z",
+        "Currency": "EUR",
+        "CurrencyDecimals": 2,
+        "DirectMarketAccess": false,
+        "DisplayName": "bram",
+        "IndividualMargining": false,
+        "IsCurrencyConversionAtSettlementTime": true,
+        "IsMarginTradingAllowed": true,
+        "IsShareable": false,
+        "IsTrialAccount": true,
+        "LegalAssetTypes": [
+          "FxSpot",
+          "FxForwards",
+          "FxVanillaOption",
+          "FxKnockInOption",
+          "FxKnockOutOption",
+          "FxOneTouchOption",
+          "FxNoTouchOption"
+        ],
+        "Sharing": [
+          "NoSharing"
+        ],
+        "SupportsAccountValueProtectionLimit": false,
+        "UseCashPositionsAsMarginCollateral": true
+      }
+    ]
+  },
+  "State": "Active"
+}

@@ -1,0 +1,48 @@
+{
+  "ContextId": "explorer_1552035128308",
+  "Format": "application/json",
+  "InactivityTimeout": 30,
+  "ReferenceId": "Z_807",
+  "RefreshRate": 1000,
+  "Snapshot": {
+    "Data": [
+      {
+        "Amount": 60000,
+        "AssetType": "FxSpot",
+        "AverageOpenPrice": 1.13071,
+        "CalculationReliability": "Ok",
+        "CanBeClosed": true,
+        "DisplayAndFormat": {
+          "Currency": "USD",
+          "Decimals": 4,
+          "Description": "Euro/US Dollar",
+          "Format": "AllowDecimalPips",
+          "Symbol": "EURUSD"
+        },
+        "InstrumentPriceDayPercentChange": 0.44,
+        "NetPositionId": "EURUSD__FxSpot",
+        "ProfitLossOnTrade": -396.6,
+        "Uic": 21
+      },
+      {
+        "Amount": -50000,
+        "AssetType": "FxSpot",
+        "AverageOpenPrice": 8.6839,
+        "CalculationReliability": "Ok",
+        "CanBeClosed": true,
+        "DisplayAndFormat": {
+          "Currency": "DKK",
+          "Decimals": 4,
+          "Description": "British Pound/Danish Krone",
+          "Format": "Normal",
+          "Symbol": "GBPDKK"
+        },
+        "InstrumentPriceDayPercentChange": -0.98,
+        "NetPositionId": "GBPDKK__FxSpot",
+        "ProfitLossOnTrade": 2420,
+        "Uic": 25
+      }
+    ]
+  },
+  "State": "Active"
+}

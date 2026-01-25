@@ -1,0 +1,37 @@
+{
+  "Groups": [
+    {
+      "Contributors": [
+        {
+          "AssetTypes": [
+            "FxSpot"
+          ],
+          "InstrumentDescription": "British Pound/Canadian Dollar",
+          "InstrumentSpecifier": "GBPCAD",
+          "Margin": 2908,
+          "Uic": 23
+        },
+        {
+          "AssetTypes": [
+            "FxSpot"
+          ],
+          "InstrumentDescription": "British Pound/Australian Dollar",
+          "InstrumentSpecifier": "GBPAUD",
+          "Margin": 14540,
+          "Uic": 22
+        },
+        {
+          "AssetTypes": [
+            "FxSpot"
+          ],
+          "InstrumentDescription": "British Pound/US Dollar",
+          "InstrumentSpecifier": "GBPUSD",
+          "Margin": 291,
+          "Uic": 31
+        }
+      ],
+      "GroupType": "FX",
+      "TotalMargin": 17739
+    }
+  ]
+}

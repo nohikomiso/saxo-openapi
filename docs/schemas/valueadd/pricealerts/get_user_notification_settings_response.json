@@ -1,0 +1,7 @@
+{
+  "EmailAddress": "john.doe@broker.com",
+  "EmailAddressValidated": false,
+  "NotifyWithMail": true,
+  "NotifyWithPopup": true,
+  "Sound": "None"
+}

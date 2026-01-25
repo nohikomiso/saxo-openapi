@@ -1,0 +1,22 @@
+{
+  "Arguments": {
+    "AccountKey": "mroYddvgiGqqudzBPn8daA==",
+    "Activities": [
+      "AccountFundings",
+      "MarginCalls",
+      "Orders",
+      "Positions"
+    ],
+    "ClientKey": "URpoxLBgX2I33Af3IhCvHg==",
+    "FieldGroups": [
+      "DisplayAndFormat",
+      "ExchangeInfo"
+    ],
+    "FromDateTime": "2015-02-02T01:02:03Z",
+    "IncludeSubAccounts": false,
+    "SequenceId": "37456"
+  },
+  "ContextId": "Context_20190503051756665",
+  "ReferenceId": "M_344",
+  "RefreshRate": 0
+}

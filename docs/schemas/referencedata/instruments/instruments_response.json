@@ -1,0 +1,55 @@
+{
+  "Data": [
+    {
+      "AssetType": "FxSpot",
+      "CurrencyCode": "AUD",
+      "Description": "Euro/Australian Dollar",
+      "ExchangeId": "SBFX",
+      "GroupId": 28784,
+      "Identifier": 12,
+      "SummaryType": "Instrument",
+      "Symbol": "EURAUD",
+      "TradableAs": [
+        "FxSpot",
+        "FxForwards",
+        "FxVanillaOption",
+        "FxKnockInOption",
+        "FxKnockOutOption"
+      ]
+    },
+    {
+      "AssetType": "FxSpot",
+      "CurrencyCode": "AUD",
+      "Description": "British Pound/Australian Dollar",
+      "ExchangeId": "SBFX",
+      "GroupId": 28867,
+      "Identifier": 22,
+      "SummaryType": "Instrument",
+      "Symbol": "GBPAUD",
+      "TradableAs": [
+        "FxSpot",
+        "FxForwards",
+        "FxVanillaOption",
+        "FxKnockInOption",
+        "FxKnockOutOption"
+      ]
+    },
+    {
+      "AssetType": "FxSpot",
+      "CurrencyCode": "CAD",
+      "Description": "British Pound/Canadian Dollar",
+      "ExchangeId": "SBFX",
+      "GroupId": 28871,
+      "Identifier": 23,
+      "SummaryType": "Instrument",
+      "Symbol": "GBPCAD",
+      "TradableAs": [
+        "FxSpot",
+        "FxForwards",
+        "FxVanillaOption",
+        "FxKnockInOption",
+        "FxKnockOutOption"
+      ]
+    }
+  ]
+}

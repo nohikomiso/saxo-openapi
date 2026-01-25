@@ -1,0 +1,12 @@
+{
+  "AccountId": "13457INET",
+  "AssetType": "FxSpot",
+  "Comment": "I believe EURUSD will go up within the next few years!",
+  "ExpiryDate": "2016-09-30T12:00:00Z",
+  "IsRecurring": true,
+  "Operator": "GreaterOrEqual",
+  "PriceVariable": "AskTick",
+  "State": "Enabled",
+  "TargetValue": 1.34595,
+  "Uic": 21
+}

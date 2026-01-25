@@ -1,0 +1,10 @@
+{
+  "Description": "Group of IS strategies",
+  "MinAmountUSD": 0,
+  "Name": "Implementation Shortfall",
+  "Parameters": [],
+  "SupportedDurationTypes": [
+    "DayOrder"
+  ],
+  "TradableInstrumentTypes": []
+}

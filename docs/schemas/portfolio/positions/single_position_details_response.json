@@ -1,0 +1,68 @@
+{
+  "DisplayAndFormat": {
+    "Currency": "USD",
+    "Decimals": 4,
+    "Description": "Euro/US Dollar",
+    "Format": "AllowDecimalPips",
+    "Symbol": "EURUSD"
+  },
+  "Exchange": {
+    "Description": "Inter Bank",
+    "ExchangeId": "SBFX",
+    "IsOpen": true
+  },
+  "NetPositionId": "EURUSD__FxSpot",
+  "PositionBase": {
+    "AccountId": "9226397",
+    "Amount": -100000,
+    "AssetType": "FxSpot",
+    "CanBeClosed": true,
+    "ClientId": "9226397",
+    "CloseConversionRateSettled": false,
+    "CorrelationKey": "46dc6b2a-5b6f-43c8-b747-6b530da9110e",
+    "ExecutionTimeOpen": "2019-03-04T00:10:23.040641Z",
+    "IsMarketOpen": true,
+    "OpenPrice": 1.13715,
+    "RelatedOpenOrders": [],
+    "SourceOrderId": "76271915",
+    "SpotDate": "2019-03-06",
+    "Status": "Open",
+    "Uic": 21,
+    "ValueDate": "2019-03-06T00:00:00.000000Z"
+  },
+  "PositionDetails": {
+    "CloseCost": {
+      "Commission": 5.67
+    },
+    "CloseCostInBaseCurrency": {
+      "Commission": 5
+    },
+    "CorrelationKey": "46dc6b2a-5b6f-43c8-b747-6b530da9110e",
+    "LockedByBackOffice": false,
+    "MarketValue": 351,
+    "OpenCost": {
+      "Commission": 5.69
+    },
+    "OpenCostInBaseCurrency": {
+      "Commission": 5.02
+    },
+    "SourceOrderId": "76271915"
+  },
+  "PositionId": "212561926",
+  "PositionView": {
+    "CalculationReliability": "Ok",
+    "ConversionRateCurrent": 0.882195,
+    "ConversionRateOpen": 0.882195,
+    "CurrentPrice": 1.13364,
+    "CurrentPriceDelayMinutes": 0,
+    "CurrentPriceType": "Ask",
+    "Exposure": -100000,
+    "ExposureCurrency": "EUR",
+    "ExposureInBaseCurrency": -100000,
+    "InsTrumentPriceDayPercentChange": -0.26,
+    "ProfitLossOnTrade": 351,
+    "ProfitLossOnTradeInBaseCurrency": 309.65,
+    "TradeCostsTotal": -11.36,
+    "TradeCostsTotalInBaseCurrency": -10.02
+  }
+}

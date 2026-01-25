@@ -1,0 +1,11 @@
+{
+  "AccountKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "Amount": 40000.0,
+  "AssetType": "FxSpot",
+  "OrderId": "76289286",
+  "OrderType": "Limit",
+  "ManualOrder": false,
+  "OrderDuration": {
+    "DurationType": "DayOrder"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "ContextId": "explorer_1551913039211",
+  "Format": "application/json",
+  "InactivityTimeout": 30,
+  "ReferenceId": "D_975",
+  "RefreshRate": 1000,
+  "Snapshot": {
+    "Data": [
+      {
+        "ClosedPosition": {
+          "AccountId": "9226397",
+          "Amount": -40000,
+          "AssetType": "FxSpot",
+          "BuyOrSell": "Sell",
+          "ClientId": "9226397",
+          "ClosedProfitLoss": -582.8,
+          "ClosedProfitLossInBaseCurrency": -383.389152,
+          "ClosingMarketValue": 0,
+          "ClosingMarketValueInBaseCurrency": 0,
+          "ClosingMethod": "Fifo",
+          "ClosingPositionId": "212725160",
+          "ClosingPrice": 1.77074,
+          "ConversionRateInstrumentToBaseSettledClosing": false,
+          "ConversionRateInstrumentToBaseSettledOpening": true,
+          "CostClosing": -4.03,
+          "CostClosingInBaseCurrency": -2.65,
+          "CostOpening": -3.51,
+          "CostOpeningInBaseCurrency": -2.32,
+          "ExecutionTimeClose": "2019-03-06T23:07:47.040598Z",
+          "ExecutionTimeOpen": "2019-03-06T10:24:50.635259Z",
+          "OpeningPositionId": "212710176",
+          "OpenPrice": 1.75617,
+          "Uic": 23
+        },
+        "ClosedPositionUniqueId": "212710176-212725160",
+        "NetPositionId": "GBPCAD__FxSpot"
+      },
+      {
+        "ClosedPosition": {
+          "AccountId": "9226397",
+          "Amount": -40000,
+          "AssetType": "FxSpot",
+          "BuyOrSell": "Sell",
+          "ClientId": "9226397",
+          "ClosedProfitLoss": -590.8,
+          "ClosedProfitLossInBaseCurrency": -388.651872,
+          "ClosingMarketValue": 0,
+          "ClosingMarketValueInBaseCurrency": 0,
+          "ClosingMethod": "Fifo",
+          "ClosingPositionId": "212725128",
+          "ClosingPrice": 1.77094,
+          "ConversionRateInstrumentToBaseSettledClosing": false,
+          "ConversionRateInstrumentToBaseSettledOpening": true,
+          "CostClosing": -4.03,
+          "CostClosingInBaseCurrency": -2.65,
+          "CostOpening": -3.51,
+          "CostOpeningInBaseCurrency": -2.32,
+          "ExecutionTimeClose": "2019-03-06T23:02:56.295679Z",
+          "ExecutionTimeOpen": "2019-03-06T10:24:50.635259Z",
+          "OpeningPositionId": "212710176",
+          "OpenPrice": 1.75617,
+          "Uic": 23
+        },
+        "ClosedPositionUniqueId": "212710176-212725128",
+        "NetPositionId": "GBPCAD__FxSpot"
+      },
+      {
+        "ClosedPosition": {
+          "AccountId": "9226397",
+          "Amount": 40000,
+          "AssetType": "FxSpot",
+          "BuyOrSell": "Buy",
+          "ClientId": "9226397",
+          "ClosedProfitLoss": 6,
+          "ClosedProfitLossInBaseCurrency": 5.30445,
+          "ClosingMarketValue": 0,
+          "ClosingMarketValueInBaseCurrency": 0,
+          "ClosingMethod": "Fifo",
+          "ClosingPositionId": "212724952",
+          "ClosingPrice": 1.13076,
+          "ConversionRateInstrumentToBaseSettledClosing": false,
+          "ConversionRateInstrumentToBaseSettledOpening": true,
+          "CostClosing": -3,
+          "CostClosingInBaseCurrency": -2.65,
+          "CostOpening": -2.26,
+          "CostOpeningInBaseCurrency": -2,
+          "ExecutionTimeClose": "2019-03-06T22:55:59.228387Z",
+          "ExecutionTimeOpen": "2019-03-06T10:24:50.460091Z",
+          "OpeningPositionId": "212710174",
+          "OpenPrice": 1.13061,
+          "Uic": 21
+        },
+        "ClosedPositionUniqueId": "212710174-212724952",
+        "NetPositionId": "EURUSD__FxSpot"
+      }
+    ],
+    "MaxRows": 100000
+  },
+  "State": "Active"
+}

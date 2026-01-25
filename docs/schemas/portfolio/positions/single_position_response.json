@@ -1,0 +1,38 @@
+{
+  "NetPositionId": "EURUSD__FxSpot",
+  "PositionBase": {
+    "AccountId": "9226397",
+    "Amount": -100000,
+    "AssetType": "FxSpot",
+    "CanBeClosed": true,
+    "ClientId": "9226397",
+    "CloseConversionRateSettled": false,
+    "CorrelationKey": "46dc6b2a-5b6f-43c8-b747-6b530da9110e",
+    "ExecutionTimeOpen": "2019-03-04T00:10:23.040641Z",
+    "IsMarketOpen": true,
+    "OpenPrice": 1.13715,
+    "RelatedOpenOrders": [],
+    "SourceOrderId": "76271915",
+    "SpotDate": "2019-03-06",
+    "Status": "Open",
+    "Uic": 21,
+    "ValueDate": "2019-03-06T00:00:00.000000Z"
+  },
+  "PositionId": "212561926",
+  "PositionView": {
+    "CalculationReliability": "Ok",
+    "ConversionRateCurrent": 0.88199,
+    "ConversionRateOpen": 0.88199,
+    "CurrentPrice": 1.1339,
+    "CurrentPriceDelayMinutes": 0,
+    "CurrentPriceType": "Ask",
+    "Exposure": -100000,
+    "ExposureCurrency": "EUR",
+    "ExposureInBaseCurrency": -100000,
+    "InstrumentPriceDayPercentChange": -0.24,
+    "ProfitLossOnTrade": 325,
+    "ProfitLossOnTradeInBaseCurrency": 286.65,
+    "TradeCostsTotal": -11.36,
+    "TradeCostsTotalInBaseCurrency": -10.02
+  }
+}

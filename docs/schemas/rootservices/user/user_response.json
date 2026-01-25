@@ -1,0 +1,15 @@
+{
+  "AccessRights": {
+    "CanManageCashTransfers": true,
+    "CanTakePriceSession": true,
+    "CanTakeTradeSession": true,
+    "CanTrade": true,
+    "CanViewAnyClient": true
+  },
+  "ClientId": 467989277,
+  "EmployeeId": "472298225",
+  "Roles": [
+    "OAPI.Roles.RetailClient"
+  ],
+  "UserId": 983293960
+}

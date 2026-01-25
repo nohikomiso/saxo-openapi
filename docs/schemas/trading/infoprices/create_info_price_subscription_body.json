@@ -1,0 +1,18 @@
+{
+  "Arguments": {
+    "AccountKey": "LZTc7DdejXODf-WSl2aCyQ==",
+    "AssetType": "FxSpot",
+    "FieldGroups": [
+      "DisplayAndFormat",
+      "HistoricalChanges",
+      "InstrumentPriceDetails",
+      "PriceInfo",
+      "PriceInfoDetails",
+      "Quote"
+    ],
+    "Uics": "22,23"
+  },
+  "ContextId": "20190307094456688",
+  "ReferenceId": "IP17820",
+  "RefreshRate": 1000
+}

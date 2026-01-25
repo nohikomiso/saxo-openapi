@@ -1,0 +1,23 @@
+{
+  "ContextId": "20190307094456781",
+  "Format": "application/json",
+  "InactivityTimeout": 120,
+  "ReferenceId": "TM90172",
+  "RefreshRate": 800,
+  "Snapshot": {
+    "Data": [
+      {
+        "DateTime": "2014-12-12T09:17:12Z",
+        "DisplayName": "Price Alert",
+        "DisplayType": "Default",
+        "IsDiscardable": false,
+        "MessageBody": "Price alert was triggered on EURUSD",
+        "MessageHeader": "Price Alert",
+        "MessageId": "345322",
+        "MessageType": "PriceAlert"
+      }
+    ]
+  },
+  "State": "Active",
+  "Tag": "PAGE1"
+}

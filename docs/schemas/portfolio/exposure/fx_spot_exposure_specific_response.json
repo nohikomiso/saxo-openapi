@@ -1,0 +1,22 @@
+[
+  {
+    "Amount": 432350,
+    "AmountInCalculationEntityCurrency": 57929,
+    "Currency": "DKK"
+  },
+  {
+    "Amount": 60000,
+    "AmountInCalculationEntityCurrency": 60000,
+    "Currency": "EUR"
+  },
+  {
+    "Amount": -50000,
+    "AmountInCalculationEntityCurrency": -57929,
+    "Currency": "GBP"
+  },
+  {
+    "Amount": -67398,
+    "AmountInCalculationEntityCurrency": -60000,
+    "Currency": "USD"
+  }
+]

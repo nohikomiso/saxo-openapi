@@ -1,0 +1,18 @@
+[
+  {
+    "Available": true,
+    "Feature": "News"
+  },
+  {
+    "Available": true,
+    "Feature": "GainersLosers"
+  },
+  {
+    "Available": true,
+    "Feature": "Calendar"
+  },
+  {
+    "Available": true,
+    "Feature": "Chart"
+  }
+]

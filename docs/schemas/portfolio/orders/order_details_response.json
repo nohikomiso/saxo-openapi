@@ -1,0 +1,40 @@
+{
+  "AccountId": "9226397",
+  "AccountKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "Amount": 100000,
+  "AssetType": "FxSpot",
+  "BuySell": "Buy",
+  "CalculationReliability": "Ok",
+  "ClientKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "CorrelationKey": "925ab7aa-998b-4f4b-af26-7c1b3f4eee27",
+  "CurrentPrice": 7.46175,
+  "CurrentPriceDelayMinutes": 0,
+  "CurrentPriceType": "Ask",
+  "DisplayAndFormat": {
+    "Currency": "DKK",
+    "Decimals": 4,
+    "Description": "Euro/Danish Krone",
+    "Format": "AllowDecimalPips",
+    "Symbol": "EURDKK"
+  },
+  "DistanceToMarket": 0.46175,
+  "Duration": {
+    "DurationType": "GoodTillCancel"
+  },
+  "Exchange": {
+    "Description": "Inter Bank",
+    "ExchangeId": "SBFX",
+    "IsOpen": false
+  },
+  "IsMarketOpen": false,
+  "MarketPrice": 7.46175,
+  "OpenOrderType": "Limit",
+  "OrderAmountType": "Quantity",
+  "OrderId": "76332324",
+  "OrderRelation": "StandAlone",
+  "OrderTime": "2019-03-07T14:54:17.423333Z",
+  "Price": 7,
+  "RelatedOpenOrders": [],
+  "Status": "Working",
+  "Uic": 16
+}

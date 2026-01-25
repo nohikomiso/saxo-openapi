@@ -1,0 +1,35 @@
+{
+  "ContextId": "20190830035501020",
+  "Format": "application/json",
+  "InactivityTimeout": 30,
+  "ReferenceId": "UIC_21",
+  "RefreshRate": 1000,
+  "Snapshot": {
+    "Data": [
+      {
+        "CloseAsk": 1.10631,
+        "CloseBid": 1.10611,
+        "HighAsk": 1.10636,
+        "HighBid": 1.10616,
+        "LowAsk": 1.10631,
+        "LowBid": 1.10611,
+        "OpenAsk": 1.10632,
+        "OpenBid": 1.10612,
+        "Time": "2019-09-09T16:54:00.000000Z"
+      },
+      {
+        "CloseAsk": 1.10631,
+        "CloseBid": 1.10611,
+        "HighAsk": 1.10632,
+        "HighBid": 1.10612,
+        "LowAsk": 1.10631,
+        "LowBid": 1.10611,
+        "OpenAsk": 1.10632,
+        "OpenBid": 1.10612,
+        "Time": "2019-09-09T16:55:00.000000Z"
+      }
+    ],
+    "DataVersion": 1592272523
+  },
+  "State": "Active"
+}

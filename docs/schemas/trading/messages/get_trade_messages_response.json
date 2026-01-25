@@ -1,0 +1,14 @@
+{
+  "Data": [
+    {
+      "DateTime": "2014-12-12T09:17:12Z",
+      "DisplayName": "Price Alert",
+      "DisplayType": "Default",
+      "IsDiscardable": false,
+      "MessageBody": "Price alert was triggered on EURUSD",
+      "MessageHeader": "Price Alert",
+      "MessageId": "345322",
+      "MessageType": "PriceAlert"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "ClientKey": "Cf4xZWiYL6W1nMKpygBLLA==",
+  "Culture": "en-GB",
+  "Language": "en",
+  "LastLoginStatus": "Successful",
+  "LastLoginTime": "2019-03-05T13:22:22.123000Z",
+  "LegalAssetTypes": [
+    "FxSpot",
+    "FxForwards",
+    "FxVanillaOption",
+    "FxKnockInOption",
+    "FxKnockOutOption",
+    "FxOneTouchOption",
+    "FxNoTouchOption"
+  ],
+  "MarketDataViaOpenApiTermsAccepted": false,
+  "Name": "F. Brekeveld",
+  "TimeZoneId": 26,
+  "UserId": "9226397",
+  "UserKey": "Cf4xZWiYL6W1nMKpygBLLA=="
+}

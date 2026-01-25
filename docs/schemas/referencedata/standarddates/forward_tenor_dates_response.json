@@ -1,0 +1,54 @@
+{
+  "Data": [
+    {
+      "Date": "2019-03-06",
+      "Unit": "Days",
+      "Value": 0
+    },
+    {
+      "Date": "2019-03-13",
+      "Unit": "Weeks",
+      "Value": 1
+    },
+    {
+      "Date": "2019-03-20",
+      "Unit": "Weeks",
+      "Value": 2
+    },
+    {
+      "Date": "2019-03-27",
+      "Unit": "Weeks",
+      "Value": 3
+    },
+    {
+      "Date": "2019-04-08",
+      "Unit": "Months",
+      "Value": 1
+    },
+    {
+      "Date": "2019-05-07",
+      "Unit": "Months",
+      "Value": 2
+    },
+    {
+      "Date": "2019-06-06",
+      "Unit": "Months",
+      "Value": 3
+    },
+    {
+      "Date": "2019-09-06",
+      "Unit": "Months",
+      "Value": 6
+    },
+    {
+      "Date": "2019-12-06",
+      "Unit": "Months",
+      "Value": 9
+    },
+    {
+      "Date": "2020-03-06",
+      "Unit": "Years",
+      "Value": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "Arguments": {
+    "AssetType": "FxSpot",
+    "Count": 2,
+    "Horizon": 1,
+    "Uic": 21
+  },
+  "ContextId": "20190830035501020",
+  "Format": "application/json",
+  "ReferenceId": "UIC_21",
+  "RefreshRate": 1000
+}

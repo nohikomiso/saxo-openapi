@@ -1,0 +1,59 @@
+{
+  "Data": [
+    {
+      "LanguageCode": "ar",
+      "LanguageName": "Arabic",
+      "NativeName": "Arabic - \u0639\u0631\u0628\u064a"
+    },
+    {
+      "LanguageCode": "bg",
+      "LanguageName": "Bulgarian",
+      "NativeName": "Bulgarian - \u0411\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438"
+    },
+    {
+      "LanguageCode": "cs",
+      "LanguageName": "Czech",
+      "NativeName": "Cesky"
+    },
+    {
+      "LanguageCode": "da",
+      "LanguageName": "Danish",
+      "NativeName": "Dansk"
+    },
+    {
+      "LanguageCode": "de",
+      "LanguageName": "German",
+      "NativeName": "Deutsch"
+    },
+    {
+      "LanguageCode": "el",
+      "LanguageName": "Greek",
+      "NativeName": "Greek - \u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac"
+    },
+    {
+      "LanguageCode": "en",
+      "LanguageName": "English",
+      "NativeName": "English"
+    },
+    {
+      "LanguageCode": "es",
+      "LanguageName": "Spanish",
+      "NativeName": "Espa\u00f1ol"
+    },
+    {
+      "LanguageCode": "fi",
+      "LanguageName": "Finnish",
+      "NativeName": "Suomi"
+    },
+    {
+      "LanguageCode": "fr",
+      "LanguageName": "French",
+      "NativeName": "Fran\u00e7ais"
+    },
+    {
+      "LanguageCode": "...",
+      "LanguageName": "...",
+      "NativeName": "..."
+    }
+  ]
+}
