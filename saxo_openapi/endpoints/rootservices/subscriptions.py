@@ -6,7 +6,7 @@ from ..decorators import endpoint
 from .base import RootService
 
 
-@endpoint("openapi/root/subscriptions/{ContextId}", "DELETE", 202)
+@endpoint("openapi/root/v1/subscriptions/{ContextId}", "DELETE", 202)
 class RemoveMultipleActiveSubscriptions(RootService):
     """Removes multiple subscriptions for the current session, and frees all
     resources on the server.
@@ -18,5 +18,5 @@ class RemoveMultipleActiveSubscriptions(RootService):
 
     def __init__(self, ContextId: str, params: dict[str, Any]) -> None:
         """Instantiate a RemoveMultipleActiveSubscriptions request."""
-        super(RemoveMultipleActiveSubscriptions, self).__init__(ContextId=ContextId)
+        super().__init__(ContextId=ContextId)
         self.params = params
