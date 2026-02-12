@@ -29,13 +29,13 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
         AssetType: str,
         OrderPrice: int | float,
         StopLimitPrice: int | float,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
         OrderDurationType: str = OD.OrderDurationType.DayOrder,
         GTDDate: str | datetime | None = None,
     ) -> None:
@@ -74,10 +74,9 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
             A free text reference to identify the order. This can be used to
             associate the order with an external system or reference.
 
-        IsForceOpen: bool (optional)
-            If True, opens a new position even if there's an opposite position.
-            If False, the order will be netted against any existing opposite position.
-            Default: True
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position. If False, the order will be netted against any existing opposite position.
 
         TakeProfitOnFill: TakeProfitDetails instance or dict
             the take-profit order specification
@@ -191,13 +190,13 @@ class StopLimitOrderCfdOnStock(StopLimitOrder):
         Amount: int | float,
         OrderPrice: int | float,
         StopLimitPrice: int | float,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
         OrderDurationType: str = OD.OrderDurationType.DayOrder,
         GTDDate: str | datetime | None = None,
     ) -> None:
@@ -233,10 +232,9 @@ class StopLimitOrderCfdOnStock(StopLimitOrder):
             A free text reference to identify the order. This can be used to
             associate the order with an external system or reference.
 
-        IsForceOpen: bool (optional)
-            If True, opens a new position even if there's an opposite position.
-            If False, the order will be netted against any existing opposite position.
-            Default: True
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position. If False, the order will be netted against any existing opposite position.
 
         TakeProfitOnFill: TakeProfitDetails instance or dict
             the take-profit order specification

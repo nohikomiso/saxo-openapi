@@ -19,13 +19,13 @@ class MarketOrder(BaseOrder, OnFillHnd):
         Uic: int,
         Amount: int | float,
         AssetType: str,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
     ) -> None:
         """
         Instantiate a MarketOrder.
@@ -44,7 +44,12 @@ class MarketOrder(BaseOrder, OnFillHnd):
         AssetType: string (required)
             the assettype for the Uic
 
-        ManualOrder: bool (required)
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position (Hedging mode). If False, the order will be netted against any
+            existing opposite position (FIFO mode).
+
+        ManualOrder: bool (optional)
             flag to identify if an order is from an automated origin,
             default: False
 
@@ -55,11 +60,6 @@ class MarketOrder(BaseOrder, OnFillHnd):
         ExternalReference: str (optional)
             A free text reference to identify the order. This can be used to
             associate the order with an external system or reference.
-
-        IsForceOpen: bool (optional)
-            If True, opens a new position even if there's an opposite position.
-            If False, the order will be netted against any existing opposite position.
-            Default: True
 
         TakeProfitOnFill: TakeProfitDetails instance or dict
             the take-profit order specification
@@ -81,6 +81,7 @@ class MarketOrder(BaseOrder, OnFillHnd):
         >>> mo = MarketOrder(Uic=21,
         ...                  AssetType=OD.AssetType.FxSpot,
         ...                  Amount=10000,
+        ...                  IsForceOpen=True,
         ...                  ExternalReference="my_order_123")
         >>> print(json.dumps(mo.data, indent=4))
         {
@@ -163,13 +164,13 @@ class MarketOrderStock(MarketOrder):
         self,
         Uic: int,
         Amount: int | float,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
     ) -> None:
         """
         Instantiate a MarketOrderStock.
@@ -183,6 +184,10 @@ class MarketOrderStock(MarketOrder):
             the number of lots/shares/contracts or a monetary value
             if amountType is set to CashAmount
 
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position. If False, the order will be netted against any existing opposite position.
+
         ManualOrder: bool (optional)
             flag to identify if an order is from an automated origin,
             default: False
@@ -194,11 +199,6 @@ class MarketOrderStock(MarketOrder):
         ExternalReference: str (optional)
             A free text reference to identify the order. This can be used to
             associate the order with an external system or reference.
-
-        IsForceOpen: bool (optional)
-            If True, opens a new position even if there's an opposite position.
-            If False, the order will be netted against any existing opposite position.
-            Default: True
 
         TakeProfitOnFill: TakeProfitDetails instance or dict
             the take-profit order specification
@@ -220,7 +220,7 @@ class MarketOrderStock(MarketOrder):
         >>> client = API(access_token=token)
         >>> order = tie_account_to_order(
         ...               AccountKey,
-        ...               MarketOrderStock(Uic=16350, Amount=1000))
+        ...               MarketOrderStock(Uic=16350, Amount=1000, IsForceOpen=True))
         >>> r = tr.orders.Order(data=req)
         >>> rv = client.request(r)
         >>> print(json.dumps(rv, indent=2))
@@ -253,13 +253,13 @@ class MarketOrderCfdOnStock(MarketOrder):
         self,
         Uic: int,
         Amount: int | float,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
     ) -> None:
         """
         Instantiate a MarketOrderCfdOnStock.
@@ -273,6 +273,10 @@ class MarketOrderCfdOnStock(MarketOrder):
             the number of lots/shares/contracts or a monetary value
             if amountType is set to CashAmount
 
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position. If False, the order will be netted against any existing opposite position.
+
         ManualOrder: bool (optional)
             flag to identify if an order is from an automated origin,
             default: False
@@ -284,11 +288,6 @@ class MarketOrderCfdOnStock(MarketOrder):
         ExternalReference: str (optional)
             A free text reference to identify the order. This can be used to
             associate the order with an external system or reference.
-
-        IsForceOpen: bool (optional)
-            If True, opens a new position even if there's an opposite position.
-            If False, the order will be netted against any existing opposite position.
-            Default: True
 
         TakeProfitOnFill: TakeProfitDetails instance or dict
             the take-profit order specification
@@ -310,7 +309,7 @@ class MarketOrderCfdOnStock(MarketOrder):
         >>> client = API(access_token=token)
         >>> order = tie_account_to_order(
         ...               AccountKey,
-        ...               MarketOrderCfdOnStock(Uic=16350, Amount=1000))
+        ...               MarketOrderCfdOnStock(Uic=16350, Amount=1000, IsForceOpen=True))
         >>> r = tr.orders.Order(data=req)
         >>> rv = client.request(r)
         >>> print(json.dumps(rv, indent=2))
@@ -343,13 +342,13 @@ class MarketOrderFxSpot(MarketOrder):
         self,
         Uic: int,
         Amount: int | float,
+        IsForceOpen: bool,
         ManualOrder: bool = False,
         AmountType: str = OD.AmountType.Quantity,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,
         StopLossOnFill: dict[str, Any] | Any | None = None,
         TrailingStopLossOnFill: dict[str, Any] | Any | None = None,
         ExternalReference: str | None = None,
-        IsForceOpen: bool = True,
     ) -> None:
         """
         Instantiate a MarketOrderFxSpot.
@@ -362,6 +361,10 @@ class MarketOrderFxSpot(MarketOrder):
         Amount: decimal (required)
             the number of lots/shares/contracts or a monetary value
             if amountType is set to CashAmount
+
+        IsForceOpen: bool (required)
+            Must be explicitly specified. If True, opens a new position even if there's an
+            opposite position. If False, the order will be netted against any existing opposite position.
 
         ManualOrder: bool (optional)
             flag to identify if an order is from an automated origin,
@@ -395,7 +398,7 @@ class MarketOrderFxSpot(MarketOrder):
         >>> client = API(access_token=token)
         >>> order = tie_account_to_order(
         ...               AccountKey,
-        ...               MarketOrderFxSpot(Uic=21, Amount=25000))
+        ...               MarketOrderFxSpot(Uic=21, Amount=25000, IsForceOpen=True))
         >>> r = tr.orders.Order(data=req)
         >>> rv = client.request(r)
         >>> print(json.dumps(rv, indent=2))

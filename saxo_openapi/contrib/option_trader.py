@@ -111,10 +111,10 @@ class OptionTrader:
         self,
         uic: int,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
         **kwargs,
     ) -> dict:
         """
@@ -122,10 +122,10 @@ class OptionTrader:
 
         :param uic: オプション契約のUic（ContractOptionSpacesで取得）
         :param amount: 契約数（正の値）
+        :param to_open_close: "ToOpen" or "ToClose" （必須）
         :param order_type: 注文タイプ（"Market" or "Limit"）
         :param order_price: 指値価格（Limitの場合必須）
         :param asset_type: 資産タイプ
-        :param to_open_close: "ToOpen" or "ToClose"
         :return: 注文レスポンス
         """
         if order_type == "Limit" and order_price is None:
@@ -134,7 +134,7 @@ class OptionTrader:
         order_spec = self._build_option_order(
             uic=uic,
             amount=amount,
-            buy_sell=OD.BuySell.Buy,
+            buy_sell=OD.Direction.Buy,
             order_type=order_type,
             asset_type=asset_type,
             to_open_close=to_open_close,
@@ -147,10 +147,10 @@ class OptionTrader:
         self,
         uic: int,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
         **kwargs,
     ) -> dict:
         """
@@ -158,10 +158,10 @@ class OptionTrader:
 
         :param uic: オプション契約のUic
         :param amount: 契約数（正の値）
+        :param to_open_close: "ToOpen"（新規売建）or "ToClose"（決済）（必須）
         :param order_type: 注文タイプ
         :param order_price: 指値価格（Limitの場合必須）
         :param asset_type: 資産タイプ
-        :param to_open_close: "ToOpen"（新規売建）or "ToClose"（決済）
         :return: 注文レスポンス
         """
         if order_type == "Limit" and order_price is None:
@@ -170,7 +170,7 @@ class OptionTrader:
         order_spec = self._build_option_order(
             uic=uic,
             amount=amount,
-            buy_sell=OD.BuySell.Sell,
+            buy_sell=OD.Direction.Sell,
             order_type=order_type,
             asset_type=asset_type,
             to_open_close=to_open_close,
@@ -187,6 +187,7 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
@@ -199,6 +200,7 @@ class OptionTrader:
         :param expiry_date: 満期日（YYYY-MM-DD形式）
         :param strike_price: 行使価格
         :param amount: 契約数
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
         :param order_type: 注文タイプ
         :param order_price: 指値価格
         :return: 注文レスポンス
@@ -210,6 +212,7 @@ class OptionTrader:
         return self.buy_option(
             uic=option.uic,
             amount=amount,
+            to_open_close=to_open_close,
             order_type=order_type,
             order_price=order_price,
             asset_type=asset_type,
@@ -222,18 +225,32 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
     ) -> dict:
-        """キーワードからプットオプション買い"""
+        """
+        キーワードからプットオプション買い
+
+        :param keyword: 検索キーワード（例: "AMD"）
+        :param expiry_date: 満期日（YYYY-MM-DD形式）
+        :param strike_price: 行使価格
+        :param amount: 契約数
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
+        :param order_type: 注文タイプ
+        :param order_price: 指値価格
+        :return: 注文レスポンス
+        :raises ValueError: オプションが見つからない場合
+        """
         option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
         if option is None:
             raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Put")
         return self.buy_option(
             uic=option.uic,
             amount=amount,
+            to_open_close=to_open_close,
             order_type=order_type,
             order_price=order_price,
             asset_type=asset_type,
@@ -246,18 +263,32 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
     ) -> dict:
-        """キーワードからコールオプション売り"""
+        """
+        キーワードからコールオプション売り
+
+        :param keyword: 検索キーワード（例: "AMD"）
+        :param expiry_date: 満期日（YYYY-MM-DD形式）
+        :param strike_price: 行使価格
+        :param amount: 契約数
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
+        :param order_type: 注文タイプ
+        :param order_price: 指値価格
+        :return: 注文レスポンス
+        :raises ValueError: オプションが見つからない場合
+        """
         option = self.finder.find_option(keyword, expiry_date, strike_price, "Call", asset_type)
         if option is None:
             raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Call")
         return self.sell_option(
             uic=option.uic,
             amount=amount,
+            to_open_close=to_open_close,
             order_type=order_type,
             order_price=order_price,
             asset_type=asset_type,
@@ -270,18 +301,32 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
     ) -> dict:
-        """キーワードからプットオプション売り"""
+        """
+        キーワードからプットオプション売り
+
+        :param keyword: 検索キーワード（例: "AMD"）
+        :param expiry_date: 満期日（YYYY-MM-DD形式）
+        :param strike_price: 行使価格
+        :param amount: 契約数
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
+        :param order_type: 注文タイプ
+        :param order_price: 指値価格
+        :return: 注文レスポンス
+        :raises ValueError: オプションが見つからない場合
+        """
         option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
         if option is None:
             raise ValueError(f"Option not found: {keyword} {expiry_date} {strike_price} Put")
         return self.sell_option(
             uic=option.uic,
             amount=amount,
+            to_open_close=to_open_close,
             order_type=order_type,
             order_price=order_price,
             asset_type=asset_type,
@@ -353,11 +398,11 @@ class OptionTrader:
         self,
         uic: int,
         amount: int,
+        to_open_close: str,
+        buy_sell: str = "Buy",
         order_type: str = "Limit",
         order_price: float | None = None,
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
-        buy_sell: str = "Buy",
         **kwargs,
     ) -> dict:
         """
@@ -365,11 +410,11 @@ class OptionTrader:
 
         :param uic: オプション契約のUic
         :param amount: 契約数
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
+        :param buy_sell: "Buy" or "Sell"
         :param order_type: 注文タイプ
         :param order_price: 指値価格
         :param asset_type: 資産タイプ
-        :param to_open_close: "ToOpen" or "ToClose"
-        :param buy_sell: "Buy" or "Sell"
         :return: 事前チェック結果
         """
         if order_type == "Limit" and order_price is None:
@@ -516,8 +561,8 @@ class OptionTrader:
         uic: int,
         amount: int,
         buy_sell: str,
+        to_open_close: str,
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
         **kwargs,
     ) -> dict[str, Any]:
         """
@@ -526,8 +571,8 @@ class OptionTrader:
         :param uic: Uic
         :param amount: 数量（常に正の値）
         :param buy_sell: "Buy" or "Sell"
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
         :param asset_type: 資産タイプ (Default: StockOption)
-        :param to_open_close: "ToOpen" or "ToClose" (Default: ToOpen)
         :return: レグ辞書
         """
         return {
@@ -545,9 +590,9 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         action: str = "Buy",
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
         **kwargs,
     ) -> dict[str, Any]:
         """
@@ -557,7 +602,9 @@ class OptionTrader:
         :param expiry_date: 満期日 (YYYY-MM-DD)
         :param strike_price: 行使価格
         :param amount: 数量
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
         :param action: "Buy" or "Sell" (Default: Buy)
+        :param asset_type: 資産タイプ (Default: StockOption)
         :return: レグ辞書
         """
         option = self.finder.find_option(keyword, expiry_date, strike_price, "Call", asset_type)
@@ -568,8 +615,8 @@ class OptionTrader:
             uic=option.uic,
             amount=amount,
             buy_sell=action,
-            asset_type=asset_type,
             to_open_close=to_open_close,
+            asset_type=asset_type,
             **kwargs,
         )
 
@@ -579,9 +626,9 @@ class OptionTrader:
         expiry_date: str,
         strike_price: float,
         amount: int,
+        to_open_close: str,
         action: str = "Buy",
         asset_type: str = "StockOption",
-        to_open_close: str = "ToOpen",
         **kwargs,
     ) -> dict[str, Any]:
         """
@@ -591,7 +638,9 @@ class OptionTrader:
         :param expiry_date: 満期日 (YYYY-MM-DD)
         :param strike_price: 行使価格
         :param amount: 数量
+        :param to_open_close: "ToOpen" or "ToClose"（必須）
         :param action: "Buy" or "Sell" (Default: Buy)
+        :param asset_type: 資産タイプ (Default: StockOption)
         :return: レグ辞書
         """
         option = self.finder.find_option(keyword, expiry_date, strike_price, "Put", asset_type)
@@ -602,7 +651,7 @@ class OptionTrader:
             uic=option.uic,
             amount=amount,
             buy_sell=action,
-            asset_type=asset_type,
             to_open_close=to_open_close,
+            asset_type=asset_type,
             **kwargs,
         )
