@@ -7,18 +7,18 @@ IsForceOpen および ToOpenClose パラメータの必須化検証テスト
 3. 正常系：適切なパラメータ指定時の動作
 """
 
-import pytest
 from unittest.mock import MagicMock, patch
 
+import pytest
 import saxo_openapi.definitions.orders as OD
-from saxo_openapi.contrib.orders import (
-    MarketOrder,
-    LimitOrder,
-    StopOrder,
-    StopLimitOrder,
-    StopIfTradedOrder,
-)
 from saxo_openapi.contrib.option_trader import OptionTrader
+from saxo_openapi.contrib.orders import (
+    LimitOrder,
+    MarketOrder,
+    StopIfTradedOrder,
+    StopLimitOrder,
+    StopOrder,
+)
 
 
 class TestOrderIsForceOpenParameter:

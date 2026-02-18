@@ -135,8 +135,7 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
         >>> rv = client.request(r)
         >>> print(rv)
         """
-
-        super(StopLimitOrder, self).__init__()
+        super().__init__()
 
         # by default for a StopLimitOrder
         da: dict[str, Any] = {
@@ -174,7 +173,7 @@ class StopLimitOrder(BaseOrder, OnFillHnd):
 
         return the JSON body.
         """
-        return super(StopLimitOrder, self).data
+        return super().data
 
 
 class StopLimitOrderCfdOnStock(StopLimitOrder):
@@ -278,7 +277,7 @@ class StopLimitOrderCfdOnStock(StopLimitOrder):
           "OrderId": "12345678"
         }
         """
-        super(StopLimitOrderCfdOnStock, self).__init__(
+        super().__init__(
             Uic=Uic,
             Amount=Amount,
             OrderPrice=OrderPrice,

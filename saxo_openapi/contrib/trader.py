@@ -56,12 +56,8 @@ class SaxoTrader:
             # Clean up unsupported fields for Stock family
             order_spec_with_account.pop("IsForceOpen", None)
 
-        if validate_only:
-            # Use PrecheckOrder endpoint
-            r = tr.orders.PrecheckOrder(data=order_spec_with_account)
-        else:
-            # Place actual Order
-            r = tr.orders.Order(data=order_spec_with_account)
+        # Use PrecheckOrder endpoint if validate_only, else Place actual Order
+        r = tr.orders.PrecheckOrder(data=order_spec_with_account) if validate_only else tr.orders.Order(data=order_spec_with_account)
 
         return self.client.request(r)
 

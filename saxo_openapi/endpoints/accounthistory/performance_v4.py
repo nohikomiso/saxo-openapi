@@ -17,5 +17,5 @@ class AccountPerformanceV4(AccountHistory):
     """
 
     def __init__(self, ClientKey: str, params: dict[str, Any] | None = None) -> None:
-        super(AccountPerformanceV4, self).__init__(ClientKey=ClientKey)
+        super().__init__(ClientKey=ClientKey)
         self.params = params

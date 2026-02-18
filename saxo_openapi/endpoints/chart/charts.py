@@ -15,7 +15,7 @@ class GetChartData(Charts):
 
     def __init__(self, params: dict[str, Any]) -> None:
         """Instantiate a GetChartData request."""
-        super(GetChartData, self).__init__()
+        super().__init__()
         self.params = params
 
 
@@ -36,7 +36,7 @@ class CreateChartDataSubscription(Charts):
 
     def __init__(self, data: dict[str, Any]) -> None:
         """Instantiate a CreateChartDataSubscription request."""
-        super(CreateChartDataSubscription, self).__init__()
+        super().__init__()
         self.data = data
 
 
@@ -52,7 +52,7 @@ class ChartDataRemoveSubscriptions(Charts):
 
     def __init__(self, ContextId: str, params: dict[str, Any] | None = None) -> None:
         """Instantiate a ChartDataRemoveSubscriptions request."""
-        super(ChartDataRemoveSubscriptions, self).__init__(ContextId=ContextId)
+        super().__init__(ContextId=ContextId)
         self.params = params
 
 
@@ -68,4 +68,4 @@ class ChartDataRemoveSubscription(Charts):
 
     def __init__(self, ContextId: str, ReferenceId: str) -> None:
         """Instantiate a ChartDataRemoveSubscription request."""
-        super(ChartDataRemoveSubscription, self).__init__(ContextId=ContextId, ReferenceId=ReferenceId)
+        super().__init__(ContextId=ContextId, ReferenceId=ReferenceId)

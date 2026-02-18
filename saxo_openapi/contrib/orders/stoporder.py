@@ -201,7 +201,7 @@ class StopOrder(BaseOrder, OnFillHnd):
         }
         """
 
-        super(StopOrder, self).__init__()
+        super().__init__()
 
         # by default for a StopOrder
         da: dict[str, Any] = {
@@ -238,7 +238,7 @@ class StopOrder(BaseOrder, OnFillHnd):
 
         return the JSON body.
         """
-        return super(StopOrder, self).data
+        return super().data
 
 
 class StopOrderFxSpot(StopOrder):
@@ -338,7 +338,7 @@ class StopOrderFxSpot(StopOrder):
           "OrderId": "76703544"
         }
         """
-        super(StopOrderFxSpot, self).__init__(
+        super().__init__(
             Uic=Uic,
             Amount=Amount,
             OrderPrice=OrderPrice,

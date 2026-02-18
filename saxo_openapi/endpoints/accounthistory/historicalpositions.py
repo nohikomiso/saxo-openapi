@@ -16,5 +16,5 @@ class HistoricalPositions(AccountHistory):
     """
 
     def __init__(self, ClientKey: str, params: dict[str, Any]) -> None:
-        super(HistoricalPositions, self).__init__(ClientKey=ClientKey)
+        super().__init__(ClientKey=ClientKey)
         self.params = params
