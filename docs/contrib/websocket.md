@@ -61,7 +61,7 @@ def on_close(ws):
 # WebSocket 接続（認証トークンが必要）
 token = "YOUR_ACCESS_TOKEN"
 context_id = "YOUR_CONTEXT_ID"
-url = f"wss://streaming.saxobank.com/openapi/streamingws/connect?contextId={context_id}&authorization={token}"
+url = f"wss://sim-streaming.saxobank.com/sim/openapi/streamingws/connect?contextId={context_id}&authorization={token}"
 
 ws = websocket.WebSocketApp(
     url,

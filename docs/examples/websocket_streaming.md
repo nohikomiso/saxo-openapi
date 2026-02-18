@@ -85,7 +85,7 @@ def create_subscription():
     #     print(f"Subscription failed: {e}")
 
 # 4. WebSocket 接続開始
-url = f"wss://streaming.saxobank.com/openapi/streamingws/connect?contextId={CONTEXT_ID}&authorization={TOKEN}"
+url = f"wss://sim-streaming.saxobank.com/sim/openapi/streamingws/connect?contextId={CONTEXT_ID}&authorization={TOKEN}"
 
 ws = websocket.WebSocketApp(
     url,
