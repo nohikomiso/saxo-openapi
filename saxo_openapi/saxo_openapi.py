@@ -15,12 +15,12 @@ ITER_LINES_CHUNKSIZE = 60
 
 TRADING_ENVIRONMENTS = {
     "simulation": {
-        "stream": "https://streaming.saxotrader.com",
+        "stream": "https://streaming.saxobank.com",
         "api": "https://gateway.saxobank.com",
         "prefix": "sim",
     },
     "live": {
-        "stream": "https://streaming.saxotrader.com",
+        "stream": "https://streaming.saxobank.com",
         "api": "https://gateway.saxobank.com",
     },
 }
