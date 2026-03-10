@@ -566,7 +566,7 @@ class API:
 
             # ベースURLの構築
             base_url = TRADING_ENVIRONMENTS[self.environment]["stream"]
-            path = "streamingws/authorize"
+            path = "oapi/streaming/ws/authorize"
 
             if self.environment == "simulation":
                 url = f"{base_url}/sim/openapi/{path}?contextid={context_id}"
