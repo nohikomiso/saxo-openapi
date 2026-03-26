@@ -40,10 +40,14 @@ Saxo Bank OpenAPI を Python から効率的かつ安全に利用するための
 
 ### インストール
 
+**pip を使用する場合**
 ```bash
-uv add libs/saxo_openapi/
-# または
-pip install -e libs/saxo_openapi/
+pip install git+https://github.com/nohikomiso/saxo-openapi.git
+```
+
+**uv を使用する場合**
+```bash
+uv add git+https://github.com/nohikomiso/saxo-openapi.git
 ```
 
 ### 最初のリクエスト
