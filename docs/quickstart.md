@@ -10,8 +10,14 @@
 
 ## ステップ 1: インストール
 
+**pip を使用する場合**
 ```bash
-uv add libs/saxo_openapi/
+pip install git+https://github.com/nohikomiso/saxo-openapi.git
+```
+
+**uv を使用する場合**
+```bash
+uv add git+https://github.com/nohikomiso/saxo-openapi.git
 ```
 
 ## ステップ 2: アクセストークンの準備
@@ -128,7 +134,7 @@ ModuleNotFoundError: No module named 'saxo_openapi'
 
 - ライブラリがインストールされているか確認:
   ```bash
-  uv pip list | grep saxo
+  pip list | grep saxo
   ```
 - 正しい Python 環境を使用しているか確認
 

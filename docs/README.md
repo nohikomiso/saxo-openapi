@@ -17,8 +17,14 @@ Saxo Bank OpenAPI の Python クライアントライブラリ
 
 ## インストール
 
+**pip を使用する場合**
 ```bash
-uv add libs/saxo_openapi/
+pip install git+https://github.com/nohikomiso/saxo-openapi.git
+```
+
+**uv を使用する場合**
+```bash
+uv add git+https://github.com/nohikomiso/saxo-openapi.git
 ```
 
 ## クイックスタート
