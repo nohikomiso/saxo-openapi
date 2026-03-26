@@ -29,9 +29,8 @@
 
 スクリプトを実行するには、プロジェクトルートで `uv run` を使用してください。
 
-```bash
 # 例: 取引ライフサイクルの検証
-uv run libs/saxo_openapi/samples/verify_lifecycle_trading.py
+python samples/verify_lifecycle_trading.py
 ```
 
 ## 前提条件

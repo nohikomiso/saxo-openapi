@@ -115,8 +115,8 @@ responses = {
 ### 新ディレクトリ構造
 
 ```
-libs/saxo_openapi/
-├── saxo_openapi/
+libs/ (monorepo root)
+├── saxo_openapi/ (this repository root)
 │   ├── endpoints/
 │   │   ├── portfolio/
 │   │   │   ├── balances.py          # 最小限docstring（1行+リンク）

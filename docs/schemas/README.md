@@ -81,8 +81,7 @@ trading/prices/price_subscription_remove_by_tag_params.json
 すべてのJSON Schemaファイルは以下のスクリプトで検証できます:
 
 ```bash
-cd libs/saxo_openapi
-uv run python scripts/validate_schemas.py
+python scripts/validate_schemas.py
 ```
 
 このスクリプトは以下をチェックします:
@@ -98,5 +97,5 @@ uv run python scripts/validate_schemas.py
 ## 関連ドキュメント
 
 - API リファレンス: `../api/`
-- 変換スクリプト: `../../scripts/convert_responses_to_json.py`
-- 検証スクリプト: `../../scripts/validate_schemas.py`
+- 変換スクリプト: `scripts/convert_responses_to_json.py`
+- 検証スクリプト: `scripts/validate_schemas.py`
