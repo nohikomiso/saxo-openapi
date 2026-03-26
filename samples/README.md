@@ -27,10 +27,16 @@
 
 ## 使用方法
 
-スクリプトを実行するには、プロジェクトルートで `uv run` を使用してください。
+スクリプトを実行するには、リポジトリのルートディレクトリで以下のいずれかのコマンドを使用してください。
 
-# 例: 取引ライフサイクルの検証
+**標準的な Python を使用する場合**
+```bash
 python samples/verify_lifecycle_trading.py
+```
+
+**uv を使用する場合**
+```bash
+uv run samples/verify_lifecycle_trading.py
 ```
 
 ## 前提条件
