@@ -41,5 +41,20 @@ uv run samples/verify_lifecycle_trading.py
 
 ## 前提条件
 
-- `.env` ファイルに有効な `SAXO_24H_TOKEN` が設定されていること。
-- シミュレーション環境 (Sim) での実行を推奨します。
+1. **Python ライブラリのセットアップ**
+   サンプルを実行するには `python-dotenv` が必要です：
+   ```bash
+   pip install python-dotenv
+   # または uv を使用する場合
+   uv add python-dotenv
+   ```
+
+2. **環境変数の設定**
+   `.env.example` をコピーして `.env` ファイルを作成し、有効な `SAXO_24H_TOKEN` を設定してください。
+   ```bash
+   cp .env.example .env
+   # その後、.env を編集してトークンを入力してください
+   ```
+
+3. **環境の推奨**
+   シミュレーション環境 (Sim) での実行を強く推奨します。
