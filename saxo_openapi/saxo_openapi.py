@@ -30,6 +30,16 @@ DEFAULT_HEADERS = {"Accept-Encoding": "gzip, deflate"}
 logger = logging.getLogger(__name__)
 
 
+def is_idempotent_price_subscription_conflict(status_code: int, url: str, body_text: str) -> bool:
+    """価格ストリーミング REST 購読で ReferenceId 重複による 400 か（呼び出し側で冪等扱いする想定）。"""
+    if status_code != 400:
+        return False
+    if "prices/subscriptions" not in url:
+        return False
+    lower = body_text.lower()
+    return "already in use" in lower or ("subscription key" in lower and "reference id" in lower)
+
+
 def mk_endpoint(endpoint: Any, env: str, ep_type: str) -> str:
     base = TRADING_ENVIRONMENTS[env][ep_type]
     # endpointがインスタンスなら.urlまたは.URL属性を使う。なければstr(endpoint)でパス扱い
@@ -395,13 +405,21 @@ class API:
 
         # Handle other error responses
         if response.status_code >= 400:
-            logger.error(
-                "request %s failed [%d,%s]",
-                url,
-                response.status_code,
-                response.content.decode("utf-8"),
-            )
-            raise OpenAPIError(response.status_code, response.reason, response.content.decode("utf-8"))
+            body_text = response.content.decode("utf-8")
+            if is_idempotent_price_subscription_conflict(response.status_code, url, body_text):
+                logger.info(
+                    "[SaxoAPI] idempotent_subscription_conflict %s [%d] (caller may treat as success)",
+                    url,
+                    response.status_code,
+                )
+            else:
+                logger.error(
+                    "request %s failed [%d,%s]",
+                    url,
+                    response.status_code,
+                    body_text,
+                )
+            raise OpenAPIError(response.status_code, response.reason, body_text)
         return response
 
     def __stream_request(
