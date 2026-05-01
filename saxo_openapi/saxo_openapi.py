@@ -570,14 +570,14 @@ class API:
             logger.error(f"Failed to get token info: {e}")
             return {"valid": False, "error": str(e)}
 
-    def reauthorize_streaming_context(self, context_id: str) -> bool:
-        """WebSocketストリーミング接続の再認証を実行する
+    def reauthorize_streaming_context_with_status(self, context_id: str) -> tuple[bool, int | None]:
+        """WebSocketストリーミング接続の再認証を実行する（HTTPステータス付き）。
 
         Args:
             context_id: WebSocketのコンテキストID
 
         Returns:
-            bool: 再認証成功かどうか
+            tuple[bool, int | None]: (再認証成功かどうか, HTTPステータスコード)
         """
         try:
             logger.info(f"Attempting to reauthorize streaming context: {context_id}")
@@ -586,10 +586,11 @@ class API:
             base_url = TRADING_ENVIRONMENTS[self.environment]["stream"]
             path = "oapi/streaming/ws/authorize"
 
-            if self.environment == "simulation":
-                url = f"{base_url}/sim/openapi/{path}?contextid={context_id}"
-            else:
-                url = f"{base_url}/openapi/{path}?contextid={context_id}"
+            url = (
+                f"{base_url}/sim/openapi/{path}?contextid={context_id}"
+                if self.environment == "simulation"
+                else f"{base_url}/openapi/{path}?contextid={context_id}"
+            )
 
             headers = {
                 "Authorization": f"Bearer {self.access_token}",
@@ -600,11 +601,19 @@ class API:
 
             if response.status_code == 202:
                 logger.info(f"Successfully reauthorized streaming context: {context_id}")
-                return True
-            else:
-                logger.error(f"Failed to reauthorize streaming context. Status: {response.status_code}, Response: {response.text}")
-                return False
+                return True, response.status_code
+
+            logger.error(f"Failed to reauthorize streaming context. Status: {response.status_code}, Response: {response.text}")
+            return False, response.status_code
 
         except Exception as e:
             logger.error(f"Error during streaming context reauthorization: {e}")
-            return False
+            return False, None
+
+    def reauthorize_streaming_context(self, context_id: str) -> bool:
+        """WebSocketストリーミング接続の再認証を実行する。
+
+        既存互換のため bool だけを返すラッパー。
+        """
+        ok, _ = self.reauthorize_streaming_context_with_status(context_id)
+        return ok
