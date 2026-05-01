@@ -292,6 +292,7 @@ class LimitOrderStock(LimitOrder):
         Uic: int,
         Amount: int | float,
         OrderPrice: int | float,
+        IsForceOpen: bool = True,
         AmountType: str = OD.AmountType.Quantity,
         ManualOrder: bool = False,
         TakeProfitOnFill: dict[str, Any] | Any | None = None,

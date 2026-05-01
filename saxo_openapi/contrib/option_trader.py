@@ -94,16 +94,18 @@ class OptionTrader:
 
         return order_spec
 
-    def _execute_order(self, order_spec: dict[str, Any], validate_only: bool = False) -> dict:
+    def _execute_order(self, order_spec: dict[str, Any], validate_only: bool = False) -> dict[str, Any]:
         """注文を実行する内部ヘルパー"""
         order_spec_with_account = tie_account_to_order(self.account_key, order_spec)
 
+        r: Any
         if validate_only:
             r = tr.orders.PrecheckOrder(data=order_spec_with_account)
         else:
             r = tr.orders.Order(data=order_spec_with_account)
 
-        return self.client.request(r)
+        result = self.client.request(r)
+        return result if isinstance(result, dict) else {}
 
     # ========== Uic直接指定（効率的） ==========
 
@@ -116,7 +118,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション買い注文
 
@@ -152,7 +154,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション売り注文
 
@@ -192,7 +194,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         キーワードからコールオプション買い
 
@@ -230,7 +232,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         キーワードからプットオプション買い
 
@@ -268,7 +270,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         キーワードからコールオプション売り
 
@@ -306,7 +308,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         キーワードからプットオプション売り
 
@@ -358,7 +360,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプションポジションをクローズ（反対売買）
 
@@ -404,7 +406,7 @@ class OptionTrader:
         order_price: float | None = None,
         asset_type: str = "StockOption",
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション注文を事前チェック（発注はしない）
 
@@ -438,7 +440,7 @@ class OptionTrader:
         self,
         option_root_id: int,
         strategy_type: str,  # OptionsStrategyType class constants
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション戦略の推奨レグ構成を取得
 
@@ -462,7 +464,7 @@ class OptionTrader:
         order_duration: dict[str, Any] | None = None,
         manual_order: bool = False,
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション戦略注文（マルチレッグ注文）を発注
 
@@ -508,7 +510,7 @@ class OptionTrader:
         field_groups: list[str] | None = None,
         manual_order: bool = False,
         **kwargs,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """
         オプション戦略注文の事前チェック
 

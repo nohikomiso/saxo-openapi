@@ -1,12 +1,10 @@
-from . import (
-    algostrategies,
-    countries,
-    cultures,
-    currencies,  # noqa: F401
-    currencypairs,
-    exchanges,
-    instruments,
-    languages,
-    standarddates,
-    timezones,
-)
+from . import algostrategies as algostrategies
+from . import countries as countries
+from . import cultures as cultures
+from . import currencies as currencies
+from . import currencypairs as currencypairs
+from . import exchanges as exchanges
+from . import instruments as instruments
+from . import languages as languages
+from . import standarddates as standarddates
+from . import timezones as timezones

@@ -84,9 +84,6 @@ class RateLimiter:
         """Wait if we're close to hitting rate limits for any dimension"""
         with self.lock:
             # Check all dimensions and find the most restrictive one
-            most_restrictive = None
-            min_remaining_ratio = float("inf")
-
             # Define threshold ratios for each dimension
             thresholds = {
                 "AppDay": 1000,  # Wait if less than 1000 requests remaining for the day
@@ -160,9 +157,9 @@ class API:
         logger.info("setting up API-client for environment %s", environment)
         try:
             TRADING_ENVIRONMENTS[environment]
-        except KeyError as e:  # noqa F841
+        except KeyError as e:
             logger.error("unkown environment %s", environment)
-            raise KeyError(f"Unknown environment: {environment}")
+            raise KeyError(f"Unknown environment: {environment}") from e
         else:
             self.environment = environment
 
