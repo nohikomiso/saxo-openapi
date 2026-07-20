@@ -22,10 +22,12 @@
 
 エージェント手順:
 
-1. 新規か決済か → `PositionOpen` / `PositionClose`
-2. 決済なら FIFO か ForceOpen か → `fifo_*` / `force_open_*`
-3. 成行 / 指値 / 逆指値か → `market` / `limit` / `stop`
-4. FO 決済なら `SaxoClient.iter_open_positions` で `position_id` を取る
+1. **資産タイプ** → Option なら `OptionTrader` + `ToOpen`/`ToClose`（この表は FX/Stock/CFD のみ）
+2. 新規か決済か → `PositionOpen` / `PositionClose`
+3. 決済なら FIFO か ForceOpen か → `fifo_*` / `force_open_*`
+4. 成行 / 指値 / 逆指値か → `market` / `limit` / `stop`
+5. FO 決済なら `SaxoClient.iter_open_positions` で `position_id` を取る
+6. FO **部分**決済後は必ず `resolve_force_open_close_target`（stale id 禁止）。安定検証は FO×2 全量 close
 
 ## インポート
 

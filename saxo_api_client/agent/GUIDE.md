@@ -107,6 +107,21 @@ Keyword style: `asset_type` first; resolve with `symbol=` and/or `uic=`.
 
 ---
 
+## Account defaults vs explicit orders
+
+Before placing orders (startup / preflight), log:
+
+```python
+summary = client.summarize_client_netting()
+# notes[] may warn on EndOfDay zombies or ForceOpenDefaultValue=True
+```
+
+- **GUI / `ForceOpenDefaultValue`**: omit-time defaults only. Explicit `is_force_open=` / FO `position_id` / Option `ToOpenClose` win.
+- **`EndOfDay`**: closed legs may still appear in positions until EOD — do not re-close (zombie).
+- **Do not** auto-switch `close_fifo_*` vs `close_force_open_*` from account mode. Choose by intent + whether the leg is ForceOpen (and AssetType for options).
+
+---
+
 ## Pitfalls (read before placing orders)
 
 - Prefer **simulation** tokens and `validate_order` before live placement.

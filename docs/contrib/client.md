@@ -4,6 +4,9 @@
 `AccountKey` 注入・UIC 解決・注文実行／precheck を 1 クラスにまとめます。
 
 > 旧 `SaxoTrader`（`contrib.trader`）は削除済みです。互換 shim はありません。本ドキュメントを正とします。
+>
+> **Options は別ルート:** `StockOption` / `StockIndexOption` / `FuturesOption` / `CfdIndexOption` は
+> [`OptionTrader`](option_trader.md) + `ToOpenClose` を使う。`open_*` / `close_*` に渡すと `ValueError`。
 
 ## 初期化
 
@@ -35,6 +38,17 @@ client.close_force_open_market(
     position_id=pid, asset_type="FxSpot", uic=42, amount=10000, buy_sell="Sell",
 )
 
+# FO 部分決済後は PositionId を再解決（stale id → OrderRelatedPositionIsClosed）
+target = client.resolve_force_open_close_target(previous_position_id=pid, uic=42)
+if target:
+    client.close_force_open_market(
+        position_id=target["position_id"],
+        asset_type="FxSpot",
+        uic=42,
+        amount=abs(target["amount"]),
+        buy_sell="Sell" if target["amount"] > 0 else "Buy",
+    )
+
 # FO 明示逆指値クローズ（含み益側のみ）
 client.close_force_open_stop(
     position_id=pid, asset_type="FxSpot", uic=42, amount=10000,
@@ -55,10 +69,34 @@ client.flatten_force_open(asset_type="FxSpot", uic=42)
 | `open_market` / `open_limit` / `open_stop` / `open_stop_limit` | 新規（`is_force_open` 必須） |
 | `close_fifo_market` / `close_fifo_limit` / `close_fifo_stop` | FIFO 決済 |
 | `close_force_open_market` / `close_force_open_limit` / `close_force_open_stop` | FO 明示決済 |
+| `resolve_force_open_close_target` | 部分決済後の残 FO / RelatedPositionId 再解決 |
+| `reduce_force_open_leg` | 部分 → 再解決 → 残量 close を 1 本化 |
 | `flatten_force_open` | ClearForceOpen 一掃 |
-| `iter_open_positions` | PositionId 正規化一覧 |
+| `iter_open_positions` | PositionId / RelatedPositionId / Status 正規化一覧 |
 
 曖昧な `close_position()` は提供しない。
+
+**FO 部分決済の注意:** 部分 close 後に同じ `position_id` を再利用しない。日内ネッティングで id が消える／`RelatedPositionId` に移る場合がある。組成検証は **FO×2 全量 close**（片足全量）が安定。
+
+## Account netting（要約のみ・ルート非選択）
+
+口座の `PositionNettingMode` / `ForceOpenDefaultValue` は **GUI・省略時のデフォルトと、決済後の見え方（EOD ゾンビ）** の文脈です。決済 API の自動選択には使いません。
+
+```python
+summary = client.summarize_client_netting()
+# position_netting_mode, force_open_default_value, notes[], raw
+for note in summary["notes"]:
+    print(note)
+```
+
+| フィールド | 意味 |
+|------------|------|
+| `position_netting_mode` | 例: `EndOfDay` / Intraday 系 |
+| `force_open_default_value` | 省略時の FO 寄りデフォルト |
+| `notes` | Agent / preflight 向け固定 WARN |
+| `raw` | `get_client_details` の生 dict |
+
+発注経路の正本は意図別メソッド（上表）と建玉の `IsForceOpen` / AssetType。
 
 ## レガシー注文メソッド
 

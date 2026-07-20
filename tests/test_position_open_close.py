@@ -231,6 +231,88 @@ class TestSaxoClientFacade:
         assert rows[0]["position_id"] == "TOP-LEVEL-ID"
         assert rows[0]["is_force_open"] is True
         assert rows[0]["buy_sell"] == "Buy"
+        assert rows[0]["related_position_id"] is None
+        assert rows[0]["status"] is None
+
+    def test_iter_open_positions_exposes_related_and_status(self) -> None:
+        client = self._client()
+        payload = {
+            "Data": [
+                {
+                    "PositionId": "REM-1",
+                    "PositionBase": {
+                        "Uic": 211,
+                        "AssetType": "CfdOnIndex",
+                        "Amount": 5,
+                        "IsForceOpen": True,
+                        "Status": "PartiallyClosed",
+                        "RelatedPositionId": "ORIG-1",
+                        "CanBeClosed": True,
+                    },
+                    "PositionView": {},
+                }
+            ]
+        }
+        with patch.object(client, "get_positions_query", return_value=payload):
+            rows = client.iter_open_positions(uic=211)
+        assert rows[0]["related_position_id"] == "ORIG-1"
+        assert rows[0]["status"] == "PartiallyClosed"
+        assert rows[0]["can_be_closed"] is True
+
+    def test_open_market_rejects_stock_option(self) -> None:
+        client = self._client()
+        with pytest.raises(ValueError, match="OptionTrader"):
+            client.open_market(
+                asset_type=OD.AssetType.StockOption,
+                uic=1,
+                amount=1,
+                buy_sell="Buy",
+                is_force_open=False,
+            )
+
+    def test_close_force_open_rejects_stock_option(self) -> None:
+        client = self._client()
+        with pytest.raises(ValueError, match="OptionTrader"):
+            client.close_force_open_market(
+                position_id="POS-1",
+                asset_type=OD.AssetType.StockOption,
+                uic=1,
+                amount=1,
+                buy_sell="Sell",
+                verify_position=False,
+            )
+
+    def test_resolve_force_open_close_target_follows_related(self) -> None:
+        client = self._client()
+        rows = [
+            {
+                "position_id": "REM-9",
+                "uic": 211,
+                "asset_type": "CfdOnIndex",
+                "amount": 5.0,
+                "buy_sell": "Buy",
+                "is_force_open": True,
+                "related_position_id": "ORIG-1",
+                "status": "Open",
+            }
+        ]
+        with patch.object(client, "iter_open_positions", return_value=rows):
+            target = client.resolve_force_open_close_target(
+                previous_position_id="ORIG-1",
+                uic=211,
+                asset_type="CfdOnIndex",
+            )
+        assert target is not None
+        assert target["position_id"] == "REM-9"
+
+    def test_resolve_force_open_close_target_none_when_flat(self) -> None:
+        client = self._client()
+        with patch.object(client, "iter_open_positions", return_value=[]):
+            target = client.resolve_force_open_close_target(
+                previous_position_id="GONE",
+                uic=211,
+            )
+        assert target is None
 
     def test_close_force_open_market_places_nested_builder(self) -> None:
         client = self._client()
@@ -398,3 +480,35 @@ class TestSaxoClientFacade:
         placed = exec_mock.call_args[0][0]
         assert placed.mode == "force_open_stop"
         assert placed.data["Orders"][0]["OrderType"] == OD.OrderType.Stop
+
+    def test_summarize_client_netting_end_of_day_and_force_default(self) -> None:
+        client = self._client()
+        payload = {
+            "ForceOpenDefaultValue": True,
+            "PositionNettingMethod": "FIFO",
+            "PositionNettingMode": "EndOfDay",
+            "PositionNettingProfile": "FifoEndOfDay",
+            "AllowedNettingProfiles": ["FifoEndOfDay"],
+        }
+        with patch.object(client, "get_client_details", return_value=payload):
+            summary = client.summarize_client_netting()
+        assert summary["position_netting_mode"] == "EndOfDay"
+        assert summary["force_open_default_value"] is True
+        assert summary["raw"] is payload
+        joined = " ".join(summary["notes"])
+        assert "not by account netting" in joined
+        assert "EndOfDay" in joined and "zombie" in joined.lower()
+        assert "ForceOpenDefaultValue is True" in joined
+
+    def test_summarize_client_netting_intraday_minimal_notes(self) -> None:
+        client = self._client()
+        payload = {
+            "ForceOpenDefaultValue": False,
+            "PositionNettingMode": "Intraday",
+            "PositionNettingProfile": "FifoRealTime",
+            "PositionNettingMethod": "FIFO",
+        }
+        with patch.object(client, "get_client_details", return_value=payload):
+            summary = client.summarize_client_netting()
+        assert len(summary["notes"]) == 1
+        assert "not by account netting" in summary["notes"][0]

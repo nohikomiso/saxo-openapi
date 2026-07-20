@@ -15,6 +15,8 @@ def test_read_guide_contains_saxoclient():
     assert "PositionOpen" in text
     assert "PositionClose" in text
     assert "MarketCloseOrder" in text  # documented as removed
+    assert "summarize_client_netting" in text
+    assert "ForceOpenDefault" in text
 
 
 def test_write_guide_to_file(tmp_path: Path):

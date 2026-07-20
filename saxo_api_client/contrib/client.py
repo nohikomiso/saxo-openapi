@@ -19,6 +19,23 @@ from saxo_api_client.contrib.orders import (
 from saxo_api_client.contrib.orders.helper import tie_account_to_order
 from saxo_api_client.contrib.session import account_info
 from saxo_api_client.contrib.util.instrument_to_uic import InstrumentToUic
+from saxo_api_client.exceptions import OpenAPIError
+
+
+_OPTION_ASSET_TYPES: frozenset[str] = frozenset(
+    {
+        OD.AssetType.StockOption,
+        OD.AssetType.StockIndexOption,
+        OD.AssetType.FuturesOption,
+        OD.AssetType.CfdIndexOption,
+    }
+)
+
+_OPTION_ROUTE_MSG = (
+    "AssetType={asset_type!r} requires OptionTrader with to_open_close="
+    "'ToOpen'|'ToClose'. SaxoClient open_*/close_* paths do not support options "
+    "(IsForceOpen / PositionOpen-Close are for FX/Stock/CFD)."
+)
 
 
 class SaxoClient:
@@ -58,6 +75,12 @@ class SaxoClient:
             return spec["Uic"]
         raise ValueError("Either Uic or Symbol must be provided")
 
+    @staticmethod
+    def _reject_option_asset_type(asset_type: str) -> None:
+        """Fail fast: options need OptionTrader + ToOpenClose, not PositionOpen/Close."""
+        if asset_type in _OPTION_ASSET_TYPES:
+            raise ValueError(_OPTION_ROUTE_MSG.format(asset_type=asset_type))
+
     def _execute_order(self, order_spec: dict | Any, validate_only: bool = False) -> dict:
         """Bind account and execute or precheck order."""
         order_spec_with_account = tie_account_to_order(self.account_key, order_spec)
@@ -71,7 +94,18 @@ class SaxoClient:
         else:
             r = tr.orders.Order(data=order_spec_with_account)
 
-        return self._api.request(r)
+        try:
+            return self._api.request(r)
+        except OpenAPIError as err:
+            content = err.content or ""
+            if "OrderRelatedPositionIsClosed" in content:
+                hint = (
+                    " Hint: PositionId is stale after a ForceOpen partial close; "
+                    "re-query with resolve_force_open_close_target (or iter_open_positions) "
+                    "and close the remaining RelatedPositionId / FO leg."
+                )
+                raise OpenAPIError(err.code, err.reason, content + hint) from err
+            raise
 
     def place_order(self, order_data: dict | Any) -> dict:
         """Place an order from a builder instance or fully constructed dict."""
@@ -85,6 +119,48 @@ class SaxoClient:
         """Get client details including netting configuration."""
         r = pfc.ClientDetailsMe()
         return self._api.request(r)
+
+    def summarize_client_netting(self) -> dict[str, Any]:
+        """Summarize account netting / ForceOpen defaults for logging and preflight.
+
+        Does **not** choose order routes. Explicit ``is_force_open`` / FO
+        ``position_id`` / Option ``ToOpenClose`` remain the source of truth.
+        Propagates API errors from :meth:`get_client_details`.
+        """
+        data = self.get_client_details()
+        mode = data.get("PositionNettingMode")
+        profile = data.get("PositionNettingProfile")
+        method = data.get("PositionNettingMethod")
+        force_default = data.get("ForceOpenDefaultValue")
+        allowed = data.get("AllowedNettingProfiles")
+
+        notes: list[str] = [
+            "Order routes are chosen by position IsForceOpen / AssetType / intent — "
+            "not by account netting settings alone. Do not auto-pick close_fifo vs "
+            "close_force_open from this summary."
+        ]
+        mode_str = str(mode) if mode is not None else ""
+        if mode_str == "EndOfDay" or "EndOfDay" in mode_str:
+            notes.append(
+                "PositionNettingMode is EndOfDay: closed legs may remain visible "
+                "until EOD batch — do not treat residual visibility as open exposure "
+                "or close again (zombie positions)."
+            )
+        if force_default is True:
+            notes.append(
+                "ForceOpenDefaultValue is True (GUI/omit defaults lean hedge). "
+                "Always pass explicit is_force_open= on SaxoClient.open_* / builders."
+            )
+
+        return {
+            "position_netting_mode": mode,
+            "position_netting_profile": profile,
+            "position_netting_method": method,
+            "force_open_default_value": force_default,
+            "allowed_netting_profiles": allowed,
+            "notes": notes,
+            "raw": data,
+        }
 
     def get_accounts(self) -> dict:
         """Get a list of all accounts."""
@@ -399,6 +475,10 @@ class SaxoClient:
                     "is_force_open": bool(base.get("IsForceOpen")),
                     "open_price": base.get("OpenPrice"),
                     "status": base.get("Status"),
+                    "related_position_id": (
+                        str(base["RelatedPositionId"]) if base.get("RelatedPositionId") is not None else None
+                    ),
+                    "can_be_closed": base.get("CanBeClosed"),
                     "external_reference": base.get("ExternalReference"),
                     "profit_loss": view.get("ProfitLossOnTrade"),
                     "current_price": view.get("CurrentPrice"),
@@ -418,6 +498,121 @@ class SaxoClient:
                 return row
         raise ValueError(f"position_id={position_id} not found among open positions")
 
+    def resolve_force_open_close_target(
+        self,
+        *,
+        previous_position_id: str,
+        uic: int,
+        asset_type: Optional[str] = None,
+        preferred_buy_sell: Optional[str] = None,
+        client_key: Optional[str] = None,
+        account_key: Optional[str] = None,
+    ) -> Optional[dict[str, Any]]:
+        """Re-resolve the remaining ForceOpen leg after a partial close.
+
+        Saxo may retire the original ``PositionId`` (PartiallyClosed) and expose
+        the remainder via ``RelatedPositionId`` or a new FO row for the same UIC.
+        Returns a normalized ``iter_open_positions`` row, or ``None`` if nothing
+        remains to close (skip remainder close).
+        """
+        prev = str(previous_position_id)
+        rows = self.iter_open_positions(
+            uic=uic,
+            asset_type=asset_type,
+            client_key=client_key,
+            account_key=account_key,
+        )
+        by_id = {str(r["position_id"]): r for r in rows if r.get("position_id")}
+
+        def _open_amount(row: dict[str, Any]) -> float:
+            return abs(float(row.get("amount") or 0))
+
+        # 1) Same id still has residual size
+        if prev in by_id and _open_amount(by_id[prev]) > 1e-9:
+            return by_id[prev]
+
+        # 2) Follow RelatedPositionId from the previous row (if still listed)
+        if prev in by_id:
+            related = by_id[prev].get("related_position_id")
+            if related and str(related) in by_id and _open_amount(by_id[str(related)]) > 1e-9:
+                return by_id[str(related)]
+
+        # 3) Rows that list prev as RelatedPositionId (remainder child)
+        related_children = [
+            r
+            for r in rows
+            if r.get("related_position_id") == prev and _open_amount(r) > 1e-9 and r.get("is_force_open")
+        ]
+        if related_children:
+            related_children.sort(key=_open_amount, reverse=True)
+            return related_children[0]
+
+        # 4) Fallback: remaining FO legs on UIC (optionally same side)
+        candidates: list[dict[str, Any]] = []
+        for r in rows:
+            if str(r.get("position_id")) == prev:
+                continue
+            if not r.get("is_force_open") or _open_amount(r) <= 1e-9:
+                continue
+            if preferred_buy_sell and r.get("buy_sell") != preferred_buy_sell:
+                continue
+            candidates.append(r)
+        if not candidates:
+            return None
+        candidates.sort(key=_open_amount, reverse=True)
+        return candidates[0]
+
+    def reduce_force_open_leg(
+        self,
+        *,
+        position_id: str,
+        asset_type: str,
+        uic: int,
+        amount: int | float,
+        buy_sell: str,
+        close_remainder: bool = True,
+        **kwargs: Any,
+    ) -> dict[str, Any]:
+        """Partial FO close then optionally close the re-resolved remainder.
+
+        After the partial, uses :meth:`resolve_force_open_close_target`. If the
+        target is gone, remainder close is skipped (no stale PositionId error).
+        """
+        self._reject_option_asset_type(asset_type)
+        partial = self.close_force_open_market(
+            position_id=position_id,
+            asset_type=asset_type,
+            uic=uic,
+            amount=amount,
+            buy_sell=buy_sell,
+            **kwargs,
+        )
+        out: dict[str, Any] = {"partial": partial, "remainder": None, "skipped_remainder": False}
+        if not close_remainder:
+            return out
+        # Remaining leg keeps the original position side (opposite of the close order).
+        position_side = "Buy" if buy_sell == "Sell" else "Sell"
+        target = self.resolve_force_open_close_target(
+            previous_position_id=position_id,
+            uic=uic,
+            asset_type=asset_type,
+            preferred_buy_sell=position_side,
+        )
+        if target is None or abs(float(target.get("amount") or 0)) <= 1e-9:
+            out["skipped_remainder"] = True
+            return out
+        rem_amt = abs(float(target["amount"]))
+        rem_side = "Sell" if float(target.get("amount") or 0) > 0 else "Buy"
+        out["remainder"] = self.close_force_open_market(
+            position_id=str(target["position_id"]),
+            asset_type=asset_type,
+            uic=uic,
+            amount=rem_amt,
+            buy_sell=rem_side,
+            **kwargs,
+        )
+        return out
+
     def open_market(
         self,
         *,
@@ -429,7 +624,11 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """Open a new position (market). ``is_force_open`` is required."""
+        """Open a new position (market). ``is_force_open`` is required.
+
+        Not for StockOption / index options — use ``OptionTrader`` with ``to_open_close``.
+        """
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionOpen.market(
             uic=uic_resolved,
@@ -453,7 +652,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """Open a new position (limit)."""
+        """Open a new position (limit). Not for options — use OptionTrader."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionOpen.limit(
             uic=uic_resolved,
@@ -478,7 +678,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """Open a new position (stop). Not a close."""
+        """Open a new position (stop). Not a close. Not for options — use OptionTrader."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionOpen.stop(
             uic=uic_resolved,
@@ -504,7 +705,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """Open a new position (stop-limit)."""
+        """Open a new position (stop-limit). Not for options — use OptionTrader."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionOpen.stop_limit(
             uic=uic_resolved,
@@ -528,7 +730,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """FIFO/netting close via opposite market (no PositionId)."""
+        """FIFO/netting close via opposite market (no PositionId). Not for options."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionClose.fifo_market(
             uic=uic_resolved,
@@ -550,7 +753,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """FIFO/netting close via opposite limit."""
+        """FIFO/netting close via opposite limit. Not for options."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionClose.fifo_limit(
             uic=uic_resolved,
@@ -573,7 +777,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         **kwargs: Any,
     ) -> dict:
-        """FIFO/netting close via opposite stop."""
+        """FIFO/netting close via opposite stop. Not for options."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         order = PositionClose.fifo_stop(
             uic=uic_resolved,
@@ -597,7 +802,8 @@ class SaxoClient:
         verify_position: bool = True,
         **kwargs: Any,
     ) -> dict:
-        """ForceOpen explicit market close (PositionId + nested Orders)."""
+        """ForceOpen explicit market close (PositionId + nested Orders). Not for options."""
+        self._reject_option_asset_type(asset_type)
         if verify_position:
             self._require_force_open_position(position_id)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
@@ -624,7 +830,8 @@ class SaxoClient:
         verify_position: bool = True,
         **kwargs: Any,
     ) -> dict:
-        """ForceOpen explicit limit close."""
+        """ForceOpen explicit limit close. Not for options."""
+        self._reject_option_asset_type(asset_type)
         if verify_position:
             self._require_force_open_position(position_id)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
@@ -652,7 +859,8 @@ class SaxoClient:
         verify_position: bool = True,
         **kwargs: Any,
     ) -> dict:
-        """ForceOpen explicit stop close (requires correct market side)."""
+        """ForceOpen explicit stop close (requires correct market side). Not for options."""
+        self._reject_option_asset_type(asset_type)
         if verify_position:
             self._require_force_open_position(position_id)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
@@ -675,7 +883,8 @@ class SaxoClient:
         uic: Optional[int] = None,
         external_reference: Optional[str] = None,
     ) -> dict[str, Any]:
-        """Flatten net exposure for a UIC with ClearForceOpen market."""
+        """Flatten net exposure for a UIC with ClearForceOpen market. Not for options."""
+        self._reject_option_asset_type(asset_type)
         uic_resolved = self._resolve_uic(uic, symbol, asset_type)
         net = 0.0
         for row in self.iter_open_positions(uic=uic_resolved, asset_type=asset_type):

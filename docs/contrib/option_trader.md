@@ -86,23 +86,28 @@ trader = OptionTrader(client)
 `OptionFinder` で取得したUicを直接使って注文を発注します。
 
 ```python
-# コールオプション買い
+# コールオプション買い（ToOpen 必須 — SaxoClient.open_market は使わない）
 response = trader.buy_option(
     uic=12345,
     amount=1,
+    to_open_close="ToOpen",
     order_type="Limit",
     order_price=3.50,
-    asset_type="StockOption"
+    asset_type="StockOption",
 )
 
-# プットオプション売り
+# プットオプション売り（新規は ToOpen / 決済は ToClose）
 response = trader.sell_option(
     uic=67890,
     amount=1,
+    to_open_close="ToOpen",
     order_type="Limit",
-    order_price=2.00
+    order_price=2.00,
 )
 ```
+
+> **Routing:** `StockOption` / `StockIndexOption` 等は必ず `OptionTrader` + `ToOpenClose`。
+> `SaxoClient.open_*` / `close_*`（`IsForceOpen` / `PositionId` 系）は FX/Stock/CFD 専用で、オプションでは `ValueError` になる。
 
 ### キーワード指定で注文（便利メソッド）
 
@@ -115,8 +120,9 @@ response = trader.buy_call(
     expiry_date="2026-06-18",
     strike_price=120.0,
     amount=1,
+    to_open_close="ToOpen",
     order_type="Limit",
-    order_price=5.00
+    order_price=5.00,
 )
 
 # プットオプション売り
@@ -125,7 +131,8 @@ response = trader.sell_put(
     expiry_date="2026-12-18",
     strike_price=500.0,
     amount=1,
-    order_price=10.00
+    to_open_close="ToOpen",
+    order_price=10.00,
 )
 ```
 
@@ -135,11 +142,11 @@ response = trader.sell_put(
 # オプション権利行使
 response = trader.exercise_option(position_id="12345678")
 
-# ポジションをクローズ（反対売買）
+# ポジションをクローズ（反対売買・内部で ToClose）
 response = trader.close_option_position(
     uic=12345,
     amount=-1,  # 負=売り決済
-    order_type="Market"
+    order_type="Market",
 )
 ```
 
