@@ -56,14 +56,43 @@ class SaxoClient:
         """Initialize with either auth_client or access_token."""
         self._api = API(access_token=access_token, auth_client=auth_client, request_params=request_params)
         self._account_key = None
+        self._client_key = None
         self._instrument_cache: dict[str, dict] = {}
 
     @property
     def account_key(self) -> str:
         """Get the default AccountKey, fetching it if necessary."""
         if self._account_key is None:
-            self._account_key = account_info(self._api).AccountKey
+            info = account_info(self._api)
+            self._account_key = info.AccountKey
+            if self._client_key is None:
+                self._client_key = info.ClientKey
         return self._account_key
+
+    @property
+    def client_key(self) -> str:
+        """Get the default ClientKey, fetching it if necessary."""
+        if self._client_key is None:
+            info = account_info(self._api)
+            self._client_key = info.ClientKey
+            if self._account_key is None:
+                self._account_key = info.AccountKey
+        return self._client_key
+
+    def _resolve_portfolio_keys(
+        self,
+        client_key: Optional[str] = None,
+        account_key: Optional[str] = None,
+        *,
+        include_account_key: bool = False,
+    ) -> dict[str, str]:
+        """Fill ClientKey (required by PositionsQuery) from AccountsMe when omitted."""
+        resolved: dict[str, str] = {"ClientKey": client_key or self.client_key}
+        if include_account_key:
+            resolved["AccountKey"] = account_key or self.account_key
+        elif account_key:
+            resolved["AccountKey"] = account_key
+        return resolved
 
     def _resolve_uic(self, Uic: Optional[int], Symbol: Optional[str], AssetType: str) -> int:
         """Resolve Uic from either explicit Uic or by querying the Symbol."""
@@ -211,12 +240,16 @@ class SaxoClient:
         account_key: Optional[str] = None,
         field_groups: str = "PositionBase,PositionView,DisplayAndFormat,Greeks,UnderlyingDisplayAndFormat",
     ) -> dict:
-        """Query individual positions (not net positions) with rich fields."""
-        kwargs: dict[str, Any] = {"FieldGroups": field_groups}
-        if client_key:
-            kwargs["ClientKey"] = client_key
-        if account_key:
-            kwargs["AccountKey"] = account_key
+        """Query individual positions (not net positions) with rich fields.
+
+        ``ClientKey`` is required by Saxo PositionsQuery. When omitted, it is
+        filled from ``AccountsMe`` via :attr:`client_key` (same source as
+        :attr:`account_key`).
+        """
+        kwargs: dict[str, Any] = {
+            "FieldGroups": field_groups,
+            **self._resolve_portfolio_keys(client_key, account_key),
+        }
         r = pf.positions.PositionsQuery(params=kwargs)
         return self._api.request(r)
 
@@ -226,12 +259,15 @@ class SaxoClient:
         account_key: Optional[str] = None,
         field_groups: str = "DisplayAndFormat,ExchangeInfo",
     ) -> dict:
-        """Query all open orders across the account."""
-        kwargs: dict[str, Any] = {"FieldGroups": field_groups}
-        if client_key:
-            kwargs["ClientKey"] = client_key
-        if account_key:
-            kwargs["AccountKey"] = account_key
+        """Query all open orders across the account.
+
+        ``ClientKey`` defaults from :attr:`client_key` when omitted (same as
+        :meth:`get_positions_query`).
+        """
+        kwargs: dict[str, Any] = {
+            "FieldGroups": field_groups,
+            **self._resolve_portfolio_keys(client_key, account_key),
+        }
         r = pf.orders.GetAllOpenOrders(params=kwargs)
         return self._api.request(r)
 
@@ -269,6 +305,94 @@ class SaxoClient:
         r = rd.instruments.TradingSchedule(Uic=uic_resolved, AssetType=asset_type)
         return self._api.request(r)
 
+    def get_trading_availability(
+        self,
+        asset_type: str,
+        symbol: Optional[str] = None,
+        uic: Optional[int] = None,
+    ) -> dict[str, Any]:
+        """Gate-friendly tradability snapshot for scripts and research tools.
+
+        Prefer ``TradingSchedule`` current session. When the schedule endpoint
+        returns HTTP 404 (common for UIC/AssetType mismatches such as
+        ``CfdOnIndex`` vs ``CfdOnStock``), fall back to InfoPrices
+        ``MarketState`` and InstrumentDetails ``TradingStatus``.
+        """
+        from datetime import UTC, datetime
+
+        uic_resolved = self._resolve_uic(uic, symbol, asset_type)
+        now = datetime.now(UTC)
+        current: dict[str, Any] | None = None
+        next_auto: dict[str, Any] | None = None
+        schedule_source = "TradingSchedule"
+        schedule_error: str | None = None
+        sessions: list[Any] = []
+
+        try:
+            schedule = self.get_market_schedule(asset_type=asset_type, uic=uic_resolved)
+            sessions = list(schedule.get("Sessions") or [])
+        except OpenAPIError as err:
+            if err.code != 404:
+                raise
+            schedule_error = f"TradingSchedule HTTP {err.code}: {err.reason}"
+            schedule_source = "fallback"
+
+        for s in sessions:
+            st, en, state = s.get("StartTime"), s.get("EndTime"), s.get("State")
+            if not st or not en:
+                continue
+            start = datetime.fromisoformat(str(st).replace("Z", "+00:00"))
+            end = datetime.fromisoformat(str(en).replace("Z", "+00:00"))
+            if start <= now < end:
+                current = {"state": state, "start": st, "end": en}
+            if state == "AutomatedTrading" and start > now and next_auto is None:
+                next_auto = {"state": state, "start": st, "end": en}
+
+        quote_state = None
+        bid = ask = None
+        try:
+            q = self.get_price_quotes([uic_resolved], asset_type=asset_type)
+            row = (q.get("Data") or [{}])[0]
+            qq = row.get("Quote") or {}
+            quote_state = qq.get("MarketState") or row.get("MarketState")
+            bid, ask = qq.get("Bid"), qq.get("Ask")
+        except Exception as exc:  # noqa: BLE001 — research gate must degrade
+            quote_state = f"quote_error:{exc}"
+
+        trading_status = None
+        is_tradable = None
+        try:
+            details = self.get_instrument_details(asset_type=asset_type, uic=uic_resolved)
+            trading_status = details.get("TradingStatus")
+            is_tradable = details.get("IsTradable")
+        except Exception:  # noqa: BLE001
+            pass
+
+        tradable_now = bool(current and current.get("state") == "AutomatedTrading")
+        if not tradable_now and (schedule_error or not sessions):
+            ms = str(quote_state or "").strip().lower()
+            if ms in {"open", "automatedtrading", "tradable"}:
+                tradable_now = True
+                schedule_source = "fallback_quote"
+            elif trading_status == "Tradable" and is_tradable is not False:
+                tradable_now = True
+                schedule_source = "fallback_instrument_details"
+
+        return {
+            "uic": uic_resolved,
+            "asset_type": asset_type,
+            "schedule_current": current,
+            "next_automated": next_auto,
+            "quote_state": quote_state,
+            "bid": bid,
+            "ask": ask,
+            "trading_status": trading_status,
+            "is_tradable": is_tradable,
+            "tradable_now": tradable_now,
+            "schedule_source": schedule_source,
+            "schedule_error": schedule_error,
+        }
+
     def get_current_session_state(
         self,
         asset_type: str,
@@ -276,12 +400,15 @@ class SaxoClient:
         uic: Optional[int] = None,
     ) -> Optional[str]:
         """Return current session state (e.g. AutomatedTrading, Closed)."""
-        uic_resolved = self._resolve_uic(uic, symbol, asset_type)
-        schedule = self.get_market_schedule(asset_type=asset_type, uic=uic_resolved)
-        sessions = schedule.get("Sessions", [])
-        if not sessions:
-            return "Closed"
-        return sessions[0].get("State", "Closed")
+        avail = self.get_trading_availability(asset_type=asset_type, symbol=symbol, uic=uic)
+        current = avail.get("schedule_current")
+        if isinstance(current, dict) and current.get("state"):
+            return str(current["state"])
+        if avail.get("tradable_now"):
+            return "AutomatedTrading"
+        if avail.get("schedule_error"):
+            return None
+        return "Closed"
 
     def is_order_accepted(
         self,

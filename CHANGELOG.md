@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `SaxoClient.get_trading_availability`: TradingSchedule 優先、HTTP 404 時は
+  Quote `MarketState` / InstrumentDetails `TradingStatus` にフォールバック
+  （CfdOnIndex と CfdOnStock の取り違え等で schedule が無いケース向け）。
+
+### Fixed
+
+- `SaxoClient.get_positions_query` / `get_all_open_orders`: omit 時に `ClientKey` を
+  `AccountsMe`（`client_key` プロパティ）から補完。PositionsQuery 400
+  (`ClientKey field is required`) の踏み抜きを防止。
+- `get_current_session_state`: 現在セッションを時間で判定。schedule 404 時は
+  availability フォールバックを利用。
+
 ## 1.2.0 — 2026-07-20
 
 ### Breaking
