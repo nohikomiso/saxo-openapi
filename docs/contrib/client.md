@@ -15,9 +15,23 @@
 ```python
 from saxo_api_client.contrib.client import SaxoClient
 
-client = SaxoClient(access_token="YOUR_ACCESS_TOKEN")
+# Simulation (default when only access_token is given)
+client = SaxoClient(access_token="YOUR_SIM_ACCESS_TOKEN")
+
+# Live — pass environment explicitly OR use auth_client / from_token_file
+client = SaxoClient(access_token="YOUR_LIVE_ACCESS_TOKEN", environment="live")
+
+# Recommended for OAuth token JSON files (infers live from saxo_token_live_*.json)
+client = SaxoClient.from_token_file("saxo_token_live_live.json")
+
+# auth_client infers LIVE/SIM from app_config automatically
+client = SaxoClient(auth_client=SaxoAuthClient(app_config="app_config_live.json"))
 print(client.account_key)
 ```
+
+> **401 on `gateway.saxobank.com/sim/...` with a Live token?**  
+> You initialized with `access_token` only — the default gateway is **simulation**.  
+> Use `environment="live"`, `from_token_file`, or `auth_client`.
 
 ## 推奨: 意図別 open / close
 

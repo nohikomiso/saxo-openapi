@@ -82,7 +82,11 @@ PositionClose.force_open_stop(
 ```python
 from saxo_api_client.contrib.client import SaxoClient
 
-client = SaxoClient(access_token="...")  # or auth_client=SaxoAuthClient(...)
+# Simulation default (access_token only)
+client = SaxoClient(access_token="...")
+
+# Live: environment="live" | from_token_file(...) | auth_client=...
+client = SaxoClient.from_token_file("saxo_token_live_live.json")
 
 # Preferred: intent-named open/close
 client.open_market(
@@ -125,6 +129,7 @@ summary = client.summarize_client_netting()
 ## Pitfalls (read before placing orders)
 
 - Prefer **simulation** tokens and `validate_order` before live placement.
+- **`access_token` only → simulation gateway.** Live tokens need `environment="live"`, `SaxoClient.from_token_file`, or `auth_client` (infers from `app_config`). 401 on `/sim/openapi/` usually means environment mismatch.
 - Rate limits: SessionOrders is strict; space order calls (~1s).
 - ForceOpen close requires **PositionId + nested Orders** — never standalone opposite stop/limit.
 - Do not invent undocumented fields; prefer Layer 3 methods.

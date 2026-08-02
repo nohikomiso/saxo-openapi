@@ -42,7 +42,16 @@ import saxo_api_client.endpoints.portfolio as pf
 
 # 1. クライアントの初期化
 token = os.getenv("SAXO_ACCESS_TOKEN")
+
+# Simulation（Developer 24h トークン等）— 既定
 client = API(access_token=token)
+
+# Live 口座トークンの場合は environment を明示
+# client = API(access_token=token, environment="live")
+
+# OAuth 保存 JSON から（ファイル名または base_uri から推論）
+# from saxo_api_client.contrib.client import SaxoClient
+# client = SaxoClient.from_token_file("saxo_token_live_live.json")._api
 
 # 2. リクエストの作成
 r = pf.balances.AccountBalancesMe()

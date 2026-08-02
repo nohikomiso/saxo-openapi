@@ -1,4 +1,5 @@
 from typing import Any, Optional
+from pathlib import Path
 
 import saxo_api_client.definitions.orders as OD
 import saxo_api_client.endpoints.portfolio as pf
@@ -7,6 +8,7 @@ import saxo_api_client.endpoints.referencedata as rd
 import saxo_api_client.endpoints.trading as tr
 from saxo_api_client import API
 from saxo_api_client.auth.client import SaxoAuthClient
+from saxo_api_client.environment import load_token_json, resolve_api_environment
 from saxo_api_client.contrib.orders import (
     LimitOrder,
     MarketOrder,
@@ -52,12 +54,53 @@ class SaxoClient:
         auth_client: Optional[SaxoAuthClient] = None,
         access_token: Optional[str] = None,
         request_params: Optional[dict] = None,
+        environment: Optional[str] = None,
+        base_uri: Optional[str] = None,
     ):
-        """Initialize with either auth_client or access_token."""
-        self._api = API(access_token=access_token, auth_client=auth_client, request_params=request_params)
+        """Initialize with auth_client, access_token, or :meth:`from_token_file`.
+
+        When ``environment`` is omitted:
+        - ``auth_client`` → inferred from ``app_config`` (LIVE / SIM)
+        - ``access_token`` + ``base_uri`` → inferred from token metadata
+        - ``access_token`` only → **simulation** (see package docs)
+        """
+        self._api = API(
+            access_token=access_token,
+            auth_client=auth_client,
+            request_params=request_params,
+            environment=environment,
+            base_uri=base_uri,
+        )
         self._account_key = None
         self._client_key = None
         self._instrument_cache: dict[str, dict] = {}
+
+    @classmethod
+    def from_token_file(
+        cls,
+        token_file: str | Path,
+        *,
+        request_params: Optional[dict] = None,
+        environment: Optional[str] = None,
+    ) -> "SaxoClient":
+        """Load client from OAuth token JSON (infers live/sim from filename or base_uri)."""
+        path = Path(token_file)
+        data = load_token_json(path)
+        access_token = data.get("access_token")
+        if not access_token:
+            raise ValueError(f"No access_token in {path}")
+        raw_base = data.get("base_uri") or data.get("BaseUri")
+        resolved = resolve_api_environment(
+            explicit=environment,
+            token_file=path,
+            token_data=data,
+        )
+        return cls(
+            access_token=access_token,
+            environment=resolved,
+            base_uri=str(raw_base) if raw_base else None,
+            request_params=request_params,
+        )
 
     @property
     def account_key(self) -> str:

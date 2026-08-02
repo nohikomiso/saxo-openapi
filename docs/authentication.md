@@ -77,7 +77,12 @@ if not token:
     raise ValueError("SAXO_ACCESS_TOKEN environment variable not set")
 
 # APIクライアントの初期化（文字列渡し）
-client = API(access_token=token)
+# 既定は simulation ゲートウェイ。Live トークンは environment="live" を付ける
+client = API(access_token=token, environment="live")
+
+# または OAuth 保存 JSON から（ファイル名 / base_uri から推論）
+# from saxo_api_client.contrib.client import SaxoClient
+# client = SaxoClient.from_token_file("saxo_token_live_live.json")._api
 
 r = pf.balances.AccountBalancesMe()
 rv = client.request(r)
@@ -96,8 +101,10 @@ print(rv)
 **原因**:
 - アクセストークンが無効または期限切れ
 - `API(access_token="...")` で初期化したあと、新しいトークンを再設定せずに使い続けている
+- **Live トークンなのに simulation ゲートウェイ**（`gateway.saxobank.com/sim/openapi/...`）へ送っている — `access_token` のみでは既定が simulation
 
 **解決策**:
+- Live: `environment="live"`、`SaxoClient.from_token_file(...)`、または `API(auth_client=...)`（`app_config` から LIVE/SIM を自動推論）
 - アプローチ1の `auth_client` の直接注入に切り替えるか、トークン更新ロジックを見直してください。
 
 ### エラー: `HTTP 403 Forbidden`

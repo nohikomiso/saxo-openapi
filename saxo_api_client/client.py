@@ -11,21 +11,10 @@ from typing import Any
 import requests  # type: ignore
 
 from .exceptions import OpenAPIError
+from .environment import TRADING_ENVIRONMENTS, resolve_api_environment
 from .trace import ApiTraceWriter, resolve_trace_writer
 
 ITER_LINES_CHUNKSIZE = 60
-
-TRADING_ENVIRONMENTS = {
-    "simulation": {
-        "stream": "https://sim-streaming.saxobank.com",
-        "api": "https://gateway.saxobank.com",
-        "prefix": "sim",
-    },
-    "live": {
-        "stream": "https://live-streaming.saxobank.com",
-        "api": "https://gateway.saxobank.com",
-    },
-}
 
 DEFAULT_HEADERS = {"Accept-Encoding": "gzip, deflate"}
 
@@ -117,12 +106,13 @@ class API:
     def __init__(
         self,
         access_token: str | None = None,
-        environment: str = "simulation",
+        environment: str | None = None,
         headers: dict[str, str] | None = None,
         request_params: dict[str, Any] | None = None,
         trace_dir: str | Path | None = None,
         trace_enabled: bool | None = None,
         auth_client: Any | None = None,
+        base_uri: str | None = None,
     ) -> None:
         """Instantiate an API-client instance of saxo_api_client API wrapper.
 
@@ -130,24 +120,28 @@ class API:
         ----------
         access_token : string
             Provide a valid access token. Optional if auth_client is provided.
-            
+
         auth_client : SaxoAuthClient (optional)
             Provide an authenticated SaxoAuthClient instance. If provided, the API
             will dynamically fetch the latest access_token from this client.
+            When ``environment`` is omitted, LIVE/SIM is inferred from ``app_config``.
 
-        environment : dict
-            Provide the environment for saxo_api_client REST api. Valid values:
-            {'api': 'https://gateway.saxobank.com'}
+        environment : str, optional
+            ``simulation`` (default when not inferable) or ``live``.
+            Omit only when ``auth_client``, ``base_uri``, or token filename hints apply.
+
+        base_uri : str, optional
+            OAuth token ``base_uri`` field. Used to infer environment when
+            ``environment`` is omitted and ``auth_client`` is not provided.
 
         headers : dict (optional)
             Provide request headers to be set for a request.
 
-
         .. note::
 
-            There is no need to set the 'Content-Type: application/json'
-            for the endpoints that require this header. The API-request
-            classes covering those endpoints will take care of the header.
+            ``access_token`` alone without ``environment`` / ``base_uri`` / ``auth_client``
+            uses the **simulation** gateway. Live tokens then return 401 — pass
+            ``environment=\"live\"`` or use :meth:`SaxoClient.from_token_file`.
 
         request_params : (optional)
             parameters to be passed to the request. This can be used to apply
@@ -171,22 +165,26 @@ class API:
             requestinstance and are NOT passed via the client.
 
         """
-        logger.info("setting up API-client for environment %s", environment)
+        resolved_environment = resolve_api_environment(
+            explicit=environment,
+            auth_client=auth_client,
+            base_uri=base_uri,
+        )
+        logger.info("setting up API-client for environment %s", resolved_environment)
         try:
-            TRADING_ENVIRONMENTS[environment]
+            TRADING_ENVIRONMENTS[resolved_environment]
         except KeyError as e:
-            logger.error("unkown environment %s", environment)
-            raise KeyError(f"Unknown environment: {environment}") from e
+            logger.error("unkown environment %s", resolved_environment)
+            raise KeyError(f"Unknown environment: {resolved_environment}") from e
         else:
-            self.environment = environment
+            self.environment = resolved_environment
 
         self.access_token = access_token
         self.auth_client = auth_client
-        
+
         if not self.access_token and not self.auth_client:
             raise ValueError("Either 'access_token' or 'auth_client' must be provided.")
 
-        self.environment = environment
         self.client = requests.Session()
         self.client.stream = False
         self._request_params = request_params if request_params else {}
