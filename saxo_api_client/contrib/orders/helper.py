@@ -42,10 +42,13 @@ def tie_account_to_order(AccountKey: str, order: dict[str, Any] | Any) -> dict[s
     if "PositionId" not in _r:
         _r.update({"AccountKey": AccountKey})
 
-    # and add it to related orders in Orders (if any)
+    # and add it to related orders in Orders (if any), propagating ManualOrder if set
     if "Orders" in _r:
+        manual_order = _r.get("ManualOrder")
         for o in _r["Orders"]:
             o.update({"AccountKey": AccountKey})
+            if manual_order is not None and "ManualOrder" not in o:
+                o["ManualOrder"] = manual_order
 
     return _r
 

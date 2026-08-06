@@ -385,6 +385,22 @@ class TestHelperFunctions:
         result = tie_account_to_order("test_account_key", order)
         assert result["AccountKey"] == "test_account_key"
 
+    def test_tie_account_to_order_propagates_manual_order(self):
+        """tie_account_to_order should propagate ManualOrder to child orders in Orders."""
+        order_dict = {
+            "Uic": 21,
+            "AssetType": "FxSpot",
+            "Amount": 10000,
+            "ManualOrder": True,
+            "Orders": [
+                {"OrderPrice": 1.15, "OrderType": "Limit"}
+            ]
+        }
+        result = tie_account_to_order("test_account_key", order_dict)
+        assert result["AccountKey"] == "test_account_key"
+        assert result["Orders"][0]["AccountKey"] == "test_account_key"
+        assert result["Orders"][0]["ManualOrder"] is True
+
 
 class TestOrderDataStructure:
     """Test that order data structures are valid."""
