@@ -8,7 +8,7 @@ from .environment import resolve_api_environment
 from .definitions.orders import AssetType, OrderType, OrderDurationType, Direction
 
 # バージョン情報
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 # APIを直接インポートできるようにする
 __all__ = [

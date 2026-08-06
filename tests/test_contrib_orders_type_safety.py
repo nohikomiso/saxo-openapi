@@ -401,6 +401,56 @@ class TestHelperFunctions:
         assert result["Orders"][0]["AccountKey"] == "test_account_key"
         assert result["Orders"][0]["ManualOrder"] is True
 
+    def test_tie_account_to_order_propagates_manual_order_false(self):
+        """tie_account_to_order should propagate ManualOrder=False to child orders."""
+        order_dict = {
+            "Uic": 21,
+            "AssetType": "FxSpot",
+            "Amount": 10000,
+            "ManualOrder": False,
+            "Orders": [
+                {"OrderPrice": 1.15, "OrderType": "Limit"}
+            ],
+        }
+        result = tie_account_to_order("test_account_key", order_dict)
+        assert result["Orders"][0]["ManualOrder"] is False
+
+    def test_tie_account_to_order_propagates_manual_order_recursively(self):
+        """tie_account_to_order should propagate AccountKey and ManualOrder to grandchildren."""
+        order_dict = {
+            "Uic": 21,
+            "AssetType": "FxSpot",
+            "Amount": 10000,
+            "ManualOrder": True,
+            "Orders": [
+                {
+                    "OrderPrice": 1.15,
+                    "OrderType": "Limit",
+                    "Orders": [
+                        {"OrderPrice": 1.16, "OrderType": "Limit"},
+                    ],
+                }
+            ],
+        }
+        result = tie_account_to_order("test_account_key", order_dict)
+        grandchild = result["Orders"][0]["Orders"][0]
+        assert grandchild["AccountKey"] == "test_account_key"
+        assert grandchild["ManualOrder"] is True
+
+    def test_tie_account_to_order_does_not_overwrite_existing_manual_order(self):
+        """tie_account_to_order must not overwrite ManualOrder already set on a child."""
+        order_dict = {
+            "Uic": 21,
+            "AssetType": "FxSpot",
+            "Amount": 10000,
+            "ManualOrder": True,
+            "Orders": [
+                {"OrderPrice": 1.15, "OrderType": "Limit", "ManualOrder": False},
+            ],
+        }
+        result = tie_account_to_order("test_account_key", order_dict)
+        assert result["Orders"][0]["ManualOrder"] is False
+
 
 class TestOrderDataStructure:
     """Test that order data structures are valid."""

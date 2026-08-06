@@ -1,12 +1,14 @@
 # Changelog
 
-## Unreleased
+## 1.3.0 — 2026-08-07
 
 ### Added
 
 - `SaxoClient.get_trading_availability`: TradingSchedule 優先、HTTP 404 時は
   Quote `MarketState` / InstrumentDetails `TradingStatus` にフォールバック
   （CfdOnIndex と CfdOnStock の取り違え等で schedule が無いケース向け）。
+- `SaxoClient.from_token_file`: `saxo_token_*.json` からクライアントを構築。
+- API 環境（SIM/Live）の自動推論。
 
 ### Fixed
 
@@ -15,6 +17,7 @@
   (`ClientKey field is required`) の踏み抜きを防止。
 - `get_current_session_state`: 現在セッションを時間で判定。schedule 404 時は
   availability フォールバックを利用。
+- `tie_account_to_order`: `Orders[]` 子（多段ネスト含む）へ `ManualOrder` / `AccountKey` を再帰伝播。
 
 ## 1.2.0 — 2026-07-20
 

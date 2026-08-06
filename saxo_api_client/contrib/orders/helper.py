@@ -21,6 +21,20 @@ def direction_invert(direction: str) -> str:
     return OD.Direction.Buy if direction == OD.Direction.Sell else OD.Direction.Sell
 
 
+def _tie_account_recursive(
+    node: dict[str, Any],
+    account_key: str,
+    inherited_manual: bool | None,
+) -> None:
+    """Propagate AccountKey and ManualOrder through nested Orders trees."""
+    manual = node.get("ManualOrder", inherited_manual)
+    for child in node.get("Orders") or []:
+        child["AccountKey"] = account_key
+        if manual is not None and "ManualOrder" not in child:
+            child["ManualOrder"] = manual
+        _tie_account_recursive(child, account_key, manual)
+
+
 def tie_account_to_order(AccountKey: str, order: dict[str, Any] | Any) -> dict[str, Any]:
     """tie_account_to_order - inject the AccountKey in the orderbody.
 
@@ -44,11 +58,7 @@ def tie_account_to_order(AccountKey: str, order: dict[str, Any] | Any) -> dict[s
 
     # and add it to related orders in Orders (if any), propagating ManualOrder if set
     if "Orders" in _r:
-        manual_order = _r.get("ManualOrder")
-        for o in _r["Orders"]:
-            o.update({"AccountKey": AccountKey})
-            if manual_order is not None and "ManualOrder" not in o:
-                o["ManualOrder"] = manual_order
+        _tie_account_recursive(_r, AccountKey, _r.get("ManualOrder"))
 
     return _r
 
